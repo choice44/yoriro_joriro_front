@@ -125,7 +125,7 @@
                                                     <div class="col-sm-12 mt">
                                                         <section>
                                                             <label for="class">모델:</label>
-                                                            <select class="cs-select cs-skin-border">
+                                                            <select class="cs-select cs-skin-border" id="model-select">
                                                                 <option value="" disabled selected>선택</option>
                                                                 <option value="1">품질</option>
                                                                 <option value="2">보통</option>
@@ -150,14 +150,13 @@
                                                     <div class="col-sm-12 mt">
                                                         <section>
                                                             <label for="class">내 사진:</label>
-                                                            <input type="file" class="custom-select" id="chooseFile"
-                                                                name="chooseFile" accept="image/*"
-                                                                onchange="loadFile(this)">
+                                                            <input type="file" class="custom-select" id="image-select"
+                                                                name="image-select" accept="image/*">
                                                         </section>
                                                     </div>
                                                     <div class="col-xs-12">
                                                         <input type="submit" class="btn btn-primary btn-block"
-                                                            value="조리로~" onclick="">
+                                                            value="조리로~" onclick="loadData()">
                                                     </div>
                                                 </div>
                                             </div>
@@ -167,21 +166,25 @@
                                 </div>
                                 <div class="desc2 animate-box">
                                     <div class="col-sm-7 col-sm-push-1 col-md-7 col-md-push-1">
-                                        <!-- <p>HandCrafted by <a href="http://frehtml5.co/" target="_blank"
-                                                class="fh5co-site-name">FreeHTML5.co</a></p> -->
                                         <h2>가보지 못한 여행지로</h2>
                                         <h3>추억 사진을 남겨 보세요~</h3>
-                                        <span class="price">단 돈 $599</span>
-                                        <!-- <p><a class="btn btn-primary btn-lg" href="#">Get Started</a></p> -->
                                     </div>
                                 </div>
+                            </div>
+                            <div class="loader" style="display:none;">
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
+            <div>
+                <div class="container">
+                    <div class="p-5" id="result-show">
+                        <!-- <img src="http://127.0.0.1:8000/media/joriro/result/3.jpg" alt="로드 실패" class="img-fluid"></image> -->
+                    </div>
+                </div>
+            </div>
             <footer>
                 <div id="footer">
                     <div class="container">
@@ -253,37 +256,42 @@
                     </div>
                 </div>
             </footer>
-            <!-- jQuery -->
+        </div>
+        <!-- END fh5co-page -->
+
+    </div>
+    <!-- END fh5co-wrapper -->
+    <!-- jQuery -->
 
 
-            <script src="/js/jquery.min.js"></script>
-            <!-- jQuery Easing -->
-            <script src="/js/jquery.easing.1.3.js"></script>
-            <!-- Bootstrap -->
-            <script src="/js/bootstrap.min.js"></script>
-            <!-- Waypoints -->
-            <script src="/js/jquery.waypoints.min.js"></script>
-            <script src="/js/sticky.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <!-- jQuery Easing -->
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="/js/jquery.waypoints.min.js"></script>
+    <script src="/js/sticky.js"></script>
 
-            <!-- Stellar -->
-            <script src="/js/jquery.stellar.min.js"></script>
-            <!-- Superfish -->
-            <script src="/js/hoverIntent.js"></script>
-            <script src="/js/superfish.js"></script>
-            <!-- Magnific Popup -->
-            <script src="/js/jquery.magnific-popup.min.js"></script>
-            <script src="/js/magnific-popup-options.js"></script>
-            <!-- Date Picker -->
-            <script src="/js/bootstrap-datepicker.min.js"></script>
-            <!-- CS Select -->
-            <script src="/js/classie.js"></script>
-            <script src="/js/selectFx.js"></script>
+    <!-- Stellar -->
+    <script src="/js/jquery.stellar.min.js"></script>
+    <!-- Superfish -->
+    <script src="/js/hoverIntent.js"></script>
+    <script src="/js/superfish.js"></script>
+    <!-- Magnific Popup -->
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/magnific-popup-options.js"></script>
+    <!-- Date Picker -->
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <!-- CS Select -->
+    <script src="/js/classie.js"></script>
+    <script src="/js/selectFx.js"></script>
 
-            <!-- Main JS -->
-            <script src="/js/main.js"></script>
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
 
-            <!-- index JS -->
-            <script src="index.js"></script>
+    <!-- index JS -->
+    <script src="index.js"></script>
 
 </body>
 

@@ -1,93 +1,6 @@
 console.log("js로 로드 하였음")
 
-// function handleSingleClick(e) {
-//     console.log("singleClick")
-//     console.log(e.innerText)
-//     const singleItem = document.getElementById(e.id)
-//     singleItem.classList.toggle("mystyle")
-// }
-
-// function handleUpdate(e) {
-//     const singleItem = document.getElementById(e.id).previousSibling
-//     singleItem.style.visibility = "hidden"
-
-//     const updateInput = document.createElement("input")
-//     updateInput.setAttribute("id", "update-input")
-//     updateInput.value = singleItem.innerHTML
-
-
-//     singleItem.parentNode.insertBefore(updateInput, singleItem)
-
-//     const updateButton = document.getElementById(e.id)
-//     updateButton.setAttribute("onclick", "handleUpdateConfirm(this)")
-
-
-// }
-
-// function handleUpdateConfirm(e) {
-//     const updateInput = document.getElementById("update-input")
-
-//     const singleItem = document.getElementById(e.id).previousSibling
-//     singleItem.innerHTML = updateInput.value
-//     singleItem.style.visibility = "visible"
-
-//     const updateButton = document.getElementById(e.id)
-//     updateButton.setAttribute("onclick", "handleUpdate(this)")
-
-//     updateInput.remove()
-// }
-
-// function handleDelete(e) {
-//     const singleItem = document.getElementById(e.id).parentElement
-//     singleItem.remove()
-// }
-
-// function addItem() {
-//     console.log("addItem 실행 중")
-//     const itemInput = document.getElementById("item-input")
-//     const content = itemInput.value
-//     if (content) {
-//         console.log("컨텐트가 있는 경우")
-
-//         const myList = document.getElementById("my-list")
-//         console.log(myList.getElementsByTagName("li").length)
-//         let list_number = myList.getElementsByTagName("li").length + 1
-
-//         const newList = document.createElement("li")
-
-//         const newText = document.createElement("p")
-//         newText.innerText = content
-//         newText.setAttribute("onclick", "handleSingleClick(this)")
-//         newText.setAttribute("id", `${list_number}th-item`)
-//         newList.appendChild(newText)
-
-//         const updateButton = document.createElement("button")
-//         updateButton.innerText = "수정"
-//         updateButton.setAttribute("onclick", "handleUpdate(this)")
-//         updateButton.setAttribute("id", `${list_number}th-item-update-button`)
-//         newList.appendChild(updateButton)
-
-//         const deleteButton = document.createElement("button")
-//         deleteButton.innerText = "삭제"
-//         deleteButton.setAttribute("onclick", "handleDelete(this)")
-//         deleteButton.setAttribute("id", `${list_number}th-item-delete-button`)
-//         newList.appendChild(deleteButton)
-
-//         myList.append(newList)
-
-//         itemInput.value = ""
-//     } else {
-//         console.log("컨텐트가 없는 경우")
-//         alert("값을 입력해")
-//     }
-
-
-
-
-// }
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     const placeSelect = document.getElementById('place-select');
+const proxy = 'http://127.0.0.1:8000';
 
 function loadPlace(e) {
     console.log('새로운 배경 선택');
@@ -99,18 +12,18 @@ function loadPlace(e) {
     imageDict[5] = 'background-image: url(/images/seokguram.jpeg);';
 
     sourceDict = {}
-    sourceDict[1] = '전쟁기념관(https://www.warmemo.or.kr/)'
-    sourceDict[2] = '부산광역시(https://www.busan.go.kr/index)'
-    sourceDict[3] = '제주특별자치도청(https://www.jeju.go.kr/index.htm)'
-    sourceDict[4] = '경기도(https://www.gg.go.kr/)'
-    sourceDict[5] = '경주시청(https://www.gyeongju.go.kr/tour/page.do?listType=&mnu_uid=2349&sortKwd=&code_uid=1044&srchKwd=&area_uid=258&cmd=2&pageNo=1)'
+    sourceDict[1] = '전쟁기념관(https://www.warmemo.or.kr/)';
+    sourceDict[2] = '부산광역시(https://www.busan.go.kr/index)';
+    sourceDict[3] = '제주특별자치도청(https://www.jeju.go.kr/index.htm)';
+    sourceDict[4] = '경기도(https://www.gg.go.kr/)';
+    sourceDict[5] = '경주시청(https://www.gyeongju.go.kr/tour/page.do?listType=&mnu_uid=2349&sortKwd=&code_uid=1044&srchKwd=&area_uid=258&cmd=2&pageNo=1)';
 
 
 
     const selectedBackground = imageDict[e];
     const selectedSource = sourceDict[e];
 
-    const backgroud = document.getElementById("background-image")
+    const backgroud = document.getElementById("background-image");
     backgroud.style = selectedBackground;
 
     const existingSourceText = document.getElementById("source-text");
@@ -124,12 +37,60 @@ function loadPlace(e) {
     sourceText.id = "source-text";
     sourceText.innerText = `본 저작물은 공공누리 제 1 유형에 따라[${selectedSource}]의 공공저작물을 이용하였습니다.`
     sourceText.style.color = 'black';
-    backgroud.appendChild(sourceText)
+    backgroud.appendChild(sourceText);
 }
 
-//     const selectFxOptions = {
-//         onChange: loadPlace // 변경 이벤트에 loadPlace를 호출
-//     };
+async function loadData() {
+    console.log("load Joriro");
+    const model = document.getElementById("model-select").value;
+    console.log(model)
+    const place = document.getElementById("place-select").value;
+    console.log(place)
+    const image = document.getElementById("image-select").files[0];
+    console.log(image)
 
-//     const selectFxInstance = new SelectFx(placeSelect, selectFxOptions);
-// });    
+    const formData = new FormData();
+    formData.append("model", model);
+    formData.append("place", place);
+    formData.append("image", image);
+
+    const loader = document.getElementsByClassName("loader")[0];
+    loader.style.display = 'block';
+
+    await loadJoriro(formData);
+
+    loader.style.display = 'none';;
+}
+
+async function loadJoriro(formData) {
+    url = proxy + '/joriro/'
+
+    try {
+        // 서버에 POST request 전송
+        const response = await fetch(url, {
+            method: "POST",
+            body: formData,
+        });
+
+        const data = await response.json();
+        console.log("Success:", data);
+
+        appendResult(data);
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
+
+}
+
+function appendResult(data) {
+    const showBox = document.getElementById("result-show");
+
+    const imageSrc = proxy + data.result
+
+    showBox.innerHTML = `
+
+    <img src=${imageSrc} alt="로드 실패" class="img-fluid"></img>
+    `
+
+}
