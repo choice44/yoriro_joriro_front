@@ -1,0 +1,15 @@
+.custom-select {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 4px 8px;
+    font-size: 16px !important;
+    color: #F78536;
+}
+
+.custom-select:focus {
+    outline: none;
+    border-color: #F78536;
+}
+
+.custom-select option {
+    color: #F78536;
+}
