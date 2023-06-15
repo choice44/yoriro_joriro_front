@@ -1,9 +1,6 @@
-console.log("js로 로드 하였음")
-
 const proxy = 'http://127.0.0.1:8000';
 
 function loadPlace(e) {
-    console.log('새로운 배경 선택');
     imageDict = {};
     imageDict[1] = 'background-image: url(/images/625.jpg);';
     imageDict[2] = 'background-image: url(/images/haeundae.jpg);';
@@ -41,13 +38,18 @@ function loadPlace(e) {
 }
 
 async function loadData() {
-    console.log("load Joriro");
     const model = document.getElementById("model-select").value;
-    console.log(model)
+    if (!model) {
+        return alert("모델을 선택해 주세요.");
+    };
     const place = document.getElementById("place-select").value;
-    console.log(place)
+    if (!place) {
+        return alert("여행지를 선택해 주세요.");
+    };
     const image = document.getElementById("image-select").files[0];
-    console.log(image)
+    if (!image) {
+        return alert("내 사진을 선택해 주세요.");
+    };
 
     const formData = new FormData();
     formData.append("model", model);
@@ -78,7 +80,7 @@ async function loadJoriro(formData) {
         appendResult(data);
 
     } catch (error) {
-        console.error("Error:", error);
+        console.log("Error:", error);
     }
 
 }
