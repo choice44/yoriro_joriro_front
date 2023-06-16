@@ -107,47 +107,68 @@
 
 			<!-- end:header-top -->
 
-			<div id="fh5co-contact" class="fh5co-section-gray">
+			<div id="fh5co-contact" class="fh5co-section-gray" style="padding-top:50px;">
 				<div class="container">
 					<form action="#">
 						<div class="row animate-box">
-							<div class="col-md-6">
-								<label>평점:</label>
-								<select class="form-control" style="height:50px; margin-bottom:30px;">
-									<option value="1">⭐</option>
-									<option value="2">⭐⭐</option>
-									<option value="3">⭐⭐⭐</option>
-									<option value="4">⭐⭐⭐⭐</option>
-									<option value="5">⭐⭐⭐⭐⭐</option>
-								</select>
+							<div class="col-md-4" id="review_create_cardbox">
+								<label>다녀오신 곳은 어땠나요?</label>
+								<!-- <div class="fh5co-blog"> -->
+								<!-- <div style="height:250px;"><img class="img-responsive" src="/images/place-1.jpg"
+											alt=""></div>
+									<div class="blog-text">
+										<div class="prod-title">
+											<h3>장소 이름</h3>
+											<span class="price">장소 주소1</span>
+										</div>
+									</div> -->
+								<!-- </div> -->
 							</div>
-							<div class="col-xxs-12 col-xs-6 mt alternate">
-								<div class="input-field">
-									<label for="date-start">방문 날짜:</label>
-									<input type="text" class="form-control" id="date-start" placeholder="mm/dd/yyyy" />
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<label for="review_thumbnail">대표 이미지</label>
-									<input type="file" class="form-control" id="review_thumbnail" style="height:50px;">
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<input type="text" class="form-control" placeholder="제목을 입력해주세요.">
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<textarea name="" class="form-control" cols="30" rows="7"
-										placeholder="내용을 입력해주세요."></textarea>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<input type="submit" value="리뷰 남기기" class="btn btn-primary btn-lg"
-										style="float:right;">
+							<div class="col-md-8">
+								<div class="row">
+									<div class="col-md-6">
+										<label>평점:</label>
+										<select class="form-control" style="height:50px; margin-bottom:30px;"
+											id="review_create_rate">
+											<option value="1">⭐</option>
+											<option value="2">⭐⭐</option>
+											<option value="3">⭐⭐⭐</option>
+											<option value="4">⭐⭐⭐⭐</option>
+											<option value="5">⭐⭐⭐⭐⭐</option>
+										</select>
+									</div>
+									<div class="col-xxs-12 col-xs-6 mt alternate">
+										<div class="input-field">
+											<label for="date-start">방문 날짜:</label>
+											<input type="text" class="form-control" id="date-start"
+												placeholder="mm/dd/yyyy" />
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="review_thumbnail">대표 이미지(선택)</label>
+											<input type="file" class="form-control" id="review_create_thumbnail"
+												style="height:50px;">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="제목을 입력해주세요."
+												id="review_create_title">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<textarea name="" class="form-control" cols="30" rows="7"
+												placeholder="내용을 입력해주세요." id="review_create_content"></textarea>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="submit" value="리뷰 남기기" class="btn btn-primary btn-lg"
+												style="float:right;" id="review_create_button">
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -263,6 +284,9 @@
 
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
+
+	<!-- Review Create JS -->
+	<script src="review_create.js"></script>
 
 </body>
 
