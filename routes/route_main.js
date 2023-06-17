@@ -33,8 +33,8 @@ async function getRoutes() {
 async function viewRouteList() {
     try {
         // 데이터 요청함수와 route-list라는 id를 가진 태그를 각각 변수에 할당
-        const routes = await getRoutes();
-        console.log(routes)
+        const routes_all = await getRoutes();
+        const routes = routes_all.results
         const route_list = document.getElementById("route-list");
 
 
@@ -69,11 +69,10 @@ async function viewRouteList() {
             </div>
             `;
             route_list.appendChild(template)
-            console.log(route_list)
         })
 
     } catch (error) {
-        console.log("에러가 발생했습니다, error")
+        console.log("에러가 발생했습니다", error);
     }
 }
 
