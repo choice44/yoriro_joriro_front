@@ -1,5 +1,5 @@
 import { proxy } from "../proxy.js";
-import { createMarker } from "./map.js";
+import { createMarker, new_spotx, new_spoty } from "./map.js";
 
 // 게시글 작성 데이터 가져오기
 function handleCreateRoute(event) {
@@ -38,23 +38,25 @@ async function createRoute(formData) {
     try {
         // 다음 데이터들 중 기재되지 않은 항목이 있는지
         if (
-            !formData.title ||
-            !formData.duration ||
-            !formData.cost ||
-            !formData.area ||
-            !formData.sigungu ||
-            !formData.spot ||
-            !formData.content
+            !formData.get('title') ||
+            !formData.get('duration') ||
+            !formData.get('cost') ||
+            !formData.get('area') ||
+            !formData.get('sigungu') ||
+            !formData.get('spot') ||
+            !formData.get('content')
         ) {
             alert("입력되지 않은 칸이 있는지 확인해주세요")
+            return;
         }
 
         // duration과 cost는 숫자로만 받아야함
         if (
-            !Number.isInteger(duration) ||
-            !Number.isInteger(cost)
+            !Number.isInteger(formData.get('duration')) ||
+            !Number.isInteger(formData.get('cost'))
         ) {
             alert("여행일수와 여행비용은 숫자만 기재할 수 있습니다")
+            return;
         }
 
         // 로컬스토리지에서 엑세스 토큰 가져옴
@@ -74,9 +76,6 @@ async function createRoute(formData) {
             throw new Error('게시글 작성에 실패하였습니다.');
         }
 
-        const data = await response.json();
-        console.log(data.message);
-
         //여행루트 작성 후 메인 페이지로 이동(나중에 상세로 수정예정)
         window.location.href = "/route_main.html"
 
@@ -93,7 +92,6 @@ async function getArea() {
     try {
         const response = await fetch(`${proxy}/spots/area/`);
         const data = await response.json();
-        console.log(data)
 
         // 해당 태그에 전체를 제외한 요소 삭제
         select.innerHTML = `<option value="" selected>전체</option>`;
@@ -135,7 +133,7 @@ async function changeSigungu(selectedArea) {
 // 관광지 목록
 const savedSpots = [];
 
-// 관광지 검색
+// 관광지 검색, 관광지 목록에 저장
 async function searchSpot() {
     const input = document.getElementById('route-spot');
     const query = input.value.trim(); //앞뒤 공백제거
@@ -150,7 +148,6 @@ async function searchSpot() {
         //백엔드에 데이터 요청
         const response = await fetch(`${proxy}/spots/?search=${query}`);
         const data = await response.json();
-        console.log(data)
 
         // id로 태그 찾은다음 할당
         const resultsContainer = document.getElementById('spot-results');
@@ -171,6 +168,7 @@ async function searchSpot() {
                     savedSpots.push(spot)
                     // 관광지 목록 업데이트
                     updateSavedSpots();
+                    // 마커 생성
                     createMarker(savedSpots)
                 });
                 resultsContainer.appendChild(resultElement);
@@ -194,11 +192,104 @@ function updateSavedSpots() {
     for (const spot of savedSpots) {
         const spotElement = document.createElement('div');
         spotElement.textContent = spot.title;
-        // 추가적인 스타일링이나 관련 정보를 표시할 수 있습니다.
+
+        // 삭제 버튼 생성
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = '삭제';  // 텍스트 추가
+        deleteButton.style.marginLeft = '100px';    // 글과 어느정도 거리 벌림
+        deleteButton.addEventListener('click', () => {  // 버튼 클릭했을 때 함수 실행
+            // 관광지 제거 함수
+            removeSpot(spot);
+
+        });
+
+        spotElement.appendChild(deleteButton);
         savedSpotsContainer.appendChild(spotElement);
     }
 }
 
+// 저장된 관광지 제거
+function removeSpot(spot) {
+
+    // indexOf는 특정 문자열의 index를 리턴해줌
+    // 찾는 문자가 없으면 -1을 리턴
+    const index = savedSpots.indexOf(spot);
+
+    // 찾는 문자가 있다면
+    if (index !== -1) {
+        // 관광지 저장목록에서 해당 관광지 제거
+        // splice(index, n)는 해당 index부터 n번 삭제
+        savedSpots.splice(index, 1);
+
+        // 관광지 목록 재업데이트
+        updateSavedSpots();
+        // 마커 재생성
+        createMarker(savedSpots)
+
+    } else {
+        console.log("목적지를 찾을 수 없습니다.")
+    }
+}
+
+// 관광지 생성
+async function createSpot() {
+    // 생성할 관광지명 가져옴
+    const newSpot = document.getElementById('create-name').value;
+    const newSpotbox = document.getElementById('create-name-box');
+
+    // formData를 생성하고 항목들을 차례대로 추가
+    let formData = new FormData();
+    formData.append('title', newSpot);
+    formData.append('type', 99);    // 사용자가 생성한 관광지는 타입이 99로 고정
+    formData.append('mapx', new_spotx); // map.js에서 가져옴
+    formData.append('mapy', new_spoty); // map.js에서 가져옴
+
+    try {
+        // 제목이 비어있을 때
+        if (!formData.get('title')) {
+            alert("클릭한 목적지의 이름을 입력해주세요");
+            return;
+        }
+
+        // 다른 항목이 비어있을 때
+        if (
+            !formData.get('type') ||
+            !formData.get('mapx') ||
+            !formData.get('mapy')
+        ) {
+            alert("클릭한 목적지의 좌표를 불러올 수 없습니다.");
+            return;
+        }
+
+        const accessToken = localStorage.getItem('access');
+
+        const response = await fetch(`${proxy}/routes/spots/`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            },
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('목적지 생성에 실패하였습니다.');
+        }
+
+        const data = await response.json();
+
+        // 관광지의 정보를 관광지 목록에 추가
+        savedSpots.push(data[1])
+        // 관광지 목록 업데이트
+        updateSavedSpots();
+        // 마커 생성
+        createMarker(savedSpots)
+        // 입력이 끝났으면 입력창 숨기기
+        newSpotbox.style.display = 'none'
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
 //관광지 입력 필드에 입력이 변경되면 검색 함수 호출
 document.getElementById('route-spot').addEventListener('input', searchSpot);
@@ -215,5 +306,8 @@ document.addEventListener('click', (event) => {
 const createButton = document.getElementById("route-button");
 createButton.addEventListener('click', handleCreateRoute);
 
+// 버튼 클릭 시 목적지 생성 함수 호출
+const createSpotButton = document.getElementById("create-name-button");
+createSpotButton.addEventListener('click', createSpot);
 
 window.onload = getArea;
