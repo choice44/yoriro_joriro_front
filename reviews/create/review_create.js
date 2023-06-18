@@ -76,14 +76,13 @@ function handleCreateReview(event) {
     formData.append('title', title);
     formData.append('rate', rate);
     formData.append('spot', spot_id);
-    formData.append('rate', visited_date);
+    formData.append('visited_date', visited_date);
     formData.append('content', content);
     if (image !== undefined) {
-        formData.append('image', image["name"]);
-        console.log(title, rate, visited_date, image["name"], content, spot_id)
-    } else { console.log(title, rate, visited_date, content, spot_id) }
+        formData.append('image', image);
+    };
 
-    // createReview(formData);
+    createReview(formData);
 };
 
 async function createReview(formData) {
@@ -104,7 +103,7 @@ async function createReview(formData) {
         }
 
         const data = await response.json();
-        console.log(data.message);
+        console.log(data[0]["message"]);
 
     } catch (error) {
         console.error('Error:', error);
