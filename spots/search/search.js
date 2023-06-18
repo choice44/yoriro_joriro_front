@@ -26,23 +26,23 @@ function change(add) {
     const sel = document.getElementById("search_select_sigungu");
     /* 옵션메뉴삭제 */
     for (i = sel.length - 1; i > 0; i--) {
-        sel.options[i] = null
-    }
+        sel.options[i] = null;
+    };
     /* 옵션박스추가 */
     for (i = 1; i < cnt[add].length; i++) {
         sel.options[i] = new Option(cnt[add][i], i);
-    }
+    };
 
-}
+};
 
 
 // Spot 리스트 GET 요청
 async function getSpot() {
 
-    const type = document.getElementById("search_select_type").value
-    const area = document.getElementById("search_select_area").value
-    const sigungu = document.getElementById("search_select_sigungu").value
-    const keyword = document.getElementById("form-place").value
+    const type = document.getElementById("search_select_type").value;
+    const area = document.getElementById("search_select_area").value;
+    const sigungu = document.getElementById("search_select_sigungu").value;
+    const keyword = document.getElementById("form-place").value;
 
     const url = `${proxy}/spots/?type=${type}&area=${area}&sigungu=${sigungu}&search=${keyword}`;
     const response = await fetch(url, {
@@ -50,10 +50,10 @@ async function getSpot() {
     });
 
     const response_json = await response.json();
-    console.log(response_json.results)
-    return response_json.results
 
-}
+    return response_json.results;
+
+};
 
 
 async function viewSpotList() {
@@ -63,7 +63,14 @@ async function viewSpotList() {
 
     const spot_list = document.getElementById("search_spot_cardbox");
 
-    spot_list.innerHTML = ''
+    spot_list.innerHTML = '';
+
+    if (spots.length == 0) {
+        const template = document.createElement("h2");
+        template.setAttribute("style", "text-align:center;");
+        template.innerText = "검색 결과가 없습니다.";
+        spot_list.appendChild(template);
+    };
 
     spots.forEach((spot) => {
         const template = document.createElement("div");
@@ -74,12 +81,12 @@ async function viewSpotList() {
         // // 디폴트 이미지
         if (!spot.firstimage) {
             spot.firstimage = "/images/place-1.jpg";
-        }
+        };
 
         // Spot 카드 생성
         template.innerHTML = `
         <div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 250px; width:100%; object-fit:cover;">
-            <div class="desc" style="cursor: pointer;">
+            <div class="desc">
                 <h3>${spot.title}</h3>
                 <span>${spot.addr1}</span>
             </div>
@@ -87,13 +94,5 @@ async function viewSpotList() {
 
         spot_list.appendChild(template);
     })
-
-    /* 게시글 미리보기 엔터 연타 방지 */
-    const pTags = document.querySelectorAll("p");
-    for (let i = 0; i < pTags.length; i++) {
-        if (pTags[i].childElementCount === 0) {
-            pTags[i].parentNode.removeChild(pTags[i]);
-        }
-    }
 
 }

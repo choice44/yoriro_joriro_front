@@ -182,9 +182,13 @@
 			<div id="fh5co-features">
 				<div class="container">
 					<div class="row row-bottom-padded-md" id="search_spot_cardbox">
-						<!-- <a class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn"
+						<!-- 검색 결과가 없을 때 -->
+						<!-- <h3 style="text-align: center;">검색 결과가 없습니다.</h3> -->
+
+						<!-- 검색 결과가 있을 떄 -->
+						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn"
 							style="cursor: pointer;">
-							<div href="#" style="overflow:hidden;"><img src="/images/place-6.jpg"
+							<div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img src="/images/place-6.jpg"
 									alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive"
 									style="height: 250px; width:100%; object-fit:cover;">
 								<div class="desc">
@@ -192,7 +196,7 @@
 									<span>2 nights</span>
 								</div>
 							</div>
-						</a> -->
+						</div> -->
 					</div>
 				</div>
 			</div>
