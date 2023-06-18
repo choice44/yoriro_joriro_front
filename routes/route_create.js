@@ -1,5 +1,5 @@
-// import { proxy } from "../proxy.js";
-const proxy = "http://127.0.0.1:8000"
+import { proxy } from "../proxy.js";
+import { createMarker } from "./map.js";
 
 // 게시글 작성 데이터 가져오기
 function handleCreateRoute(event) {
@@ -164,13 +164,14 @@ async function searchSpot() {
                 resultElement.textContent = spot.title; // 관광지명 채우기
                 resultElement.classList.add('form-control');   // class 삽입
                 resultElement.addEventListener('click', () => {
-                    input.value = spot.title; // 클릭된 검색 결과를 입력창에 채우기
+                    input.value = ''; // 클릭된 검색 결과를 입력창에 채우기
                     resultsContainer.innerHTML = ''; // 드롭다운 영역 숨기기
 
                     // 클릭했을때 관광지 목록에 저장
                     savedSpots.push(spot)
                     // 관광지 목록 업데이트
                     updateSavedSpots();
+                    createMarker(savedSpots)
                 });
                 resultsContainer.appendChild(resultElement);
             }
