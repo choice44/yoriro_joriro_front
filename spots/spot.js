@@ -1,4 +1,5 @@
 const proxy = 'http://127.0.0.1:8000';
+// const proxy = 'https://api.bechol.com';
 const token = localStorage.getItem('access')
 
 
@@ -55,12 +56,20 @@ async function loadSpotDetail(spot_id) {
         spot.type = "맛집";
     }
 
+    // rate 없으면 null이 아니라 빈칸
+    // rate 있으면 무조건 소수점 첫번째 자리까지 표시
+    if (!spot.rate) {
+        spot.rate = "";
+    } else {
+        spot.rate = spot.rate.toFixed(1);
+    };
+
     // 상세 정보 카드 생성
     template.innerHTML = `
     <div class="one-1" style="background-image: url(${spot.firstimage});">
     </div>
     <div class="one-4">
-        <h3>${spot.title} <small>${spot.type}</small></h3>
+        <h3 style="display:inline;">${spot.title} <small>${spot.type}</small><h2>${spot.rate}</h2></h3>
         <span class="price">${spot.addr1}</span>
         <span class="price">상세주소: ${spot.addr2}</span>
         <span class="price">전화번호: ${spot.tel}</span>
@@ -77,10 +86,10 @@ writeBtn.addEventListener("click", () => {
     const urlParams = new URLSearchParams(window.location.search).get('id');
 
     // 로그인한 사용자만 리뷰 작성 가능
-    // if (token) {
-    window.location.href = `/reviews/create/?id=${urlParams}`;
-    // }
-    // else {
-    //     alert("로그인한 사용자만 작성할 수 있습니다!")
-    // }
+    if (token) {
+        window.location.href = `/reviews/create/?id=${urlParams}`;
+    }
+    else {
+        alert("로그인한 사용자만 작성할 수 있습니다!")
+    }
 });
