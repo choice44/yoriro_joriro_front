@@ -1,4 +1,5 @@
 const proxy = 'http://127.0.0.1:8000';
+// const proxy = 'https://api.bechol.com';
 
 
 var cnt = new Array();
@@ -84,20 +85,28 @@ async function viewSpotList() {
             template.setAttribute("data-animate-effect", "fadeIn");
             template.setAttribute("style", "cursor:pointer;");
 
-            // // 디폴트 이미지
+            // 디폴트 이미지
             if (!spot.firstimage) {
                 spot.firstimage = "/images/place-1.jpg";
             };
 
+            // rate 없으면 null이 아니라 빈칸
+            // rate 있으면 무조건 소수점 첫번째 자리까지 표시
+            if (!spot.rate) {
+                spot.rate = "";
+            } else {
+                spot.rate = spot.rate.toFixed(1);
+            };
+
             // Spot 카드 생성
             template.innerHTML = `
-        <div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 250px; width:100%; object-fit:cover;">
-            <div class="desc">
-                <h3>${spot.title}</h3>
+        <div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+            <div class="desc" style="padding:10px;">
+                <h3>${spot.title} <span style="display:inline; color:#F78536">${spot.rate}</span></h3>
                 <span>${spot.addr1}</span>
             </div>
         </div>`;
-
+            console.log(spot.rate)
             spot_list.appendChild(template);
 
         });
@@ -123,10 +132,14 @@ async function viewSpotList() {
 
 async function viewMoreSpotList(next) {
 
+    // http://127.0.0.1:8000 -> proxy
+    orignal_next_url = next.split('/')
+    new_next_url = proxy + '/' + orignal_next_url[3] + '/' + orignal_next_url[4]
+
     const more_button = document.getElementById("spot_search_more_button");
     more_button.remove();
 
-    const response = await fetch(`${next}`, {
+    const response = await fetch(`${new_next_url}`, {
         method: "GET",
     });
 
@@ -140,16 +153,24 @@ async function viewMoreSpotList(next) {
         template.setAttribute("data-animate-effect", "fadeIn");
         template.setAttribute("style", "cursor:pointer;");
 
-        // // 디폴트 이미지
+        // 디폴트 이미지
         if (!spot.firstimage) {
             spot.firstimage = "/images/place-1.jpg";
         };
 
+        // rate 없으면 null이 아니라 빈칸
+        // rate 있으면 무조건 소수점 첫번째 자리까지 표시
+        if (!spot.rate) {
+            spot.rate = "";
+        } else {
+            spot.rate = spot.rate.toFixed(1);
+        };
+
         // Spot 카드 생성
         template.innerHTML = `
-        <div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 250px; width:100%; object-fit:cover;">
-            <div class="desc">
-                <h3>${spot.title}</h3>
+        <div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+            <div class="desc" style="padding:10px;">
+                <h3>${spot.title} <span style="display:inline; color:#F78536">${spot.rate}</span></h3>
                 <span>${spot.addr1}</span>
             </div>
         </div>`;
