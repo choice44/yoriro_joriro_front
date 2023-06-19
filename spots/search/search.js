@@ -51,7 +51,7 @@ async function getSpot() {
 
     const response_json = await response.json();
 
-    return response_json.results;
+    return response_json;
 
 };
 
@@ -65,16 +65,78 @@ async function viewSpotList() {
 
     spot_list.innerHTML = '';
 
-    if (spots.length == 0) {
+    if (spots.results.length == 0) {
         const template = document.createElement("h2");
         template.setAttribute("style", "text-align:center;");
         template.innerText = "검색 결과가 없습니다.";
         spot_list.appendChild(template);
+
+    } else {
+
+        const template = document.createElement("h3");
+        template.setAttribute("style", "padding-left:15px;");
+        template.innerText = `검색 결과: 총 ${spots.count}개`;
+        spot_list.appendChild(template);
+
+        spots.results.forEach((spot) => {
+            const template = document.createElement("div");
+            template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours fadeInUp animated");
+            template.setAttribute("data-animate-effect", "fadeIn");
+            template.setAttribute("style", "cursor:pointer;");
+
+            // // 디폴트 이미지
+            if (!spot.firstimage) {
+                spot.firstimage = "/images/place-1.jpg";
+            };
+
+            // Spot 카드 생성
+            template.innerHTML = `
+        <div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 250px; width:100%; object-fit:cover;">
+            <div class="desc">
+                <h3>${spot.title}</h3>
+                <span>${spot.addr1}</span>
+            </div>
+        </div>`;
+
+            spot_list.appendChild(template);
+
+        });
     };
 
-    spots.forEach((spot) => {
+    // 더보기 버튼 생성
+    if (spots.next) {
         const template = document.createElement("div");
-        template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated");
+
+        template.setAttribute("id", "spot_search_more_button");
+        template.setAttribute("class", "col-md-12 text-center animate-box fadeInUp animated");
+
+        template.innerHTML = `<a class="btn btn-primary btn-outline btn-lg" onclick="viewMoreSpotList('${spots.next}')"><i
+        class="icon-arrow-down22"></i> 더보기
+    <i class="icon-arrow-down22"></i></a>`;
+
+        spot_list.appendChild(template);
+
+    };
+
+};
+
+
+async function viewMoreSpotList(next) {
+
+    const more_button = document.getElementById("spot_search_more_button");
+    more_button.remove();
+
+    const response = await fetch(`${next}`, {
+        method: "GET",
+    });
+
+    const more_spots = await response.json();
+
+    const spot_list = document.getElementById("search_spot_cardbox");
+
+    more_spots.results.forEach((spot) => {
+        const template = document.createElement("div");
+        template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours fadeInUp animated");
         template.setAttribute("data-animate-effect", "fadeIn");
         template.setAttribute("style", "cursor:pointer;");
 
@@ -93,6 +155,20 @@ async function viewSpotList() {
         </div>`;
 
         spot_list.appendChild(template);
-    })
+    });
 
-}
+    // 더보기 버튼 생성
+    if (more_spots.next) {
+        const template = document.createElement("div");
+
+        template.setAttribute("id", "spot_search_more_button");
+        template.setAttribute("class", "col-md-12 text-center animate-box fadeInUp animated");
+
+        template.innerHTML = `<a class="btn btn-primary btn-outline btn-lg" onclick="viewMoreSpotList('${more_spots.next}')"><i
+        class="icon-arrow-down22"></i> 더보기
+    <i class="icon-arrow-down22"></i></a>`;
+
+        spot_list.appendChild(template);
+
+    };
+};
