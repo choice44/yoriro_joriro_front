@@ -45,7 +45,7 @@ async function loadReviewList(type) {
         reviews.results.forEach((review) => {
             const template = document.createElement("a");
             template.setAttribute("class", "col-md-12");
-            template.setAttribute("href", "/reviews/detail/");
+            template.setAttribute("href", `/reviews/detail/?id=${review.id}`);
 
             // // 디폴트 이미지
             if (!review.image) {
@@ -120,7 +120,7 @@ async function viewMoreReviewList(next) {
     more_reviews.results.forEach((review) => {
         const template = document.createElement("a");
         template.setAttribute("class", "col-md-12");
-        template.setAttribute("href", "/reviews/detail/");
+        template.setAttribute("href", `/reviews/detail/?id=${review.id}`);
 
         // 디폴트 이미지
         if (!review.image) {
