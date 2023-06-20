@@ -1,55 +1,12 @@
-// const proxy = 'http://127.0.0.1:8000';
-const proxy = 'https://api.bechol.com';
+import { loadSpotForReview, } from '/reviews/review.js';
 
+const proxy = 'http://127.0.0.1:8000';
+// const proxy = 'https://api.bechol.com';
+const token = localStorage.getItem('access')
 
 window.onload = () => {
     const urlParams = new URLSearchParams(window.location.search).get('id');
-    loadSpotForReviewCreate(urlParams);
-}
-
-// Spot GET 요청
-async function getSpotDetail(spot_id) {
-
-    const url = `${proxy}/spots/${spot_id}/`;
-
-    const response = await fetch(url, {
-        method: "GET",
-    });
-
-    const response_json = await response.json();
-
-    return response_json;
-
-}
-
-async function loadSpotForReviewCreate(spot_id) {
-
-    // Spot 정보 가져오기
-    const spot = await getSpotDetail(spot_id);
-
-    const spot_detail = document.getElementById("review_create_cardbox");
-
-    const template = document.createElement("div");
-    template.setAttribute("class", "fh5co-blog");
-
-    // 디폴트 이미지
-    if (!spot.firstimage) {
-        spot.firstimage = "/images/place-1.jpg";
-    }
-
-    // Spot 카드 생성
-    template.innerHTML = `
-    <div style="height:200px; overflow:hidden;"><img class="img-responsive" src="${spot.firstimage}"
-											alt="이미지" style="height:100%; width:100%; object-fit:cover; margin:auto;"></div>
-									<div class="blog-text">
-										<div class="prod-title">
-											<h3>${spot.title}</h3>
-											<span class="price">${spot.addr1}</span>
-										</div>
-									</div>`;
-
-    spot_detail.appendChild(template);
-
+    loadSpotForReview(urlParams);
 }
 
 
@@ -86,10 +43,9 @@ function handleCreateReview(event) {
     createReview(formData);
 };
 
+
 async function createReview(formData) {
     try {
-
-        const token = localStorage.getItem('access');
 
         const response = await fetch(`${proxy}/reviews/`, {
             headers: {
