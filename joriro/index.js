@@ -65,12 +65,16 @@ async function loadData() {
 }
 
 async function loadJoriro(formData) {
-    url = proxy + '/joriro/'
+    const url = proxy + '/joriro/'
+    const token = localStorage.getItem('access');
 
     try {
         // 서버에 POST request 전송
         const response = await fetch(url, {
             method: "POST",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             body: formData,
         });
 
