@@ -3,7 +3,7 @@ const proxy = 'http://127.0.0.1:8000';
 
 // 로드 시 실행
 window.onload = () => {
-    viewReviewList(12);  // 기본으로 관광지 최신 리뷰 보여주기
+    loadReviewList(12);  // 기본으로 관광지 최신 리뷰 보여주기
 }
 
 
@@ -22,7 +22,7 @@ async function getReviewsByType(type) {
 };
 
 
-async function viewReviewList(type) {
+async function loadReviewList(type) {
 
     // Review 가져오기
     const reviews = await getReviewsByType(type);
