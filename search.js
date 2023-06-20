@@ -106,7 +106,7 @@ async function viewSpotList() {
                 <span>${spot.addr1}</span>
             </div>
         </div>`;
-            console.log(spot.rate)
+
             spot_list.appendChild(template);
 
         });

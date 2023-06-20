@@ -12,13 +12,13 @@ window.onload = () => {
 async function getSpotDetail(spot_id) {
 
     const url = `${proxy}/spots/${spot_id}/`;
-    console.log(spot_id)
+
     const response = await fetch(url, {
         method: "GET",
     });
 
     const response_json = await response.json();
-    console.log(response_json);
+
     return response_json;
 
 }
