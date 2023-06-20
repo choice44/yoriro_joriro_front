@@ -48,7 +48,7 @@ async function viewRouteList() {
             let rate = "아직 평점이 없습니다"
 
             if (route.image) {
-                imagePath = proxy + "/" + route.image;
+                imagePath = route.image;
             }
 
             if (route.rate) {

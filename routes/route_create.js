@@ -1,6 +1,12 @@
 import { proxy } from "../proxy.js";
 import { createMarker, new_spotx, new_spoty } from "./map.js";
 
+// 관광지 목록
+let savedSpots = [];
+// 관광지 id 목록
+let spotsId = [];
+
+
 // 게시글 작성 데이터 가져오기
 function handleCreateRoute(event) {
     event.preventDefault(); // 제출 버튼을 눌렀을 때 새로고침 방지
@@ -10,25 +16,33 @@ function handleCreateRoute(event) {
     const cost = document.getElementById('route-cost').value;
     const area = document.getElementById('route-area').value;
     const sigungu = document.getElementById('route-sigungu').value;
-    const spot = document.getElementById('route-spot').value;
     const image = document.getElementById('route-image').files[0];
     const content = document.getElementById('route-content').value;
 
+    // const areas = 
+    const areas = JSON.stringify({ area: area, sigungu: sigungu });
+    console.log(areas)
 
     // FormData를 사용하면 header에 "application/json"을 담지 않아도 됨
     const formData = new FormData();
     formData.append('title', title);
     formData.append('duration', duration);
     formData.append('cost', cost);
-    formData.append('area', area);
-    formData.append('sigungu', sigungu);
-    formData.append('spot', spot);
+    formData.append('areas', areas);
+    // formData.append('spots', spotsId);
+    spotsId.forEach((spot) =>
+        formData.append('spots', spot)
+    )
     formData.append('image', image);
     formData.append('content', content);
 
-    console.log(title, duration, cost, area, sigungu, spot, image, content);
-    console.log(formData.keys());
-
+    console.log(formData.get('title'))
+    console.log(formData.get('duration'))
+    console.log(formData.get('cost'))
+    console.log(formData.get('areas'))
+    console.log(formData.get('spots'))
+    console.log(formData.get('image'))
+    console.log(formData.get('content'))
     createRoute(formData);
 };
 
@@ -41,9 +55,8 @@ async function createRoute(formData) {
             !formData.get('title') ||
             !formData.get('duration') ||
             !formData.get('cost') ||
-            !formData.get('area') ||
-            !formData.get('sigungu') ||
-            !formData.get('spot') ||
+            !formData.get('areas') ||
+            !formData.get('spots') ||
             !formData.get('content')
         ) {
             alert("입력되지 않은 칸이 있는지 확인해주세요")
@@ -51,9 +64,13 @@ async function createRoute(formData) {
         }
 
         // duration과 cost는 숫자로만 받아야함
+        const duration = parseInt(formData.get('duration'));
+        const cost = parseInt(formData.get('cost'));
+
+        // duration과 cost는 숫자로만 받아야함
         if (
-            !Number.isInteger(formData.get('duration')) ||
-            !Number.isInteger(formData.get('cost'))
+            !Number.isInteger(duration) ||
+            !Number.isInteger(cost)
         ) {
             alert("여행일수와 여행비용은 숫자만 기재할 수 있습니다")
             return;
@@ -77,7 +94,7 @@ async function createRoute(formData) {
         }
 
         //여행루트 작성 후 메인 페이지로 이동(나중에 상세로 수정예정)
-        window.location.href = "/route_main.html"
+        window.location.href = "/routes/route_main.html"
 
     } catch (error) {
         console.error('Error:', error);
@@ -114,10 +131,15 @@ async function changeSigungu(selectedArea) {
     const selectSigungu = document.getElementById('route-sigungu');
 
     try {
+        selectSigungu.innerHTML = '<option value="" selected>전체</option>';
+
+        // 사용자가 시/도에서 전체를 클릭하면 시군구는 검색하지 않고 초기상태로 유지
+        if (!selectedArea) {
+            return;
+        }
+
         const response = await fetch(`${proxy}/spots/area/${selectedArea}`);
         const data = await response.json();
-
-        selectSigungu.innerHTML = '<option value="" selected>전체</option>';
 
         for (const sigungu of data) {
             const option = document.createElement('option');
@@ -125,13 +147,12 @@ async function changeSigungu(selectedArea) {
             option.textContent = sigungu.name;
             selectSigungu.appendChild(option);
         }
+
     } catch (error) {
         console.log('시/군/구를 가져오는데 에러가 발생했습니다:', error);
     }
 }
 
-// 관광지 목록
-const savedSpots = [];
 
 // 관광지 검색, 관광지 목록에 저장
 async function searchSpot() {
@@ -161,11 +182,13 @@ async function searchSpot() {
                 resultElement.textContent = spot.title; // 관광지명 채우기
                 resultElement.classList.add('form-control');   // class 삽입
                 resultElement.addEventListener('click', () => {
-                    input.value = ''; // 클릭된 검색 결과를 입력창에 채우기
+                    input.value = ''; // 검색결과를 클릭하면 검색창 비우기
                     resultsContainer.innerHTML = ''; // 드롭다운 영역 숨기기
 
-                    // 클릭했을때 관광지 목록에 저장
+                    // 검색결과를 클릭했을때 관광지 목록에 저장
                     savedSpots.push(spot)
+                    // 관광지 id목록에 저장
+                    spotsId.push(spot.id)
                     // 관광지 목록 업데이트
                     updateSavedSpots();
                     // 마커 생성
@@ -186,25 +209,34 @@ async function searchSpot() {
 
 // 저장된 관광지 목록 업데이트
 function updateSavedSpots() {
+    const spotSavedBox = document.getElementById('spot-saved-box');
     const savedSpotsContainer = document.getElementById('spot-saved');
+
     savedSpotsContainer.innerHTML = '';
 
-    for (const spot of savedSpots) {
-        const spotElement = document.createElement('div');
-        spotElement.textContent = spot.title;
+    if (savedSpots.length === 0) {
+        spotSavedBox.style.display = 'none';
+    } else {
+        spotSavedBox.style.display = 'block';
 
-        // 삭제 버튼 생성
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = '삭제';  // 텍스트 추가
-        deleteButton.style.marginLeft = '100px';    // 글과 어느정도 거리 벌림
-        deleteButton.addEventListener('click', () => {  // 버튼 클릭했을 때 함수 실행
-            // 관광지 제거 함수
-            removeSpot(spot);
 
-        });
+        for (const spot of savedSpots) {
+            const spotElement = document.createElement('div');
+            spotElement.textContent = spot.title;
 
-        spotElement.appendChild(deleteButton);
-        savedSpotsContainer.appendChild(spotElement);
+            // 삭제 버튼 생성
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '삭제';  // 텍스트 추가
+            deleteButton.style.marginLeft = '100px';    // 글과 어느정도 거리 벌림
+            deleteButton.addEventListener('click', () => {  // 버튼 클릭했을 때 함수 실행
+                // 관광지 제거 함수
+                removeSpot(spot);
+
+            });
+
+            spotElement.appendChild(deleteButton);
+            savedSpotsContainer.appendChild(spotElement);
+        }
     }
 }
 
@@ -276,9 +308,12 @@ async function createSpot() {
         }
 
         const data = await response.json();
+        const spot = data[1]
 
         // 관광지의 정보를 관광지 목록에 추가
-        savedSpots.push(data[1])
+        savedSpots.push(spot)
+        // 관광지 id목록에 저장
+        spotsId.push(spot.id)
         // 관광지 목록 업데이트
         updateSavedSpots();
         // 마커 생성
@@ -311,3 +346,4 @@ const createSpotButton = document.getElementById("create-name-button");
 createSpotButton.addEventListener('click', createSpot);
 
 window.onload = getArea;
+window.changeSigungu = changeSigungu

@@ -6,31 +6,33 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-var drawingFlag = false; // 선이 그려지고 있는 상태를 가지고 있을 변수입니다
-var moveLine; // 선이 그려지고 있을때 마우스 움직임에 따라 그려질 선 객체 입니다
-var clickLine // 마우스로 클릭한 좌표로 그려질 선 객체입니다
-var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
-var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
-
 // 마커 이미지 주소
 var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
-// 마커를 담을 배열
-var markers = [];
-var marker = '';
+var markers = [];   // 마커를 담을 배열
+var marker = '';    // 클릭 이벤트로 생기는 마커 저장용
+var lines = [];     // 선분을 담을 배열 
 
 export var new_spotx = ''
 export var new_spoty = ''
 
-// 마커 생성, route_create.js에서 사용
+// 마커, 선분 생성 / route_create.js에서 사용
 export function createMarker(positions) {
 
     // 기존 마커 모두 제거
-    // 관광지 삭제했을 때 마커를 재생성시키기 위해 추가함
+    // 관광지 삭제했을 때 마커를 재생성시키기 위해 추가
     for (const marker of markers) {
         marker.setMap(null); // 지도에 있는 마커 제거
     }
+
+    // 기존 선분 모두 제거
+    // 관광지를 삭제했을 때 선분을 재생성시키기 위해 추가
+    for (const line of lines) {
+        line.setMap(null);
+    }
+
     markers = []; // 마커 배열 초기화
+    lines = []; // 선분 배열 초기화
 
     // 인자로 받은 positions는 관광지 목록
     for (const position of positions) {
@@ -44,9 +46,28 @@ export function createMarker(positions) {
 
         marker.setMap(map); // 마커를 지도에 표시
         markers.push(marker); // 마커 배열에 추가
+
+        // 선분 생성
+        if (markers.length > 1) {   // 마커가 2개 이상이라면
+            var linePath = [markers[markers.length - 2].getPosition(), markerPosition];// 첫번째 마커와 두번째 마커
+
+            // 선분 생성, 생김새
+            var line = new kakao.maps.Polyline({
+                path: linePath,
+                strokeWeight: 2,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.7,
+                strokeStyle: 'solid'
+            });
+
+            line.setMap(map);
+            lines.push(line);
+        }
+
         map.setCenter(markerPosition); // 해당 위치로 지도 이동
     }
 }
+
 
 // 클릭 이벤트
 kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
