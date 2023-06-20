@@ -128,42 +128,44 @@ async function handleDeleteReview() {
 
 // 리뷰 작성자만 수정/삭제 버튼 만들어주기
 function checkAuthor(author_id, review_id) {
+    if (localStorage.getItem("access")) {
 
-    // access token에서 user_id 얻기
-    const access = localStorage.getItem("access")
-    const base64Url = access.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+        // access token에서 user_id 얻기
+        const access = localStorage.getItem("access")
+        const base64Url = access.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
 
-    const my_id = JSON.parse(jsonPayload).user_id
+        const my_id = JSON.parse(jsonPayload).user_id
 
-    const author_only_buttons = document.getElementById("review_detail_author_only_buttons");
+        const author_only_buttons = document.getElementById("review_detail_author_only_buttons");
 
-    if (author_id != my_id) {
-        author_only_buttons.remove();
-    } else {
-        const temp_delete_button = document.createElement("input");
-        temp_delete_button.setAttribute("type", "button");
-        temp_delete_button.setAttribute("class", "btn btn-primary btn-lg");
-        temp_delete_button.setAttribute("id", "review_detail_delete_button");
-        temp_delete_button.setAttribute("value", "리뷰 삭제하기");
-        temp_delete_button.setAttribute("style", "float:right; background-color:#848484; margin-top: 25px;");
-        author_only_buttons.appendChild(temp_delete_button);
+        if (author_id != my_id) {
+            author_only_buttons.remove();
+        } else {
+            const temp_delete_button = document.createElement("input");
+            temp_delete_button.setAttribute("type", "button");
+            temp_delete_button.setAttribute("class", "btn btn-primary btn-lg");
+            temp_delete_button.setAttribute("id", "review_detail_delete_button");
+            temp_delete_button.setAttribute("value", "리뷰 삭제하기");
+            temp_delete_button.setAttribute("style", "float:right; background-color:#848484; margin-top: 25px;");
+            author_only_buttons.appendChild(temp_delete_button);
 
-        const deleteButton = document.getElementById("review_detail_delete_button");
-        deleteButton.addEventListener('click', handleDeleteReview);
+            const deleteButton = document.getElementById("review_detail_delete_button");
+            deleteButton.addEventListener('click', handleDeleteReview);
 
-        const temp_update_button = document.createElement("input");
-        temp_update_button.setAttribute("type", "button");
-        temp_update_button.setAttribute("class", "btn btn-primary btn-outline btn-lg");
-        temp_update_button.setAttribute("value", "리뷰 수정하기");
-        temp_update_button.setAttribute("style", "float:right; margin-right:15px; margin-top: 25px;");
-        temp_update_button.setAttribute("onclick", `location.href='/reviews/update/?id=${review_id}'`)
-        author_only_buttons.appendChild(temp_update_button);
+            const temp_update_button = document.createElement("input");
+            temp_update_button.setAttribute("type", "button");
+            temp_update_button.setAttribute("class", "btn btn-primary btn-outline btn-lg");
+            temp_update_button.setAttribute("value", "리뷰 수정하기");
+            temp_update_button.setAttribute("style", "float:right; margin-right:15px; margin-top: 25px;");
+            temp_update_button.setAttribute("onclick", `location.href='/reviews/update/?id=${review_id}'`)
+            author_only_buttons.appendChild(temp_update_button);
 
-    };
+        };
+    }
 };
 
 
@@ -171,33 +173,37 @@ function checkAuthor(author_id, review_id) {
 const review_like_button = document.getElementById("review_detail_like");
 
 review_like_button.addEventListener('click', async function () {
+    if (localStorage.getItem("access")) {
+        review_like_button.classList.toggle('liked');
 
-    review_like_button.classList.toggle('liked');
+        const review_id = new URLSearchParams(window.location.search).get('id');
 
-    const review_id = new URLSearchParams(window.location.search).get('id');
+        const url = `${proxy}/reviews/${review_id}/like/`
+        const token = localStorage.getItem("access")
 
-    const url = `${proxy}/reviews/${review_id}/like/`
-    const token = localStorage.getItem("access")
+        const response = await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            method: 'POST',
+        })
 
-    const response = await fetch(url, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        method: 'POST',
-    })
+        // const response_json = await response.json()
 
-    // const response_json = await response.json()
+        // console.log(response_json)
 
-    // console.log(response_json)
-
-    const likeCount = document.getElementById("review_detail_like_count");
-
-    const current_like_count = likeCount.innerText
-
-    if (review_like_button.className == "fi fi-ss-heart") {
-        likeCount.innerHTML = current_like_count - 1
+        if (response.status == 200) {
+            const likeCount = document.getElementById("review_detail_like_count");
+            const current_like_count = likeCount.innerText
+            if (review_like_button.className == "fi fi-ss-heart") {
+                likeCount.innerHTML = current_like_count - 1
+            } else {
+                likeCount.innerHTML = `${Number(current_like_count) + 1}`
+            }
+        }
     } else {
-        likeCount.innerHTML = `${Number(current_like_count) + 1}`
+        alert("로그인이 필요합니다.")
+        // location.replace('/login/')
     }
 });
