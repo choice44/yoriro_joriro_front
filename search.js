@@ -95,7 +95,7 @@ async function viewSpotList() {
             if (!spot.rate) {
                 spot.rate = "";
             } else {
-                spot.rate = spot.rate.toFixed(1);
+                spot.rate = "⭐" + spot.rate.toFixed(1);
             };
 
             // Spot 카드 생성
