@@ -1,6 +1,7 @@
 import { proxy } from "../../proxy.js";
 import { createMarker } from "./detail_map.js";
 
+// 주소창에서 가져온 게시글 id
 const route_id = new URLSearchParams(window.location.search).get('id');
 
 // 모달창 관련 변수들
@@ -9,6 +10,10 @@ const btn = document.getElementById("ratingBtn");
 const span = document.getElementsByClassName("close")[0];
 const submitRating = document.getElementById("submitRating");
 const route_rating = document.getElementById("route-detail-rating")
+
+// 수정하기, 삭제하기
+const update_href = document.getElementById("route-update-href")
+const delete_href = document.getElementById("route-delete-href")
 
 // 게시글 요청 함수
 async function getRouteDetail() {
@@ -177,6 +182,9 @@ async function viewRouteDetail() {
     route_spots.innerHTML = ''
     route_rate.innerText = route.rate + `점`
     route_content.innerText = route.content
+
+    update_href.setAttribute("href", `/routes/detail/update/?id=${route_id}`)
+    delete_href.setAttribute("href", `/routes/detail/delete/?id=${route_id}`)
 
     for (let spot of spot_ids) {
         route_spots.innerHTML += `<p>${spot.title}</p>`
