@@ -1,5 +1,9 @@
 const proxy = "http://127.0.0.1:8000"
+// const proxy = "https://api.bechol.com"
 const front_proxy = "http://127.0.0.1:5500"
+
+
+setThumbnail()
 
 async function postRecruitment() {
     const title = document.getElementById("title").value
@@ -50,4 +54,26 @@ async function postRecruitment() {
     } else {
         alert(response.data)
     }
+}
+
+
+async function setThumbnail() {
+    const previewImage = document.getElementById("preview-image")
+    const imageInput = document.getElementById("image")
+    const formdata = new FormData()
+
+    imageInput.addEventListener('input', function () {
+        const file = imageInput.files[0]
+        if (file) {
+            const reader = new FileReader()
+            reader.onload = function (event) {
+                previewImage.src = event.target.result
+            }
+            reader.readAsDataURL(file)
+            formdata.set("image", file)
+        } else {
+            previewImage.src = ""
+            formdata.delete("image")
+        }
+    })
 }
