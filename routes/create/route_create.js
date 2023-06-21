@@ -1,5 +1,5 @@
-import { proxy } from "../proxy.js";
-import { createMarker, new_spotx, new_spoty } from "./map.js";
+import { proxy } from "../../proxy.js";
+import { createMarker, new_spotx, new_spoty } from "./create_map.js"
 
 // 관광지 목록
 let savedSpots = [];
@@ -21,7 +21,6 @@ function handleCreateRoute(event) {
 
     // const areas = 
     const areas = JSON.stringify({ area: area, sigungu: sigungu });
-    console.log(areas)
 
     // FormData를 사용하면 header에 "application/json"을 담지 않아도 됨
     const formData = new FormData();
@@ -29,22 +28,20 @@ function handleCreateRoute(event) {
     formData.append('duration', duration);
     formData.append('cost', cost);
     formData.append('areas', areas);
-    // formData.append('spots', spotsId);
+    formData.append('content', content);
+
+    // 목적지를 순차적으로 기입
     spotsId.forEach((spot) =>
         formData.append('spots', spot)
     )
-    formData.append('image', image);
-    formData.append('content', content);
 
-    console.log(formData.get('title'))
-    console.log(formData.get('duration'))
-    console.log(formData.get('cost'))
-    console.log(formData.get('areas'))
-    console.log(formData.get('spots'))
-    console.log(formData.get('image'))
-    console.log(formData.get('content'))
+    // 이미지가 있는 경우에만 formdata에 기입
+    if (image) {
+        formData.append('image', image);
+    };
+
     createRoute(formData);
-};
+}
 
 
 // 게시글 검사 및 저장
@@ -93,8 +90,8 @@ async function createRoute(formData) {
             throw new Error('게시글 작성에 실패하였습니다.');
         }
 
-        //여행루트 작성 후 메인 페이지로 이동(나중에 상세로 수정예정)
-        window.location.href = "/routes/route_main.html"
+        //여행루트 작성 후 메인 페이지로 이동
+        window.location.href = "../"
 
     } catch (error) {
         console.error('Error:', error);
@@ -231,7 +228,6 @@ function updateSavedSpots() {
             deleteButton.addEventListener('click', () => {  // 버튼 클릭했을 때 함수 실행
                 // 관광지 제거 함수
                 removeSpot(spot);
-
             });
 
             spotElement.appendChild(deleteButton);

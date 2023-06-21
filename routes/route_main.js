@@ -39,7 +39,6 @@ async function viewRouteList() {
 
 
         routes.forEach((route) => {
-            console.log(route)
             const template = document.createElement("div");
             template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated");
             template.setAttribute("data-animate-effect", "fadeIn");
@@ -52,7 +51,7 @@ async function viewRouteList() {
             }
 
             if (route.rate) {
-                rate = route.rate
+                rate = route.rate + "점"
             }
 
             template.innerHTML = `
@@ -63,8 +62,8 @@ async function viewRouteList() {
 					<span>${route.duration}일</span>
                     <span>댓글 수: ${route.comment_count}</span>
                     <span>${route.user.nickname}</span>
-                    <span class="price">${rate}</span>
-					<a class="btn btn-primary btn-outline" href="#">Book Now <i class="icon-arrow-right22"></i></a>
+                    <span style="font-size: 23px;">${rate}</span>
+					<a class="btn btn-primary btn-outline" href="detail/?id=${route.id}">Book Now <i class="icon-arrow-right22"></i></a>
 				</div>
             </div>
             `;
