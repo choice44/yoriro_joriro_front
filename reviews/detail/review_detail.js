@@ -119,7 +119,7 @@ async function handleDeleteReview() {
         })
         if (response.status === 204) {
             alert("삭제 완료!")
-            location.replace('/reviews/list/')
+            location.replace('/reviews/list/index.html')
         } else {
             alert("권한이 없습니다.")
         }
@@ -162,7 +162,7 @@ function checkAuthor(author_id, review_id) {
             temp_update_button.setAttribute("class", "btn btn-primary btn-outline btn-lg");
             temp_update_button.setAttribute("value", "리뷰 수정하기");
             temp_update_button.setAttribute("style", "float:right; margin-right:15px; margin-top: 25px;");
-            temp_update_button.setAttribute("onclick", `location.href='/reviews/update/?id=${review_id}'`)
+            temp_update_button.setAttribute("onclick", `location.href='/reviews/update/index.html?id=${review_id}'`)
             author_only_buttons.appendChild(temp_update_button);
 
         };

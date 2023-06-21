@@ -38,7 +38,7 @@ async function viewRouteList() {
             route.image = "/images/place-6.jpg";
         };
 
-        // rate 없으면 null이 아니라 빈칸. 0이어도 화면에 출력되지 않도록 빈칸.
+        // rate 없으면 ""
         // 반올림해서 정수로
         if (!route.rate || route.rate == 0) {
             route.rate = "";
@@ -50,7 +50,7 @@ async function viewRouteList() {
 
         // Route 카드 생성
         template.innerHTML = `
-        <div onclick="location.href='/routes/?id=${route.id}'" style="overflow:hidden;"><img src="${route.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+        <div onclick="location.href='/routes/detail/index.html?id=${route.id}'" style="overflow:hidden;"><img src="${route.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
             <div class="desc">
             <div style="margin-bottom:10px;">
                 <span style="display:inline;">${areas[route.areas[0].area]}</span>
@@ -105,7 +105,7 @@ async function viewRecruitmentList() {
         // Recruitment 카드 생성
         if (recruitment.is_complete == 0) {
             template.innerHTML = `
-        <div onclick="location.href='/recruitments/?id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+        <div onclick="location.href='/recruitments/recruitments_detail.html?id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
             <div class="desc">
                 <h3>${recruitment.place} <span style="display:inline; color:#F78536">${recruitment.participant_max}명 </span><small
                         style="color:red; font-weight:600;">모집중</small>
@@ -115,7 +115,7 @@ async function viewRecruitmentList() {
         </div>`;
         } else {
             template.innerHTML = `
-            <div onclick="location.href='/recruitments/?id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+            <div onclick="location.href='/recruitments/recruitments_detail.html?id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
                 <div class="desc">
                     <h3>${recruitment.place} <span style="display:inline; color:#F78536">${recruitment.participant_max}명 </span><small
                             >${status[recruitment.is_complete]}</small>
@@ -167,7 +167,7 @@ async function viewReviewList() {
 
         // Review 카드 생성
         template.innerHTML = `
-        <div onclick="location.href='/reviews/detail/?id=${review.id}'" style="overflow:hidden;"><img src="${review.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+        <div onclick="location.href='/reviews/detail/index.html?id=${review.id}'" style="overflow:hidden;"><img src="${review.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
             <div class="desc">
                 <span>${"⭐".repeat(review.rate)}</span>
                 <h3>${review.spot.title}</h3>
