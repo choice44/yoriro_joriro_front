@@ -1,3 +1,5 @@
+import { proxy } from "/proxy.js";
+
 window.onload = () => {
     viewRouteList()
     viewRecruitmentList()

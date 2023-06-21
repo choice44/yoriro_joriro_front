@@ -123,12 +123,14 @@
 									<!-- Nav tabs -->
 									<ul class="nav nav-tabs" role="tablist">
 										<li role="presentation" class="active">
-											<a onclick="loadReviewList(12)" aria-controls="flights" role="tab"
-												data-toggle="tab">관광지</a>
+											<a aria-controls="flights" role="tab" data-toggle="tab"
+												style="cursor:pointer;" id="review_list_tourist_spot"
+												onclick="loadReviewList(12)">관광지</a>
 										</li>
 										<li role="presentation">
-											<a onclick="loadReviewList(39)" aria-controls="hotels" role="tab"
-												data-toggle="tab">맛집</a>
+											<a aria-controls="hotels" role="tab" data-toggle="tab"
+												style="cursor:pointer;" id="review_list_restaurant"
+												onclick="loadReviewList(39)">맛집</a>
 										</li>
 									</ul>
 
@@ -349,7 +351,7 @@
 	<script src="/js/main.js"></script>
 
 	<!-- Review List JS -->
-	<script src="review_list.js"></script>
+	<script src="review_list.js" type="module"></script>
 
 </body>
 

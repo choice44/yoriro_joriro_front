@@ -1,4 +1,4 @@
-const proxy = 'http://127.0.0.1:8000';
+import { proxy } from '/proxy.js';
 
 
 // 로드 시 실행
@@ -28,8 +28,6 @@ async function loadReviewList(type) {
     const reviews = await getReviewsByType(type);
 
     const review_list = document.getElementById("tourist_spot_review_list_cardbox");
-
-    console.log("함수 실행 중")
 
     review_list.innerHTML = '';
 
@@ -103,8 +101,8 @@ async function loadReviewList(type) {
 async function viewMoreReviewList(next) {
 
     // http://127.0.0.1:8000 -> proxy
-    orignal_next_url = next.split('/')
-    new_next_url = proxy + '/' + orignal_next_url[3] + '/' + orignal_next_url[4] + '/' + orignal_next_url[5]
+    const orignal_next_url = next.split('/');
+    const new_next_url = proxy + '/' + orignal_next_url[3] + '/' + orignal_next_url[4] + '/' + orignal_next_url[5];
 
     const more_button = document.getElementById("review_more_button");
     more_button.remove();
@@ -172,3 +170,7 @@ async function viewMoreReviewList(next) {
     };
 
 };
+
+
+window.loadReviewList = loadReviewList
+window.viewMoreReviewList = viewMoreReviewList
