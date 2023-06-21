@@ -20,7 +20,14 @@ window.onload = function () {
 async function handleLogin() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    console.log(email, password)
+
+    if (!email) {
+        return alert("이메일을 입력 해주세요.")
+    }
+    if (!password) {
+        return alert("비밀번호를 입력 해주세요.")
+    }
+
     const response = await fetch(`${proxy}/users/login/`, {
         headers: {
             "content-type": "application/json",
