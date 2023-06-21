@@ -68,6 +68,7 @@
 
 	<!-- Modernizr JS -->
 	<script src="/js/modernizr-2.6.2.min.js"></script>
+
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -92,11 +93,12 @@
 								<li><a href="/hotel.html">루트</a></li>
 								<li><a href="/blog.html">동료</a></li>
 								<li><a href="/car.html">AI</a></li>
-								<li><a href="/contact.html" class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
+								<li><a  class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
 									<ul class="fh5co-sub-menu">
-										<li><a href="#">프로필</a></li>
-										<li><a href="#">마이페이지</a></li>
-										<li><a href="#">로그인</a></li>
+										<li><a href="/index.html">프로필</a></li>
+										<li><a href="/index.html">마이페이지</a></li>
+										<li id="login-btn"><a href="/login.html">로그인</a></li>
+										<li id="logout-btn"><a onclick="handleLogout()">로그아웃</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -831,6 +833,8 @@
 
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
+	
+	<script src="/js/api.js"></script>
 
 </body>
 
