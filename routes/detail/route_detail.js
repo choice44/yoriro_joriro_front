@@ -225,11 +225,145 @@ export async function routeDelete() {
     }
 }
 
+// 댓글 작성 함수
+async function routeComment() {
+    const comment = document.getElementById("route-comment").value
+    const accessToken = localStorage.getItem('access');
+
+    const response = await fetch(`${proxy}/routes/${route_id}/comments/`, {
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "content-type": "application/json",
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            "content": comment,
+        })
+    })
+
+    if (response.status == 201) {
+        alert("댓글 작성 완료")
+        location.reload();
+    } else if (comment == '') {
+        alert("댓글을 입력해 주세요.")
+    }
+
+}
+
+// 댓글 조회 함수
+async function getComments(route_id) {
+    const response = await fetch(`${proxy}/routes/${route_id}/comments/`);
+    const comments = await response.json();
+
+    comments.forEach((comment, index) => {
+        const commentList = document.getElementById('comment-list');
+        const date = new Date(comment.created_at);
+        const formattedDate = date.toLocaleDateString() + " " + date.toLocaleTimeString().slice(0, 7);
+
+        commentList.insertAdjacentHTML('beforeend', `
+        <div id="comment-${comment.id}" class="card mb-3 text-start" style="${index !== 0 ? 'border-top: 1px solid #000;' : ''}"> <!-- 첫 번째 댓글을 제외하고 모든 댓글에 상단 경계선 추가 -->
+            <div class="row g-3">
+                <div class="col-md-1">
+                    <div class="card-body">
+                        <p class="card-text"><b>${comment.user.nickname}</b></p>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p class="card-text" id="comment-content-${comment.id}">${comment.content}</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-body d-flex justify-content-end" style="overflow: hidden; text-overflow: ellipsis;">
+                        <p class="card-text"><small class="text-muted">${formattedDate}</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-0">
+                <div class="col-md-10"></div>
+                <div class="col-md-2">
+                    <div class="card-body d-flex justify-content-end">
+                        <a href="#" onclick="event.preventDefault(); editComment(${comment.id})" class="btn btn-secondary btn-sm me-md-2">댓글수정</a>
+                        <a href="#" onclick="event.preventDefault(); CommentDelete(${comment.id})" class="btn btn-secondary btn-sm">댓글삭제</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `);
+    });
+}
+
+// 댓글 수정 함수
+async function editComment(commentId) {
+    // 댓글 내용을 가져오기
+    const commentContent = document.getElementById(`comment-content-${commentId}`).textContent;
+
+    // 댓글 수정 폼 생성
+    const editForm = document.createElement('form');
+    editForm.innerHTML = `
+      <input type="text" id="edit-comment-${commentId}" value="${commentContent}">
+      <button type="button" onclick="updateComment(${commentId})">Submit</button>
+    `;
+
+    // 댓글 수정 폼 표시
+    const commentDiv = document.getElementById(`comment-${commentId}`);
+    commentDiv.innerHTML = '';
+    commentDiv.appendChild(editForm);
+}
+
+// 수정 댓글 저장 함수
+async function updateComment(commentId) {
+    // 수정된 댓글 내용 가져오기
+    const editedContent = document.getElementById(`edit-comment-${commentId}`).value;
+
+    // 수정된 댓글 내용을 서버에 전송
+    const accessToken = localStorage.getItem('access');
+    const response = await fetch(`${proxy}/routes/comments/${commentId}/`, {
+        method: 'PUT',
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "content-type": "application/json",
+        },
+        body: JSON.stringify({ content: editedContent })
+    });
+
+    if (response.ok) {
+        // 댓글 목록 다시 불러오기
+        alert("수정 완료!")
+        location.reload()
+    }
+}
+
+// 댓글 삭제
+async function CommentDelete(comment_id) {
+    if (confirm("삭제하시겠습니까?")) {
+        const accessToken = localStorage.getItem('access');
+        const response = await fetch(`${proxy}/routes/comments/${comment_id}`, {
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                'content-type': 'application/json',
+            },
+            method: 'DELETE',
+        })
+        if (response.status === 204) {
+            alert("삭제 완료!")
+            location.reload();
+        } else {
+            alert("권한이 없습니다.")
+        }
+    }
+}
+
 // 페이지 로드가 완료되면 상세페이지 로드함수 호출
-window.onload = () => {
-    viewRouteDetail()
+window.onload = async function () {
+    await viewRouteDetail();
+    getComments(route_id);
 }
 window.routeDelete = routeDelete
+window.routeComment = routeComment
+window.editComment = editComment
+window.updateComment = updateComment
+window.CommentDelete = CommentDelete
 
 
 // 모달 관련 js
