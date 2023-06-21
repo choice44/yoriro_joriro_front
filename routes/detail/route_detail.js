@@ -13,7 +13,6 @@ const route_rating = document.getElementById("route-detail-rating")
 
 // 수정하기, 삭제하기
 const update_href = document.getElementById("route-update-href")
-const delete_href = document.getElementById("route-delete-href")
 
 // 게시글 요청 함수
 async function getRouteDetail() {
@@ -120,11 +119,13 @@ async function getRouteSigungu(area_id, sigungu_id) {
     }
 }
 
+// 평점 등록 함수
 async function routeRating(route_id) {
     try {
         const accessToken = localStorage.getItem('access');
         const rating = route_rating.value;
 
+        // 평점을 등록하지 않았을 때
         if (rating === "") {
             return alert("평점을 입력해주세요")
         }
@@ -144,6 +145,7 @@ async function routeRating(route_id) {
 
         alert("평점 등록이 완료되었습니다.")
 
+        // 평점이 등록되면 모달창을 숨기고 새로고침
         modal.style.display = "none";
         location.reload();
 
@@ -152,6 +154,7 @@ async function routeRating(route_id) {
     }
 }
 
+// 여행루트 상세 페이지 로드 함수
 async function viewRouteDetail() {
     const route = await getRouteDetail();   // 해당 여행 루트 게시글의 데이터
 
@@ -183,41 +186,64 @@ async function viewRouteDetail() {
     route_rate.innerText = route.rate + `점`
     route_content.innerText = route.content
 
+    // 수정버튼 수정페이지 링크 부여
     update_href.setAttribute("href", `/routes/detail/update/?id=${route_id}`)
-    delete_href.setAttribute("href", `/routes/detail/delete/?id=${route_id}`)
 
+    // 목적지 목록에 목적지 순차 부여
     for (let spot of spot_ids) {
         route_spots.innerHTML += `<p>${spot.title}</p>`
     }
+
+    // 평점이 하나도 없을 시
     if (route.rate === null) {
         route_rate.innerText = "평점이 없습니다"
     }
+
+    // 이미지가 없을 시 이미지 박스 숨김
     if (route.image === null) {
         route_image.style.display = "none"
     }
     createMarker(spot_ids)
 }
 
+export async function routeDelete() {
+    if (confirm("삭제하시겠습니까?")) {
+        const accessToken = localStorage.getItem('access');
+        const response = await fetch(`${proxy}/routes/${route_id}`, {
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                'content-type': 'application/json',
+            },
+            method: 'DELETE',
+        })
+        if (response.status === 204) {
+            alert("삭제 완료!")
+            location.replace('../')
+        } else {
+            alert("권한이 없습니다.")
+        }
+    }
+}
+
+// 페이지 로드가 완료되면 상세페이지 로드함수 호출
 window.onload = () => {
     viewRouteDetail()
 }
+window.routeDelete = routeDelete
 
 
 // 모달 관련 js
 btn.onclick = function () {
     modal.style.display = "block";
 }
-
 span.onclick = function () {
     modal.style.display = "none";
 }
-
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
 }
-
 submitRating.onclick = function () {
     routeRating(route_id)
 }

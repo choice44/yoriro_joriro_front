@@ -63,6 +63,7 @@ async function loadRoute() {
     area.value = route.areas[0].area;
     content.value = route.content;
 
+    // 백엔드 요청을 위한 목적지 id 목록에 추가
     for (const spot of savedSpots) {
         spotsId.push(spot.id)
     }
@@ -95,6 +96,7 @@ function handleUpdateRoute(event) {
     image = document.getElementById('route-image').files[0];
     content = document.getElementById('route-content').value;
 
+    // areas는 딕셔너리 형태이기 때문에 formData로 전송시 형변환이 필요
     const areas = JSON.stringify({ area: area, sigungu: sigungu });
 
     // FormData를 사용하면 header에 "application/json"을 담지 않아도 됨
@@ -116,8 +118,6 @@ function handleUpdateRoute(event) {
     };
 
     updateRoute(formData);
-
-    console.log(formData.get('spots'))
 }
 
 
@@ -137,7 +137,6 @@ async function updateRoute(formData) {
             return;
         }
 
-        // duration과 cost는 숫자로만 받아야함
         const duration = parseInt(formData.get('duration'));
         const cost = parseInt(formData.get('cost'));
 
