@@ -1,4 +1,5 @@
-const proxy = 'http://127.0.0.1:8000';
+import { proxy } from '/proxy.js';
+// const proxy = 'http://127.0.0.1:8000';
 // const proxy = 'https://api.bechol.com';
 const token = localStorage.getItem('access')
 
