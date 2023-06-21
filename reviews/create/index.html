@@ -68,7 +68,6 @@
 
 	<!-- Modernizr JS -->
 	<script src="/js/modernizr-2.6.2.min.js"></script>
-
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -89,16 +88,15 @@
 						<!-- START #fh5co-menu-wrap -->
 						<nav id="fh5co-menu-wrap" role="navigation">
 							<ul class="sf-menu" id="fh5co-primary-menu">
-								<li><a href="/reviews/create/">리뷰</a></li>
-								<li><a href="/routes/route_main.html">루트</a></li>
+								<li><a href="/vacation.html">리뷰</a></li>
+								<li><a href="/hotel.html">루트</a></li>
 								<li><a href="/blog.html">동료</a></li>
 								<li><a href="/car.html">AI</a></li>
-								<li><a  class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
+								<li><a href="/contact.html" class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
 									<ul class="fh5co-sub-menu">
-										<li><a href="/index.html">프로필</a></li>
-										<li><a href="/index.html">마이페이지</a></li>
-										<li id="login-btn"><a href="/login.html">로그인</a></li>
-										<li id="logout-btn"><a onclick="handleLogout()">로그아웃</a></li>
+										<li><a href="#">프로필</a></li>
+										<li><a href="#">마이페이지</a></li>
+										<li><a href="#">로그인</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -109,109 +107,74 @@
 
 			<!-- end:header-top -->
 
-			<div class="fh5co-hero" style="height: 400px;">
-				<div class="fh5co-overlay" style="height: 400px;"></div>
-				<div class="fh5co-cover" data-stellar-background-ratio="0.5"
-					style="background-image: url(/images/cover_bg_1.jpg); height:400px;">
-					<div class="desc" style="margin: auto; top:50%;">
-						<div class="container">
-							<div class="tabulation animate-box">
-
-								<!-- Tab panes -->
-								<div class="tab-content">
-									<div class="row">
-										<div class="col-xs-4 mt">
-											<label for="class">유형:</label>
-											<section>
-												<select class="form-control" id="search_select_type">
-													<option value="" selected>전체</option>
-													<option value="12">관광지</option>
-													<option value="39">맛집</option>
-												</select>
-											</section>
+			<div id="fh5co-contact" class="fh5co-section-gray" style="padding-top:50px;">
+				<div class="container">
+					<form action="#">
+						<div class="row animate-box">
+							<div class="col-md-4" id="review_create_cardbox">
+								<label>다녀오신 곳은 어땠나요?</label>
+								<!-- <div class="fh5co-blog"> -->
+								<!-- <div style="height:250px;"><img class="img-responsive" src="/images/place-1.jpg"
+											alt=""></div>
+									<div class="blog-text">
+										<div class="prod-title">
+											<h3>장소 이름</h3>
+											<span class="price">장소 주소1</span>
 										</div>
-										<div class="col-xs-4 mt">
-											<section>
-												<label for="class">지역:</label>
-												<select onchange="change(this.selectedIndex);" id="search_select_area"
-													class="form-control">
-													<option value="" selected>전체</option>
-													<option value="1">서울</option>
-													<option value="2">인천</option>
-													<option value="3">대전</option>
-													<option value="4">대구</option>
-													<option value="5">광주</option>
-													<option value="6">부산</option>
-													<option value="7">울산</option>
-													<option value="8">세종특별자치시</option>
-													<option value="31">경기도</option>
-													<option value="32">강원도</option>
-													<option value="33">충청북도</option>
-													<option value="34">충청남도</option>
-													<option value="35">경상북도</option>
-													<option value="36">경상남도</option>
-													<option value="37">전라북도</option>
-													<option value="38">전라남도</option>
-													<option value="39">제주도</option>
-												</select>
-											</section>
+									</div> -->
+								<!-- </div> -->
+							</div>
+							<div class="col-md-8">
+								<div class="row">
+									<div class="col-md-6">
+										<label>평점:</label>
+										<select class="form-control" style="height:50px; margin-bottom:30px;"
+											id="review_create_rate">
+											<option value="1">⭐</option>
+											<option value="2">⭐⭐</option>
+											<option value="3">⭐⭐⭐</option>
+											<option value="4">⭐⭐⭐⭐</option>
+											<option value="5">⭐⭐⭐⭐⭐</option>
+										</select>
+									</div>
+									<div class="col-xxs-12 col-xs-6 mt alternate">
+										<div class="input-field">
+											<label for="date-start">방문 날짜:</label>
+											<input type="text" class="form-control" id="date-start"
+												placeholder="mm/dd/yyyy" />
 										</div>
-										<div class="col-xs-4 mt">
-											<section>
-												<label for="class">시군구:</label>
-												<select id="search_select_sigungu" class="form-control">
-													<option value="" selected>전체</option>
-												</select>
-											</section>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="review_thumbnail">대표 이미지(선택)</label>
+											<input type="file" class="form-control" id="review_create_thumbnail"
+												style="height:50px;" accept="image/*">
 										</div>
-										<div class="col-xs-12 mt">
-											<div class="input-field" style="position:relative;">
-												<input type="text" class="form-control" id="form-place"
-													placeholder="검색어를 입력해주세요." style="width:75%; font-size:18px;" />
-												<input type="button" class="btn btn-primary btn-block" value="검색"
-													style="position:absolute; top:0; right: -1px; width:25%; height:42px; padding:0;"
-													onclick="viewSpotList()">
-											</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="제목을 입력해주세요."
+												id="review_create_title">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<textarea name="" class="form-control" cols="30" rows="7"
+												placeholder="내용을 입력해주세요." id="review_create_content"></textarea>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="submit" value="리뷰 남기기" class="btn btn-primary btn-lg"
+												style="float:right;" id="review_create_button">
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-
-			</div>
-			<div id="fh5co-features" style="padding-top:30px;">
-				<div class="container">
-					<div class="row row-bottom-padded-md" id="search_spot_cardbox">
-						<!-- 검색 결과가 없을 때 -->
-						<!-- <h3 style="text-align: center;">검색 결과가 없습니다.</h3> -->
-
-						<!-- 검색 결과가 있을 떄 -->
-						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn"
-							style="cursor: pointer;">
-							<div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img
-									src="/images/place-6.jpg" alt="Free HTML5 Website Template by FreeHTML5.co"
-									class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
-								<div class="desc">
-									<h3>Hongkong <span style="display:inline; color:#F78536">2.7</span></h3>
-									<span>2 nights</span>
-								</div>
-							</div>
-						</div> -->
-
-						<!-- 더보기 버튼 -->
-						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated"> -->
-						<!-- <p style="text-align:center;"><a class="btn btn-primary btn-outline btn-lg" href="#"><i
-									class="icon-arrow-down22"></i> 더보기
-								<i class="icon-arrow-down22"></i></a></p> -->
-						<!-- </div> -->
-
-					</div>
+					</form>
 				</div>
 			</div>
-
-
 
 			<footer>
 				<div id="footer">
@@ -321,11 +284,9 @@
 
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
-	
-	<script src="/js/api.js"></script>
 
-	<!-- Search JS -->
-	<script src="search.js"></script>
+	<!-- Review Create JS -->
+	<script src="review_create.js" type="module"></script>
 
 </body>
 
