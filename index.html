@@ -89,11 +89,11 @@
 						<!-- START #fh5co-menu-wrap -->
 						<nav id="fh5co-menu-wrap" role="navigation">
 							<ul class="sf-menu" id="fh5co-primary-menu">
-								<li><a href="/reviews/create/">리뷰</a></li>
+								<li><a href="/reviews/list/">리뷰</a></li>
 								<li><a href="/routes/route_main.html">루트</a></li>
 								<li><a href="/blog.html">동료</a></li>
 								<li><a href="/car.html">AI</a></li>
-								<li><a  class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
+								<li><a class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
 									<ul class="fh5co-sub-menu">
 										<li><a href="/index.html">프로필</a></li>
 										<li><a href="/index.html">마이페이지</a></li>
@@ -209,9 +209,72 @@
 
 					</div>
 				</div>
+				<div class="container">
+					<!-- 여행 루트 글 카드 박스 -->
+					<div class="row row-bottom-padded-md" id="main_routes_cardbox">
+						<div class="desc2 animate-box" style="margin-bottom:15px;">
+							<h2 style="color:#F78536; font-size:32px; font-weight:600; display:inline;">여행 루트</h2>
+							<a href="#" style="display: inline; float: right;">더보기</a>
+						</div>
+
+						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn"
+							style="cursor: pointer;">
+							<div onclick="location.href='/routes/?id=${route.id}'" style="overflow:hidden;"><img src="${route.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+								<div class="desc">
+									<span style="display:inline;">서울</span>
+									<h2 style="color:#F78536; display:inline; float:right; margin-bottom:0; font-size:24px;">92점</h2>
+									<h3 style="font-size:26px">주말에 뭐하지? 아이들과 함께하는 주말 여행 코스</h3>
+								</div>
+							</div>
+						</div> -->
+
+					</div>
+					<!-- 여행 동료 모집 글 카드 박스 -->
+					<div class="row row-bottom-padded-md" id="main_recruitments_cardbox">
+						<div class="desc2 animate-box" style="margin-bottom:15px;">
+							<h2 style="color:#F78536; font-size:32px; font-weight:600; display:inline;">동료 모집</h2>
+							<a href="#" style="display: inline; float: right;">더보기</a>
+						</div>
+
+						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn"
+							style="cursor: pointer;">
+							<div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img
+									src="/images/place-6.jpg" alt="Free HTML5 Website Template by FreeHTML5.co"
+									class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+								<div class="desc">
+									<h3>청계산 <span style="display:inline; color:#F78536">3명 </span><small
+											style="color:red;">모집중</small>
+									</h3>
+									<span>옥녀봉까지만. 매봉 안 감.</span>
+								</div>
+							</div>
+						</div> -->
+
+					</div>
+
+					<!-- 관광 장소 리뷰 카드 박스 -->
+					<div class="row row-bottom-padded-md" id="main_reviews_cardbox">
+						<div class="desc2 animate-box" style="margin-bottom:15px;">
+							<h2 style="color:#F78536; font-size:32px; font-weight:600; display:inline;">리뷰</h2>
+							<a href="/reviews/list/" style="display: inline; float: right;">더보기</a>
+						</div>
+
+						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn"
+							style="cursor: pointer;">
+							<div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img
+									src="/images/place-6.jpg" alt="Free HTML5 Website Template by FreeHTML5.co"
+									class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+								<div class="desc">
+									<h3>봉은사 <small>⭐</small></h3>
+									<span>부처님 오신 날 사람 미어터짐</span>
+								</div>
+							</div>
+						</div> -->
+
+					</div>
+
+				</div>
 			</div>
-
-
 
 			<footer>
 				<div id="footer">
@@ -321,11 +384,13 @@
 
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
-	
+
 	<script src="/js/api.js"></script>
 
 	<!-- Search JS -->
 	<script src="search.js"></script>
+	<!-- YoriroJoriro Main JS -->
+	<script src="index.js"></script>
 
 </body>
 
