@@ -51,6 +51,7 @@
 	<link rel="stylesheet" href="/css/icomoon.css">
 	<!-- Flaticon Icons-->
 	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css'>
 	<!-- Bootstrap  -->
 	<link rel="stylesheet" href="/css/bootstrap.css">
 	<!-- Superfish -->
@@ -68,7 +69,6 @@
 
 	<!-- Modernizr JS -->
 	<script src="/js/modernizr-2.6.2.min.js"></script>
-
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -93,12 +93,11 @@
 								<li><a href="/hotel.html">루트</a></li>
 								<li><a href="/blog.html">동료</a></li>
 								<li><a href="/car.html">AI</a></li>
-								<li><a  class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
+								<li><a href="/contact.html" class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
 									<ul class="fh5co-sub-menu">
-										<li><a href="/index.html">프로필</a></li>
-										<li><a href="/index.html">마이페이지</a></li>
-										<li id="login-btn"><a href="/login.html">로그인</a></li>
-										<li id="logout-btn"><a onclick="handleLogout()">로그아웃</a></li>
+										<li><a href="#">프로필</a></li>
+										<li><a href="#">마이페이지</a></li>
+										<li><a href="#">로그인</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -109,68 +108,127 @@
 
 			<!-- end:header-top -->
 
-			<div class="fh5co-hero" style="height: 400px;">
-				<div class="fh5co-overlay" style="height: 400px;"></div>
-				<div class="fh5co-cover" data-stellar-background-ratio="0.5"
-					style="background-image: url(/images/cover_bg_1.jpg); height:400px;">
-					<div class="desc" style="margin: auto; top:50%;">
+			<div class="fh5co-hero" style="height:auto;">
+				<div class="fh5co-cover fh5co-section-gray" style="height:fit-content;">
+					<div class="desc" style="position: static;">
 						<div class="container">
-							<div class="tabulation animate-box">
+							<div class="row" style="margin-top: 20em; margin-bottom: 7em">
 
-								<!-- Tab panes -->
-								<div class="tab-content">
-									<div class="row">
-										<div class="col-xs-4 mt">
-											<label for="class">유형:</label>
-											<section>
-												<select class="form-control" id="search_select_type">
-													<option value="" selected>전체</option>
-													<option value="12">관광지</option>
-													<option value="39">맛집</option>
-												</select>
-											</section>
-										</div>
-										<div class="col-xs-4 mt">
-											<section>
-												<label for="class">지역:</label>
-												<select onchange="change(this.selectedIndex);" id="search_select_area"
-													class="form-control">
-													<option value="" selected>전체</option>
-													<option value="1">서울</option>
-													<option value="2">인천</option>
-													<option value="3">대전</option>
-													<option value="4">대구</option>
-													<option value="5">광주</option>
-													<option value="6">부산</option>
-													<option value="7">울산</option>
-													<option value="8">세종특별자치시</option>
-													<option value="31">경기도</option>
-													<option value="32">강원도</option>
-													<option value="33">충청북도</option>
-													<option value="34">충청남도</option>
-													<option value="35">경상북도</option>
-													<option value="36">경상남도</option>
-													<option value="37">전라북도</option>
-													<option value="38">전라남도</option>
-													<option value="39">제주도</option>
-												</select>
-											</section>
-										</div>
-										<div class="col-xs-4 mt">
-											<section>
-												<label for="class">시군구:</label>
-												<select id="search_select_sigungu" class="form-control">
-													<option value="" selected>전체</option>
-												</select>
-											</section>
-										</div>
-										<div class="col-xs-12 mt">
-											<div class="input-field" style="position:relative;">
-												<input type="text" class="form-control" id="form-place"
-													placeholder="검색어를 입력해주세요." style="width:75%; font-size:18px;" />
-												<input type="button" class="btn btn-primary btn-block" value="검색"
-													style="position:absolute; top:0; right: -1px; width:25%; height:42px; padding:0;"
-													onclick="viewSpotList()">
+								<div class="desc2 animate-box" style="margin-top: -12em;">
+									<h2 style="color:#F78536; font-size:32px;">최신 리뷰</h2>
+								</div>
+
+								<div class="tabulation animate-box" style="margin-top:0;">
+
+									<!-- Nav tabs -->
+									<ul class="nav nav-tabs" role="tablist">
+										<li role="presentation" class="active">
+											<a onclick="loadReviewList(12)" aria-controls="flights" role="tab"
+												data-toggle="tab">관광지</a>
+										</li>
+										<li role="presentation">
+											<a onclick="loadReviewList(39)" aria-controls="hotels" role="tab"
+												data-toggle="tab">맛집</a>
+										</li>
+									</ul>
+
+									<!-- Tab panes -->
+									<div class="tab-content">
+										<div role="tabpanel" class="tab-pane active" id="tourist_spots">
+											<div class="row">
+												<div id="fh5co-car" class="fh5co-section"
+													style="padding-top:0; padding-bottom:0;">
+													<div class="row row-bottom-padded-md" style="padding-bottom:0;"
+														id="tourist_spot_review_list_cardbox">
+
+														<!-- 프로필사진 -->
+														<!-- <div class="col-md-12">
+															<div class="car" style="height:200px;"
+																id="spot_detail_cardbox">
+																<div class="one-4"
+																	style="width:70%; background:rgba(0, 0, 0, 0.04); padding:20px;">
+																	<div class="row">
+																		<div class="col-md-2"
+																			style="text-align:center;">
+																			<div>
+																				<img src="/images/logo_64.png"
+																					alt="프로필 이미지" />
+																			</div>
+																			<span class="price"
+																				style="color:#F78536;"><small
+																					style="color:#848484;">
+																					닉네임</small></span>
+																		</div>
+																		<div class="col-md-10">
+																			<span class="price">⭐⭐⭐⭐⭐ <small
+																					style="color:#848484;">방문일:
+																					2023-06-19</small></span>
+																			<h3
+																				style="color:#F78536; margin-bottom:20px;">
+																				리뷰
+																				장소 <small style="color:#848484;">장소
+																					주소</small></h3>
+																			<span class="price"
+																				style="color:#F78536;">리뷰
+																				제목</span>
+																			<p style="color:#F78536; margin-bottom:0;">
+																				리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰
+																				내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용
+																			</p>
+																		</div>
+																	</div>
+																</div>
+																<div class="one-1"
+																	style="background-image: url(/images/car-1.jpg); width:30%;">
+																</div>
+															</div>
+														</div> -->
+
+														<!-- 프로필 사진 X -->
+														<!-- <div class="col-md-12">
+															<div class="car" style="height:200px;">
+																<div class="one-4"
+																	style="width:70%; background:rgba(0, 0, 0, 0.04); padding:20px; height:200px;">
+																	<span style="float: right; text-align:center;"><i
+																			class="fi fi-ss-heart"
+																			style="color: red;"></i><span
+																			style="margin-top:-0.8em;"><small
+																				style="color:#848484;">like_count</small></span></span>
+																	<span class="price">⭐⭐⭐⭐⭐ <small
+																			style="color:#848484;">방문일:
+																			2023-06-19</small></span>
+
+																	<h3 style="color:#F78536; margin-bottom:20px;">
+																		리뷰
+																		장소 <small style="color:#848484;">장소
+																			주소</small></h3>
+																	<span class="price" style="color:#F78536;">리뷰
+																		제목<small style="color:#848484;">
+																			닉네임</small></span>
+																	<p
+																		style="color:#F78536; margin-bottom:0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+																		리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰
+																		내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰
+																		내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰
+																		내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰
+																		내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰
+																		내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용
+																	</p>
+																</div>
+																<div class="one-1"
+																	style="background-image: url(http://127.0.0.1:8000/media/review/images/2023/06/rtan_thumb_23_TNZ5rLW.png); width:30%;">
+																</div>
+															</div>
+														</div> -->
+
+														<!-- 더보기 버튼 -->
+														<!-- <div class="col-md-12 text-center">
+															<input class="btn btn-primary btn-lg" href="#"
+																value="▼ 더보기 ▼" />
+														</div> -->
+
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -179,39 +237,7 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
-			<div id="fh5co-features" style="padding-top:30px;">
-				<div class="container">
-					<div class="row row-bottom-padded-md" id="search_spot_cardbox">
-						<!-- 검색 결과가 없을 때 -->
-						<!-- <h3 style="text-align: center;">검색 결과가 없습니다.</h3> -->
-
-						<!-- 검색 결과가 있을 떄 -->
-						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn"
-							style="cursor: pointer;">
-							<div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img
-									src="/images/place-6.jpg" alt="Free HTML5 Website Template by FreeHTML5.co"
-									class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
-								<div class="desc">
-									<h3>Hongkong <span style="display:inline; color:#F78536">2.7</span></h3>
-									<span>2 nights</span>
-								</div>
-							</div>
-						</div> -->
-
-						<!-- 더보기 버튼 -->
-						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated"> -->
-						<!-- <p style="text-align:center;"><a class="btn btn-primary btn-outline btn-lg" href="#"><i
-									class="icon-arrow-down22"></i> 더보기
-								<i class="icon-arrow-down22"></i></a></p> -->
-						<!-- </div> -->
-
-					</div>
-				</div>
-			</div>
-
-
 
 			<footer>
 				<div id="footer">
@@ -321,11 +347,9 @@
 
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
-	
-	<script src="/js/api.js"></script>
 
-	<!-- Search JS -->
-	<script src="search.js"></script>
+	<!-- Review List JS -->
+	<script src="review_list.js"></script>
 
 </body>
 

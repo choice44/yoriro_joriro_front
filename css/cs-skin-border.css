@@ -2,7 +2,9 @@ div.cs-skin-border {
 	background: transparent;
 	font-size: 16px;
 	font-weight: 700;
-	max-width: 600px;
+	max-width: 100%;
+	/* max-width: 600px; */
+
 }
 
 @media screen and (max-width: 30em) {
@@ -20,8 +22,7 @@ div.cs-skin-border {
 
 .cs-skin-border>span::after,
 .cs-skin-border .cs-selected span::after {
-
-	content: "\e648";
+	content: "\2713";
 }
 
 .cs-skin-border ul span::after {
@@ -31,7 +32,7 @@ div.cs-skin-border {
 
 .cs-skin-border .cs-selected span::after {
 	/*content: "\e64b";*/
-	content: "\e64c";
+	content: "\2713";
 	color: #ddd9c9;
 	font-size: 1.5em;
 	opacity: 1;
