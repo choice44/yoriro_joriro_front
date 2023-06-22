@@ -1,8 +1,4 @@
 import { proxy } from "../../proxy.js"
-// const proxy = "http://127.0.0.1:8000"
-// const proxy = "https://api.bechol.com"
-const front_proxy = "http://127.0.0.1:5500"
-
 
 const update = document.getElementById("recruitment-update")
 update.addEventListener('click', updateRecruitment)

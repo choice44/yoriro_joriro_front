@@ -1,8 +1,4 @@
 import { proxy } from "../../proxy.js"
-// const proxy = "http://127.0.0.1:8000"
-// const proxy = "https://api.bechol.com"
-const front_proxy = "http://127.0.0.1:5500"
-
 
 setThumbnail()
 
@@ -54,7 +50,7 @@ async function postRecruitment() {
 
     if (response.status == 201) {
         alert("글작성 완료!")
-        window.location.replace(`${front_proxy}/recruitments/index.html`)
+        window.location.replace(`../index.html`)
     } else {
         alert(response.data)
     }
