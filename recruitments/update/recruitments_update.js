@@ -108,7 +108,9 @@ export async function updateRecruitment() {
         formdata.append("cost", cost)
         formdata.append("participant_max", participant)
         formdata.append("content", content)
-        formdata.append("image", image)
+        if (image) {
+            formdata.append("image", image)
+        }
 
         const response = await fetch(`${proxy}/recruitments/${recruitment_id}/`, {
             method: 'PUT',

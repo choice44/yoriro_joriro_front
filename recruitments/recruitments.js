@@ -37,6 +37,7 @@ async function loadRecruitments(recruitments) {
         } else {
             imagePath = "/images/car-2.jpg"
         }
+        console.log(imagePath)
 
         template.innerHTML = `
         <div><img src="${imagePath}" alt="여행루트 게시글 이미지" class="img-responsive recruitment-image-thumbnail">
