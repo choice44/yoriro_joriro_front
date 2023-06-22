@@ -1,27 +1,103 @@
-import { proxy } from "../proxy.js";
-import { createMarker, new_spotx, new_spoty } from "./map.js";
+import { proxy } from "../../../proxy.js";
+import { createMarker, new_spotx, new_spoty } from "./update_map.js";
+
 
 // 관광지 목록
 let savedSpots = [];
 // 관광지 id 목록
 let spotsId = [];
 
+// 주소창에서 id값 도출
+const route_id = new URLSearchParams(window.location.search).get('id');
 
-// 게시글 작성 데이터 가져오기
-function handleCreateRoute(event) {
+let title = document.getElementById('route-title');
+let duration = document.getElementById('route-duration');
+let cost = document.getElementById('route-cost');
+let area = document.getElementById('route-area');
+let sigungu = document.getElementById('route-sigungu');
+let image = document.getElementById('route-image');
+let image_preview_box = document.getElementById('img-preview-box');
+let image_preview = document.getElementById('img-preview');
+let content = document.getElementById('route-content');
+
+// 게시글 요청 함수
+async function getRouteDetail() {
+    try {
+        // 백엔드에 GET 요청
+        const response = await fetch(`${proxy}/routes/${route_id}`, {
+            method: "GET",
+        });
+
+        // 게시글 요청 실패 시 에러
+        if (!response.ok) {
+            throw new Error('여행경로 게시글을 가져오는데 실패했습니다.');
+        }
+
+        // 게시글 요청 성공 시 데이터 리턴
+        if (response.status == 200) {
+            const response_json = await response.json();
+            return response_json;
+
+            // ok가 떴는데 200이 아닐 시
+        } else {
+            throw new Error('예상치 못한 에러가 발생했습니다. 다시 시도해주세요.');
+        }
+
+        // 발생한 에러 출력
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// 수정페이지 진입 시 기존 데이터 기입함수
+async function loadRoute() {
+    // 해당 게시글 데이터 불러오기
+    const route = await getRouteDetail()
+
+    // 해당 게시글의 목적지를 목적지 리스트에 추가
+    savedSpots = route.spots
+
+    title.value = route.title;
+    duration.value = route.duration;
+    cost.value = route.cost;
+    area.value = route.areas[0].area;
+    content.value = route.content;
+
+    // 백엔드 요청을 위한 목적지 id 목록에 추가
+    for (const spot of savedSpots) {
+        spotsId.push(spot.id)
+    }
+
+    // 시/도가 선택된 후 시군구가 그에맞춰 바뀌기를 기다려야함
+    await changeSigungu(route.areas[0].area);
+    sigungu.value = route.areas[0].sigungu;
+
+    // 이미 등록된 사진이 있으면 사진 미리보기
+    if (route.image != null) {
+        image_preview_box.style.display = 'block';
+        image_preview.src = proxy + '/' + route.image
+    }
+
+    // 마커 생성하고 목적지 목록 업데이트
+    createMarker(savedSpots)
+    updateSavedSpots();
+}
+
+
+// 게시글 수정 데이터 가져오기
+function handleUpdateRoute(event) {
     event.preventDefault(); // 제출 버튼을 눌렀을 때 새로고침 방지
 
-    const title = document.getElementById('route-title').value;
-    const duration = document.getElementById('route-duration').value;
-    const cost = document.getElementById('route-cost').value;
-    const area = document.getElementById('route-area').value;
-    const sigungu = document.getElementById('route-sigungu').value;
-    const image = document.getElementById('route-image').files[0];
-    const content = document.getElementById('route-content').value;
+    title = document.getElementById('route-title').value;
+    duration = document.getElementById('route-duration').value;
+    cost = document.getElementById('route-cost').value;
+    area = document.getElementById('route-area').value;
+    sigungu = document.getElementById('route-sigungu').value;
+    image = document.getElementById('route-image').files[0];
+    content = document.getElementById('route-content').value;
 
-    // const areas = 
+    // areas는 딕셔너리 형태이기 때문에 formData로 전송시 형변환이 필요
     const areas = JSON.stringify({ area: area, sigungu: sigungu });
-    console.log(areas)
 
     // FormData를 사용하면 header에 "application/json"을 담지 않아도 됨
     const formData = new FormData();
@@ -29,26 +105,24 @@ function handleCreateRoute(event) {
     formData.append('duration', duration);
     formData.append('cost', cost);
     formData.append('areas', areas);
-    // formData.append('spots', spotsId);
+    formData.append('content', content);
+
+    // 목적지를 순차적으로 기입
     spotsId.forEach((spot) =>
         formData.append('spots', spot)
     )
-    formData.append('image', image);
-    formData.append('content', content);
 
-    console.log(formData.get('title'))
-    console.log(formData.get('duration'))
-    console.log(formData.get('cost'))
-    console.log(formData.get('areas'))
-    console.log(formData.get('spots'))
-    console.log(formData.get('image'))
-    console.log(formData.get('content'))
-    createRoute(formData);
-};
+    // 이미지가 있는 경우에만 formdata에 기입
+    if (image) {
+        formData.append('image', image);
+    };
+
+    updateRoute(formData);
+}
 
 
 // 게시글 검사 및 저장
-async function createRoute(formData) {
+async function updateRoute(formData) {
     try {
         // 다음 데이터들 중 기재되지 않은 항목이 있는지
         if (
@@ -63,7 +137,6 @@ async function createRoute(formData) {
             return;
         }
 
-        // duration과 cost는 숫자로만 받아야함
         const duration = parseInt(formData.get('duration'));
         const cost = parseInt(formData.get('cost'));
 
@@ -80,11 +153,11 @@ async function createRoute(formData) {
         const accessToken = localStorage.getItem('access');
 
         //헤더에 토큰을 싣고 백엔드에 post 요청
-        const response = await fetch(`${proxy}/routes/`, {
+        const response = await fetch(`${proxy}/routes/${route_id}/`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             },
-            method: 'POST',
+            method: 'PUT',
             body: formData
         });
 
@@ -93,8 +166,8 @@ async function createRoute(formData) {
             throw new Error('게시글 작성에 실패하였습니다.');
         }
 
-        //여행루트 작성 후 메인 페이지로 이동(나중에 상세로 수정예정)
-        window.location.href = "/routes/route_main.html"
+        //여행루트 작성 후 메인 페이지로 이동
+        window.location.href = `../?id=${route_id}`
 
     } catch (error) {
         console.error('Error:', error);
@@ -231,7 +304,6 @@ function updateSavedSpots() {
             deleteButton.addEventListener('click', () => {  // 버튼 클릭했을 때 함수 실행
                 // 관광지 제거 함수
                 removeSpot(spot);
-
             });
 
             spotElement.appendChild(deleteButton);
@@ -337,13 +409,38 @@ document.addEventListener('click', (event) => {
     }
 });
 
-// 버튼 클릭 시 게시글 작성 함수 호출
+// 버튼 클릭 시 게시글 수정 함수 호출
 const createButton = document.getElementById("route-button");
-createButton.addEventListener('click', handleCreateRoute);
+createButton.addEventListener('click', handleUpdateRoute);
 
 // 버튼 클릭 시 목적지 생성 함수 호출
 const createSpotButton = document.getElementById("create-name-button");
 createSpotButton.addEventListener('click', createSpot);
 
-window.onload = getArea;
+// getArea가 먼저 끝나야하기 때문에 완료를 기다림
+window.onload = async function () {
+    await getArea();
+    loadRoute();
+};
 window.changeSigungu = changeSigungu
+
+// 이미지가 변경되었을 때 미리보기 기능
+image.addEventListener('change', function (e) {
+    var file = e.target.files[0];
+    var reader = new FileReader();  // fileReader함수를 사용
+
+    //reader의 로드가 끝나면 미리보기의 src를 할당
+    reader.onloadend = function () {
+        image_preview.src = reader.result;
+    }
+
+    // 첨부파일란에 변화가 생겼을 때, 파일이 존재한다면
+    // 미리보기에 사진을 넣고 미리보기 박스를 보여줌
+    if (file) {
+        reader.readAsDataURL(file);
+        image_preview_box.style.display = 'block'
+    } else {    // 파일이 없으면 미리보기를 비우고 박스를 숨김
+        image_preview.src = "";
+        image_preview_box.style.display = 'none'
+    }
+});

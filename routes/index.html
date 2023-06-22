@@ -65,7 +65,7 @@
 
 	<link rel="stylesheet" href="/css/style.css">
 
-	<link rel="stylesheet" href="./route_create.css">
+	<link rel="stylesheet" href="./route_main.css">
 
 
 	<!-- Modernizr JS -->
@@ -91,7 +91,7 @@
 						<nav id="fh5co-menu-wrap" role="navigation">
 							<ul class="sf-menu" id="fh5co-primary-menu">
 								<li><a href="vacation.html">리뷰</a></li>
-								<li><a href="route_main.html">루트</a></li>
+								<li><a href="./">루트</a></li>
 								<li><a href="blog.html">동료</a></li>
 								<li><a href="car.html">AI</a></li>
 								<li><a href="contact.html" class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
@@ -109,110 +109,23 @@
 
 			<!-- end:header-top -->
 
-			<div id="fh5co-contact" class="fh5co-section-gray">
+			<div id="fh5co-tours" class="fh5co-section-gray">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-5 col-md-5">
-							<div class="row animate-box">
+						<div class="col-md-8 col-md-offset-2 text-center heading-section animate-box">
+							<h3>여행 루트 공유</h3>
+							<p>다른 사람들과 여행 루트를 공유해보세요!</p>
 
-								<div class="col-xxs-12 col-xs-12 mt">
-									<div class="input-field">
-										<label for="title">여행 제목:</label>
-										<input type="text" class="form-control" id="route-title"
-											placeholder="여행 제목을 입력해주세요" />
-									</div>
-								</div>
-
-								<div class="col-xxs-12 col-xs-6 mt alternate">
-									<div class="input-field">
-										<label for="duration">여행 일수:</label>
-										<input type="text" class="form-control" id="route-duration"
-											placeholder="숫자로만 작성" />
-									</div>
-								</div>
-
-								<div class="col-xxs-12 col-xs-6 mt alternate">
-									<div class="input-field">
-										<label for="cost">여행 비용:</label>
-										<input type="text" class="form-control" id="route-cost" placeholder="숫자로만 작성" />
-									</div>
-								</div>
-
-								<div class="col-xxs-12 col-xs-6 mt alternate">
-									<div class="input-field">
-										<label for="area">시/도:</label>
-										<select onchange="changeSigungu(this.value);" id="route-area"
-											class="form-control">
-										</select>
-									</div>
-								</div>
-
-								<div class="col-xxs-12 col-xs-6 mt alternate">
-									<div class="input-field">
-										<label for="sigungu">시/군/구:</label>
-										<select id="route-sigungu" class="form-control">
-											<option value="" selected>전체</option>
-										</select>
-									</div>
-								</div>
-
-								<div class="col-xxs-12 col-xs-12 mt alternate">
-									<div class="input-field">
-										<label for="image">썸네일 사진:</label>
-										<input type="file" class="form-control" id="route-image"
-											style="font-size: 12px;" accept="image/*" />
-									</div>
-								</div>
-
-								<div class="col-xxs-12 col-xs-12 mt">
-									<div class="input-field">
-										<label for="spot">목적지:</label>
-										<input type="text" class="form-control" id="route-spot"
-											placeholder="목적지를 입력해주세요" />
-										<div id="spot-results"></div>
-									</div>
-								</div>
-
-								<div class="col-xxs-12 col-xs-12 mt" id="spot-saved-box" style="display: none;">
-									<div class="input-field">
-										<label for="spot">저장된 목적지:</label>
-										<div id="spot-saved" style="background-color: white;"></div>
-									</div>
-								</div>
-
-								<div class="col-xxs-12 col-xs-12 mt">
-									<div id="selected-spots"></div>
-								</div>
-
-								<div class="col-md-12">
-									<div class="form-group">
-										<label for="content">본문 내용:</label>
-										<textarea name="" class="form-control" id="route-content" cols="30" rows="7"
-											placeholder="본문 내용을 입력해주세요."></textarea>
-									</div>
-								</div>
-
-								<div class="col-xs-12">
-									<input type="submit" class="btn btn-primary btn-block" id="route-button"
-										value="작성 완료">
-								</div>
-
+							<div class="col-xs-12">
+								<button class="btn btn-primary btn-block" onclick="location.href='create/'">여행루트
+									작성하기</button>
 							</div>
-						</div>
 
-						<div class="desc2 animate-box">
-							<div class="col-sm-6 col-sm-push-1 col-md-7 col-md-push-1">
-								<label for="day1">1일차 여행경로</label>
-								<div id="map" style="width:600px;height:400px;"></div>
-								<div class="input-field" id="create-name-box" style="display: none;">
-									<label for="create-name">목적지 이름:</label>
-									<input type="text" id="create-name" placeholder="클릭한 장소의 이름을 입력해주세요">
-									<button type="button" id="create-name-button">목적지
-										추가</button>
-								</div>
-							</div>
 						</div>
 					</div>
+
+					<div class="row row-bottom-padded-md" id="route-list"></div>
+
 				</div>
 			</div>
 			<footer>
@@ -324,11 +237,7 @@
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
 
-	<!-- Kakao Map JS -->
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6dafad47184ae097399aaf131aa177ce"></script>
-	<script type="module" src="map.js"></script>
-	<script type="module" src="route_create.js"></script>
+	<script type="module" src="/routes/route_main.js"></script>
 
 </body>
 
