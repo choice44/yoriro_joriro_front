@@ -108,7 +108,7 @@ input {
 
 .login-form .login-btn {
   color: white;
-  background-color: #2f80ed;
+  background-color: #F78536;
   padding: 14px 0;
   border: none;
   margin-bottom: 20px;
@@ -116,7 +116,7 @@ input {
 }
 
 .login-form .login-btn:hover {
-  background-color: #3078d7;
+  background-color: #d96715;
 }
 
 .find {
