@@ -36,6 +36,12 @@ function handleCreateReview(event) {
     formData.append('visited_date', visited_date);
     formData.append('content', content);
     if (image !== undefined) {
+        let imgSize = image.size;
+        let maxSize = 3 * 1024 * 1024;
+        if (imgSize > maxSize) {
+            alert("이미지 용량은 3MB 이내로 등록 가능합니다.");
+            return;
+        };
         formData.append('image', image);
     };
 
