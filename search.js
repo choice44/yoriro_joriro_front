@@ -131,9 +131,7 @@ async function viewSpotList() {
 
 async function viewMoreSpotList(next) {
 
-    // http://127.0.0.1:8000 -> proxy
-    const orignal_next_url = next.split('/');
-    const new_next_url = proxy + '/' + orignal_next_url[3] + '/' + orignal_next_url[4];
+    const new_next_url = proxy + next;
 
     const more_button = document.getElementById("spot_search_more_button");
     more_button.remove();

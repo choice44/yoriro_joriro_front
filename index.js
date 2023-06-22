@@ -36,6 +36,8 @@ async function viewRouteList() {
         // 디폴트 이미지
         if (!route.image) {
             route.image = "/images/place-6.jpg";
+        } else {
+            route.image = proxy + route.image
         };
 
         // rate 없으면 ""
@@ -98,6 +100,8 @@ async function viewRecruitmentList() {
         // 디폴트 이미지
         if (!recruitment.image) {
             recruitment.image = "/images/place-6.jpg";
+        } else {
+            recruitment.image = proxy + recruitment.image
         };
 
         const status = { 0: "모집중", 1: "모집완료", 2: "여행중", 3: "여행완료" };
@@ -163,6 +167,8 @@ async function viewReviewList() {
         // 디폴트 이미지
         if (!review.image) {
             review.image = "/images/place-6.jpg";
+        } else {
+            review.image = proxy + review.image
         };
 
         // Review 카드 생성
