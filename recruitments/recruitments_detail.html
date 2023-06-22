@@ -66,8 +66,10 @@
 	<link rel="stylesheet" href="/css/style.css">
 
 
+
 	<!-- Modernizr JS -->
 	<script src="/js/modernizr-2.6.2.min.js"></script>
+	<script src="recruitments_detail.js" defer></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -76,7 +78,7 @@
 </head>
 
 <body>
-	<div id="fh5co-wrapper">
+	<div id="fh5co-wrapper" class="fh5co-section-gray">
 		<div id="fh5co-page">
 
 			<header id="fh5co-header-section" class="sticky-banner">
@@ -106,118 +108,72 @@
 			</header>
 
 			<!-- end:header-top -->
-			<div class="fh5co-hero">
-				<div class="fh5co-overlay"></div>
-				<div class="fh5co-cover" data-stellar-background-ratio="0.5"
-					style="background-image: url(/images/cover_bg_1.jpg);">
-					<div class="desc">
-						<div class="container">
-							<div class="col-sm-6 col-md-5">
-								<!-- <a href="index.html" id="main-logo">Travel</a> -->
-								<div class="tabulation animate-box">
-									<div role="tabpanel" class="tab-pane" id="hotels">
-										<!--여기에 게시글이 들어갈 예정!-->
-										<h1 class="text-center" id="recruitment-title">Title</h1>
-										<div id="recruitment">
-											<div id="writer-info" class="text-center" style="color: black;">Writer Info
-											</div>
-											<div id="recruitment-place" class="text-center" style="color: black;">Place
-											</div>
-											<div id="recruitment-image" class="text-center" style="color: black;">
-											</div>
-											<div id="recruitment-content" class="text-center" style="color: black;">
-												content</div>
-											<div id="recruitment-period" class="text-center" style="color: black;">
-												period</div>
-											<div id="recruitment-cost" class="text-center" style="color: black;">cost
-											</div>
-											<div id="recruitment-participant" class="text-center" style="color: black;">
-												participant_max</div>
-											<div id="recruitment-buttons">
-												<div id="recruitment-edit-button">
-													<button type="button" style="color: black;"
-														onclick="recruitmentEdit()">수정</button>
-												</div>
-												<div id="recruitment-delete-button">
-													<button type="button" style="color: black;"
-														onclick="recruitmentDelete()">삭제</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- </div> -->
-								</div>
+			<div>
+				<div class="container">
+					<div class="animate-box" id="recruitment-card">
+						<div id="recruitment-image" class="text-center">
+						</div>
+						<h1 class="text-center" id="recruitment-title" style="color: black;">Title</h1>
+						<div id="recruitment" class="col-md-9">
+							<div id="recruitment-buttons">
 							</div>
 						</div>
+						<div class="col-md-3">
+							<div id="writer-info" style="color: black;">Writer Info
+							</div>
+						</div>
+						<div id="participant" class="col-md-3"></div>
 					</div>
 				</div>
+				<div id="recruitment-button" style="margin-left: 21%; display: none;">
+					<button class="btn btn-primary btn-outline" type="button" style="color: black;"
+						onclick="recruitmentEdit()">수정</button>
+					<button class="btn btn-primary btn-outline" type="button" style="color: black;"
+						onclick="recruitmentDelete()">삭제</button>
+				</div>
+				<div style="height:50px;"></div>
 			</div>
 		</div>
-		<div id=" fh5co-testimonial">
+		<div id=" fh5co-testimonial" style="margin-top: 3%;">
 			<div class="container">
-				<div class="row animate-box" id="applicant-join">
-					<div class="col-7">
-						<input type="text" id="new-join" class="form-control" placeholder="Appeal">
-					</div>
-					<div class="col">
-						<button type="button" class="btn btn-primary" onclick="submitJoin()">신청</button>
+				<div class="row animate-box" id="applicant-join" style="margin-bottom: 2%;">
+					<div class="col-md-9">
+						<input type="text" id="new-join" class="form-control" placeholder="Appeal"
+							style="width: 90%; display: inline;">
+						<input type="button" class="btn btn-primary" onclick="submitJoin()" value="신청">
 					</div>
 				</div>
-				<div id="applicant">
-					<div id="applicant-count" style="color:black">신청자 수</div>
+				<div id="applicant" class="col-md-9">
+					<div id="applicant-count" style="color:black"></div>
 					<div id="applicant-list" style="color:black">신청자
 					</div>
 				</div>
-				<div id="participant">
+				<!-- <div id="participant">
 					<div id="participant-count" style="color:black">참가자 수</div>
 					<div id="participant-list" style="color:black">참가자
 					</div>
-					<!-- <div class="row animate-box">
-						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-							<h2>Happy Clients</h2>
-						</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div id="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center">
+						<p class="fh5co-social-icons">
+							<a href="#"><i class="icon-twitter2"></i></a>
+							<a href="#"><i class="icon-facebook2"></i></a>
+							<a href="#"><i class="icon-instagram"></i></a>
+							<a href="#"><i class="icon-dribbble2"></i></a>
+							<a href="#"><i class="icon-youtube"></i></a>
+						</p>
+						Shared by <i class="fa fa-love"></i><a href="https://bootstrapthemes.co">BootstrapThemes</a>
 					</div>
-					<div class="row">
-						<div class="col-md-4">
-							<div class="box-testimony animate-box">
-								<blockquote>
-									<span class="quote"><span><i class="icon-quotes-right"></i></span></span>
-									<p>&ldquo;Far far away, behind the word mountains,
-										far from the countries Vokalia
-										and Consonantia, there live the blind texts.
-										Separated they live in
-										Bookmarksgrove right at the coast of the
-										Semantics, a large language
-										ocean.&rdquo;</p>
-								</blockquote>
-								<p class="author">John Doe, CEO <a href="http://freehtml5.co/"
-										target="_blank">FREEHTML5.co</a> <span class="subtext">Creative
-										Director</span>
-								</p>
-							</div>
-						</div>
-					</div> -->
 				</div>
 			</div>
 		</div>
-		<footer>
-			<div id="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3 text-center">
-							<p class="fh5co-social-icons">
-								<a href="#"><i class="icon-twitter2"></i></a>
-								<a href="#"><i class="icon-facebook2"></i></a>
-								<a href="#"><i class="icon-instagram"></i></a>
-								<a href="#"><i class="icon-dribbble2"></i></a>
-								<a href="#"><i class="icon-youtube"></i></a>
-							</p>
-							Shared by <i class="fa fa-love"></i><a href="https://bootstrapthemes.co">BootstrapThemes</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
+	</footer>
 	</div>
 	<!-- END fh5co-page -->
 
@@ -252,7 +208,6 @@
 
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
-	<script src="recruitments_detail.js" defer></script>
 
 </body>
 
