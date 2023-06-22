@@ -1,14 +1,15 @@
-const proxy = 'http://127.0.0.1:8000';
+import { proxy } from "../proxy.js";
+
 
 function loadPlace(e) {
-    imageDict = {};
+    let imageDict = {};
     imageDict[1] = 'background-image: url(/images/625.jpg);';
     imageDict[2] = 'background-image: url(/images/haeundae.jpg);';
     imageDict[3] = 'background-image: url(/images/hanra.png);';
     imageDict[4] = 'background-image: url(/images/panmunjeom.JPG);';
     imageDict[5] = 'background-image: url(/images/seokguram.jpeg);';
 
-    sourceDict = {}
+    let sourceDict = {}
     sourceDict[1] = '전쟁기념관(https://www.warmemo.or.kr/)';
     sourceDict[2] = '부산광역시(https://www.busan.go.kr/index)';
     sourceDict[3] = '제주특별자치도청(https://www.jeju.go.kr/index.htm)';
@@ -100,3 +101,6 @@ function appendResult(data) {
     `
 
 }
+
+window.loadPlace = loadPlace
+window.loadData = loadData
