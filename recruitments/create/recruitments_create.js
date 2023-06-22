@@ -1,4 +1,5 @@
-const proxy = "http://127.0.0.1:8000"
+import { proxy } from "../../proxy.js"
+// const proxy = "http://127.0.0.1:8000"
 // const proxy = "https://api.bechol.com"
 const front_proxy = "http://127.0.0.1:5500"
 
@@ -15,15 +16,15 @@ async function postRecruitment() {
     const content = document.getElementById("content").value
     const image = document.getElementById("image").files[0]
 
-    year = dateStart.split('/')[2]
-    month = dateStart.split('/')[0]
-    day = dateStart.split('/')[1]
-    departure = `${year}-${month}-${day}`
+    let year = dateStart.split('/')[2]
+    let month = dateStart.split('/')[0]
+    let day = dateStart.split('/')[1]
+    let departure = `${year}-${month}-${day}`
 
     year = dateEnd.split('/')[2]
     month = dateEnd.split('/')[0]
     day = dateEnd.split('/')[1]
-    arrival = `${year}-${month}-${day}`
+    let arrival = `${year}-${month}-${day}`
 
     console.log(title, place, departure, arrival, cost, participant, content, image)
 
@@ -77,3 +78,5 @@ async function setThumbnail() {
         }
     })
 }
+
+window.postRecruitment = postRecruitment

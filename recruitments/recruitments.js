@@ -1,16 +1,17 @@
-const proxy = "http://127.0.0.1:8000"
+import { proxy } from "../proxy.js"
+// const proxy = "http://127.0.0.1:8000"
 // const proxy = "https://api.bechol.com"
 const front_proxy = "http://127.0.0.1:5500"
 
 
 window.onload = async function () {
     const pageParams = new URLSearchParams(window.location.search)
-    currentPage = pageParams.get('page')
+    let currentPage = pageParams.get('page')
     if (currentPage == null) {
         currentPage = 1
     }
 
-    recruitments = await getRecruitments(currentPage)
+    let recruitments = await getRecruitments(currentPage)
     console.log(recruitments)
 
     loadRecruitments(recruitments)
@@ -28,8 +29,8 @@ async function loadRecruitments(recruitments) {
         template.setAttribute("onclick", `recruitmentDetail(${recruitment.id})`)
 
         let imagePath = "/images/place-1.jpg"
-        departure = recruitment.departure.split('T')[0]
-        arrival = recruitment.arrival.split('T')[0]
+        let departure = recruitment.departure.split('T')[0]
+        let arrival = recruitment.arrival.split('T')[0]
 
         if (recruitment.image) {
             imagePath = recruitment.image;
@@ -111,3 +112,5 @@ async function pagination(recruitments, currentPage) {
     pageButton.appendChild(nextButton)
 }
 
+
+window.recruitmentDetail = recruitmentDetail
