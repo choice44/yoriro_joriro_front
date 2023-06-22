@@ -22,67 +22,34 @@ async function loadRecruitments(recruitments) {
     const recruitment_list = document.getElementById("recruitment-list")
 
     recruitments.results.forEach((recruitment) => {
-        const newCard = document.createElement("div")
-        newCard.setAttribute("class", "col-lg-4 col-md-4 col-sm-6")
-        newCard.setAttribute("onclick", `recruitmentDetail(${recruitment.id})`)
+        const template = document.createElement("div");
+        template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated");
+        template.setAttribute("data-animate-effect", "fadeIn");
+        template.setAttribute("onclick", `recruitmentDetail(${recruitment.id})`)
 
-        const newCard_01 = document.createElement("div")
-        newCard_01.setAttribute("class", "fh5co-blog animate-box")
-
-        newCard.appendChild(newCard_01)
-
-        const recruitmentUser = document.createElement("h3")
-        recruitmentUser.innerText = recruitment.user.nickname
-        newCard.appendChild(recruitmentUser)
-
-        const recruitmentPeriod = document.createElement("h4")
-        recruitmentPeriod.setAttribute("align", "left")
+        let imagePath = "/images/place-1.jpg"
         departure = recruitment.departure.split('T')[0]
         arrival = recruitment.arrival.split('T')[0]
-        recruitmentPeriod.innerText = departure + ' ~ ' + arrival
-        newCard.appendChild(recruitmentPeriod)
 
-        const participantCount = document.createElement("h4")
-        participantCount.setAttribute("align", "right")
-        participant_max = recruitment.participant_max
-        participantCount.innerText = recruitment.participant.length + '/' + participant_max
-        newCard.appendChild(participantCount)
-
-        const recruitmentImage = document.createElement("img")
-        if (recruitment.image != null) {
-            recruitmentImage.setAttribute("src", `${recruitment.image}`)
+        if (recruitment.image) {
+            imagePath = recruitment.image;
         } else {
-            recruitmentImage.setAttribute("src", `../images/car-2.jpg`)
+            imagePath = "/images/car-2.jpg"
         }
-        recruitmentImage.setAttribute("class", "img-responsive")
-        newCard.appendChild(recruitmentImage)
 
-        const newCard_02 = document.createElement("div")
-        newCard_02.setAttribute("class", "blog-text")
-        newCard.appendChild(newCard_02)
-
-        const newCard_03 = document.createElement("div")
-        newCard_03.setAttribute("class", "prod-title")
-        newCard_02.appendChild(newCard_03)
-
-        const newCardTitle = document.createElement("h3")
-        newCardTitle.setAttribute("class", "card-title")
-        newCardTitle.innerText = recruitment.title
-        newCard_03.appendChild(newCardTitle)
-
-        const postDate = document.createElement("span")
-        postDate.setAttribute("class", "posted_by")
-        created_at = recruitment.created_at.split('T')
-        created_date = created_at[0]
-        created_time = created_at[1].split('.')[0]
-        postDate.innerText = created_date + ', ' + created_time
-        newCard_03.appendChild(postDate)
-
-        const content = document.createElement("p")
-        content.innerText = recruitment.content
-        newCard_03.appendChild(content)
-
-        recruitment_list.appendChild(newCard)
+        template.innerHTML = `
+        <div><img src="${imagePath}" alt="여행루트 게시글 이미지" class="img-responsive recruitment-image-thumbnail">
+            <div class="desc">
+                <span></span>
+                <h3>${recruitment.title}</h3>
+                <span>${recruitment.place}</span>
+                <span>${departure + ' ~ ' + arrival}</span>
+                <span>${recruitment.participant.length + '/' + recruitment.participant_max}</span>
+                <!--<span class="price">${recruitment.title}</span>-->
+                <a class="btn btn-primary btn-outline" href="#">지원하기 <i class="icon-arrow-right22"></i></a>
+            </div>
+        </div>`
+        recruitment_list.appendChild(template)
     })
 }
 
@@ -106,39 +73,41 @@ async function getRecruitments(page) {
 
 async function pagination(recruitments, currentPage) {
     const pageButton = document.getElementById("pagination")
-    const buttons = document.createElement("div")
 
-    const previousButton = document.createElement("button")
+    const previousButton = document.createElement("a")
+    previousButton.setAttribute("class", "btn btn-primary btn-outline")
     previousButton.innerText = "이전 페이지"
 
-    if (recruitments.previous != null) {
-        previousButton.addEventListener("click", function () {
-            const prevPage = currentPage - 1
-            window.location.href = `recruitments.html?page=${prevPage}`
-        });
-    } else {
-        previousButton.disabled = true;
+    previousButton.addEventListener("click", function () {
+        const prevPage = currentPage - 1
+        window.location.href = `recruitments.html?page=${prevPage}`
+    });
+
+    if (recruitments.previous == null) {
+        previousButton.style.display = "none"
+    }
+
+    const nextButton = document.createElement("a")
+    nextButton.setAttribute("class", "btn btn-primary btn-outline")
+    nextButton.innerText = "다음 페이지"
+
+    nextButton.addEventListener("click", function () {
+        const nextPage = currentPage + 1
+        window.location.href = `recruitments.html?page=${nextPage}`
+    });
+
+    if (recruitments.next == null) {
+        nextButton.style.display = "none"
     }
 
     const currentPageShow = document.createElement("button")
+    currentPageShow.setAttribute("id", "current-page")
+    currentPageShow.setAttribute("class", "btn")
     currentPageShow.innerText = currentPage
     currentPageShow.disabled = true;
 
-    const nextButton = document.createElement("button")
-    nextButton.innerText = "다음 페이지"
-
-    if (recruitments.next != null) {
-        nextButton.addEventListener("click", function () {
-            const nextPage = currentPage + 1
-            window.location.href = `recruitments.html?page=${nextPage}`
-        });
-    } else {
-        nextButton.disabled = true;
-    }
-
-    buttons.appendChild(previousButton)
-    buttons.appendChild(currentPageShow)
-    buttons.appendChild(nextButton)
-    pageButton.appendChild(buttons)
+    pageButton.appendChild(previousButton)
+    pageButton.appendChild(currentPageShow)
+    pageButton.appendChild(nextButton)
 }
 
