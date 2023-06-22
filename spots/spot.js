@@ -1,4 +1,5 @@
-const proxy = 'http://127.0.0.1:8000';
+import { proxy } from '/proxy.js';
+// const proxy = 'http://127.0.0.1:8000';
 // const proxy = 'https://api.bechol.com';
 const token = localStorage.getItem('access')
 
@@ -87,7 +88,7 @@ writeBtn.addEventListener("click", () => {
 
     // 로그인한 사용자만 리뷰 작성 가능
     if (token) {
-        window.location.href = `/reviews/create/?id=${urlParams}`;
+        window.location.href = `/reviews/create/index.html?id=${urlParams}`;
     }
     else {
         alert("로그인한 사용자만 작성할 수 있습니다!")

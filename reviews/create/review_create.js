@@ -1,7 +1,6 @@
 import { loadSpotForReview, } from '/reviews/review.js';
+import { proxy } from '/proxy.js';
 
-const proxy = 'http://127.0.0.1:8000';
-// const proxy = 'https://api.bechol.com';
 const token = localStorage.getItem('access')
 
 window.onload = () => {
@@ -61,6 +60,7 @@ async function createReview(formData) {
 
         const data = await response.json();
         console.log(data[0]["message"]);
+        location.replace('/reviews/list/index.html')
 
     } catch (error) {
         console.error('Error:', error);
