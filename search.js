@@ -1,5 +1,4 @@
-const proxy = 'http://127.0.0.1:8000';
-// const proxy = 'https://api.bechol.com';
+import { proxy } from "/proxy.js";
 
 
 var cnt = new Array();
@@ -22,15 +21,15 @@ cnt[15] = new Array("전체", "고창군", "군산시", "김제시", "남원시"
 cnt[16] = new Array("전체", "강진군", "고흥군", "곡성군", "광양시", "구례군", "나주시", "담양군", "목포시", "무안군", "보성군", "순천시", "신안군", "여수시", "영광군", "영암군", "완도군", "장성군", "장흥군", "진도군", "함평군", "해남군", "화순군");
 cnt[17] = new Array("전체", "남제주군", "북제주군", "서귀포시", "제주시");
 
-function change(add) {
+function changeSigunguForSpotSearch(add) {
 
     const sel = document.getElementById("search_select_sigungu");
     /* 옵션메뉴삭제 */
-    for (i = sel.length - 1; i > 0; i--) {
+    for (let i = sel.length - 1; i > 0; i--) {
         sel.options[i] = null;
     };
     /* 옵션박스추가 */
-    for (i = 1; i < cnt[add].length; i++) {
+    for (let i = 1; i < cnt[add].length; i++) {
         sel.options[i] = new Option(cnt[add][i], i);
     };
 
@@ -95,12 +94,12 @@ async function viewSpotList() {
             if (!spot.rate) {
                 spot.rate = "";
             } else {
-                spot.rate = spot.rate.toFixed(1);
+                spot.rate = "⭐" + spot.rate.toFixed(1);
             };
 
             // Spot 카드 생성
             template.innerHTML = `
-        <div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+        <div onclick="location.href='/spots/index.html?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
             <div class="desc" style="padding:10px;">
                 <h3>${spot.title} <span style="display:inline; color:#F78536">${spot.rate}</span></h3>
                 <span>${spot.addr1}</span>
@@ -133,8 +132,8 @@ async function viewSpotList() {
 async function viewMoreSpotList(next) {
 
     // http://127.0.0.1:8000 -> proxy
-    orignal_next_url = next.split('/')
-    new_next_url = proxy + '/' + orignal_next_url[3] + '/' + orignal_next_url[4]
+    const orignal_next_url = next.split('/');
+    const new_next_url = proxy + '/' + orignal_next_url[3] + '/' + orignal_next_url[4];
 
     const more_button = document.getElementById("spot_search_more_button");
     more_button.remove();
@@ -168,7 +167,7 @@ async function viewMoreSpotList(next) {
 
         // Spot 카드 생성
         template.innerHTML = `
-        <div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+        <div onclick="location.href='/spots/index.html?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
             <div class="desc" style="padding:10px;">
                 <h3>${spot.title} <span style="display:inline; color:#F78536">${spot.rate}</span></h3>
                 <span>${spot.addr1}</span>
@@ -193,3 +192,7 @@ async function viewMoreSpotList(next) {
 
     };
 };
+
+window.changeSigunguForSpotSearch = changeSigunguForSpotSearch
+window.viewSpotList = viewSpotList
+window.viewMoreSpotList = viewMoreSpotList

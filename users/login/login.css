@@ -77,6 +77,7 @@ input {
   padding-left: 16px;
   font-size: 16px;
 }
+
 .login-form input:first-child {
   margin-bottom: 10px;
 }
@@ -89,20 +90,20 @@ input {
   display: none;
 }
 
-.login-status input[id="chkbox"] + label em {
+.login-status input[id="chkbox"]+label em {
   display: inline-block;
   width: 22px;
   height: 22px;
   margin-right: 8px;
-  background-image: url("../images/check-box.png");
+  background-image: url("/images/check-box.png");
   background-size: cover;
   vertical-align: sub;
   cursor: pointer;
   transition: all ease 0.2s;
 }
 
-.login-status input[id="chkbox"]:checked + label em {
-  background-image: url("../images/check-box-blue.png");
+.login-status input[id="chkbox"]:checked+label em {
+  background-image: url("/images/check-box-blue.png");
 }
 
 .login-form .login-btn {
@@ -172,7 +173,7 @@ input {
   height: 28px;
   position: absolute;
   left: 10px;
-  background: url("../images/css_sprites_2x.png") no-repeat;
+  background: url("/images/css_sprites_2x.png") no-repeat;
   background-size: 76px;
 }
 
@@ -183,6 +184,7 @@ input {
 .google-btn {
   border: 1px solid #767676;
 }
+
 .google-btn::before {
   background-position: -43px -43px;
 }
@@ -190,6 +192,7 @@ input {
 .facebook-btn {
   border: 1px solid #2d9cdb;
 }
+
 .facebook-btn::before {
   background-position: -5px -43px;
 }
@@ -197,6 +200,7 @@ input {
 .naver-btn {
   border: 1px solid #00bf18;
 }
+
 .naver-btn::before {
   background-position: -43px -5px;
 }
@@ -204,6 +208,7 @@ input {
 .kakao-btn {
   border: 1px solid #f2c94c;
 }
+
 .kakao-btn::before {
   background-position: -5px -5px;
 }

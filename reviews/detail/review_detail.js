@@ -1,4 +1,5 @@
-const proxy = 'http://127.0.0.1:8000';
+import { proxy } from '/proxy.js';
+
 
 window.onload = async function loadReviewDetail() {
     const urlParams = new URLSearchParams(window.location.search).get('id');
@@ -118,7 +119,7 @@ async function handleDeleteReview() {
         })
         if (response.status === 204) {
             alert("삭제 완료!")
-            location.replace('/reviews/list/')
+            location.replace('/reviews/list/index.html')
         } else {
             alert("권한이 없습니다.")
         }
@@ -161,7 +162,7 @@ function checkAuthor(author_id, review_id) {
             temp_update_button.setAttribute("class", "btn btn-primary btn-outline btn-lg");
             temp_update_button.setAttribute("value", "리뷰 수정하기");
             temp_update_button.setAttribute("style", "float:right; margin-right:15px; margin-top: 25px;");
-            temp_update_button.setAttribute("onclick", `location.href='/reviews/update/?id=${review_id}'`)
+            temp_update_button.setAttribute("onclick", `location.href='/reviews/update/index.html?id=${review_id}'`)
             author_only_buttons.appendChild(temp_update_button);
 
         };
@@ -174,7 +175,6 @@ const review_like_button = document.getElementById("review_detail_like");
 
 review_like_button.addEventListener('click', async function () {
     if (localStorage.getItem("access")) {
-        review_like_button.classList.toggle('liked');
 
         const review_id = new URLSearchParams(window.location.search).get('id');
 
@@ -189,11 +189,8 @@ review_like_button.addEventListener('click', async function () {
             method: 'POST',
         })
 
-        // const response_json = await response.json()
-
-        // console.log(response_json)
-
         if (response.status == 200) {
+            review_like_button.classList.toggle('liked');
             const likeCount = document.getElementById("review_detail_like_count");
             const current_like_count = likeCount.innerText
             if (review_like_button.className == "fi fi-ss-heart") {
@@ -201,6 +198,8 @@ review_like_button.addEventListener('click', async function () {
             } else {
                 likeCount.innerHTML = `${Number(current_like_count) + 1}`
             }
+        } else {
+            alert("잠시 후 다시 시도해주세요")
         }
     } else {
         alert("로그인이 필요합니다.")
