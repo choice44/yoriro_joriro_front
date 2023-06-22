@@ -3,8 +3,8 @@ import { SOCIAL_AUTH_KAKAO_CLIENT_ID, SOCIAL_AUTH_GOOGLE_CLIENT_ID } from "/secr
 
 checkLogin();
 
-const KAKAO_REDIRECT_URI = "http://127.0.0.1:5500/users/kakaoauthcallback/";
-const GOOGLE_REDIRECT_URI = "http://127.0.0.1:5500/users/googleauthcallback/";
+const KAKAO_REDIRECT_URI = "https://cdn.bechol.com/users/kakaoauthcallback/index.html";
+const GOOGLE_REDIRECT_URI = "https://cdn.bechol.com/users/googleauthcallback/index.html";
 
 
 window.onload = function () {
