@@ -1,4 +1,7 @@
-document.addEventListener('DOMContentLoaded', function () {
+const proxy = "https://api.bechol.com"
+
+
+document.addEventListener('DOMContentLoaded', async function () {
 
   const profile = document.querySelector('#profile')
 
@@ -9,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
         <li><a onclick="handleLogout()">로그아웃</a></li>
       `
   }
+
+  tokenRefresh()
 })
 
 
@@ -18,4 +23,27 @@ function handleLogout() {
   localStorage.removeItem("payload");
 
   location.reload();
+}
+
+async function tokenRefresh() {
+  const refresh = localStorage.getItem("refresh")
+
+  if (refresh) {
+    const response = await fetch(`${proxy}/users/api/token/refresh/`, {
+      headers: {
+        "content-type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        refresh: refresh
+      })
+    });
+
+    if (response.status == 200) {
+      const response_json = await response.json();
+      localStorage.setItem("access", response_json.access);
+    } else {
+      handleLogout()
+    }
+  }
 }
