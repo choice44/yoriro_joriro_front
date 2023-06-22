@@ -37,7 +37,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     recruitmentTitle.innerText = `${response.title}`
 
     const recruitmentLoad = document.getElementById("recruitment")
-    recruitmentLoad.value = ""
+    recruitmentLoad.innerHTML = ""
 
     const template = document.createElement("div")
     template.innerHTML = ""
@@ -81,6 +81,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     }
 
     const recruitmentWriterInfo = document.getElementById("writer-info")
+    recruitmentWriterInfo.innerHTML = ""
     recruitmentWriterInfo.innerHTML = `
         <table width="80%" style="margin-top:40%;margin-left:25%;">
             <tr>
@@ -100,6 +101,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     console.log("participant", participant)
 
     const participantCard = document.getElementById("participant")
+    participantCard.innerHTML = ""
     const participantTable = document.createElement("table")
     participantTable.innerHTML = ""
     // participantTable.setAttribute("border", "1")
@@ -185,7 +187,7 @@ async function loadJoin(recruitmentId) {
 
     const result = await checkAuthor(recruitmentId)
     const joinReset = document.getElementById("applicant")
-    joinReset.value = ""
+    // joinReset.innerHTML = ""
 
     const applicantJoinCreate = document.getElementById("applicant-join")
     if (!isLoggedIn()) {
