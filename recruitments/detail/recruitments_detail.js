@@ -1,5 +1,5 @@
-// import { proxy } from "../proxy.js";
-const proxy = "http://127.0.0.1:8000"
+import { proxy } from "../../proxy.js"
+// const proxy = "http://127.0.0.1:8000"
 // const proxy = "https://api.bechol.com"
 const front_proxy = "http://127.0.0.1:5500"
 
@@ -19,6 +19,7 @@ window.onload = async function () {
 
 async function loadRecruitmentDetail(recruitmentId) {
     const response = await getRecruitment(recruitmentId)
+    let imagePath
 
     if (response.image) {
         imagePath = proxy + response.image;
@@ -41,9 +42,9 @@ async function loadRecruitmentDetail(recruitmentId) {
 
     const template = document.createElement("div")
     template.innerHTML = ""
-    departure = response.departure.split('T')[0]
-    arrival = response.arrival.split('T')[0]
-    updated_at = response.updated_at.split('T')[0] + " " + response.updated_at.split('T')[1].split('.')[0]
+    let departure = response.departure.split('T')[0]
+    let arrival = response.arrival.split('T')[0]
+    let updated_at = response.updated_at.split('T')[0] + " " + response.updated_at.split('T')[1].split('.')[0]
     template.innerHTML = `
         <table width="100%" style="text-align:center; margin-right:5%; margin-top:5%; border: 1px solid #444444; border-collapse:separate; border-radius:8px;">
             <tr height=60px>
@@ -71,7 +72,7 @@ async function loadRecruitmentDetail(recruitmentId) {
         </div>`
     recruitmentLoad.appendChild(template)
 
-    gender = response.user.gender
+    let gender = response.user.gender
     if (gender == "F") {
         gender = "여성"
     } else if (gender == "M") {
@@ -97,7 +98,7 @@ async function loadRecruitmentDetail(recruitmentId) {
             </tr>
         </table>`
 
-    participant = response.participant
+    let participant = response.participant
     console.log("participant", participant)
 
     const participantCard = document.getElementById("participant")
@@ -155,7 +156,7 @@ async function getRecruitment(recruitmentId) {
     })
 
     if (response.status == 200) {
-        response_json = await response.json()
+        let response_json = await response.json()
         return response_json
     } else {
         alert(response.status)
@@ -183,7 +184,7 @@ async function getApplicant(recruitmentId) {
 async function loadJoin(recruitmentId) {
     const applicantResponse = await getApplicant(recruitmentId);
     const accessToken = localStorage.getItem('access')
-    userId = getPKFromAccessToken(accessToken)
+    let userId = getPKFromAccessToken(accessToken)
 
     const result = await checkAuthor(recruitmentId)
     const joinReset = document.getElementById("applicant")
@@ -206,8 +207,8 @@ async function loadJoin(recruitmentId) {
         const { user, appeal, acceptence, id } = applicant
         const { nickname, age, gender } = user
 
-        genderPrint = ""
-        acceptencePrint = ""
+        let genderPrint = ""
+        let acceptencePrint = ""
 
         if (gender == "M") {
             genderPrint = "남성"
@@ -311,7 +312,7 @@ async function checkAuthor(recruitmentId) {
     const response = await getRecruitment(recruitmentId)
 
     const accessToken = localStorage.getItem('access')
-    userId = getPKFromAccessToken(accessToken);
+    let userId = getPKFromAccessToken(accessToken);
 
     if (userId == response.user.id) {
         return true
@@ -326,13 +327,13 @@ function getPKFromAccessToken(accessToken) {
     const payloadBase64 = tokenParts[1]    // 나눠진 토큰중 1번 인덱스에 해당하는 값을 저장
 
     const payload = JSON.parse(atob(payloadBase64))
-    userId = payload.user_id
+    let userId = payload.user_id
     return userId
 }
 
 
 async function recruitmentEdit() {
-    window.location.href = `recruitments_update.html?id=${recruitmentId}`
+    location.href = `${front_proxy}/recruitments/update/index.html?id=${recruitmentId}`
 }
 
 
@@ -347,7 +348,7 @@ async function recruitmentDelete() {
         })
         if (response.status === 204) {
             alert("삭제 완료!")
-            location.replace('recruitments.html')
+            location.replace('../index.html')
         } else {
             alert("권한이 없습니다.")
         }
@@ -368,10 +369,9 @@ async function acceptApplicant(applicantId) {
     })
 
     if (response.status == 200) {
-        response_json = await response.json()
+        let response_json = await response.json()
         loadRecruitmentDetail(recruitmentId)
         loadJoin(recruitmentId)
-        loadParticipant(recruitmentId)
         return response_json
     } else {
         alert(response.status)
@@ -392,10 +392,9 @@ async function rejectApplicant(applicantId) {
     })
 
     if (response.status == 200) {
-        response_json = await response.json()
+        let response_json = await response.json()
         loadRecruitmentDetail(recruitmentId)
         loadJoin(recruitmentId)
-        loadParticipant(recruitmentId)
         return response_json
     } else {
         alert(response.status)
@@ -406,8 +405,6 @@ async function rejectApplicant(applicantId) {
 async function editJoin(applicantId) {
     let token = localStorage.getItem("access")
     const hideEditButton = document.getElementById(`edit-appeal-button-${applicantId}`)
-    // hideEditButton.style.display = "none"
-    // hideEditButton.setAttribute("style", "display:none")
 
     const joinCard = document.getElementById(`appeal-${applicantId}`)
     const textBox = document.createElement("input")
@@ -456,9 +453,18 @@ async function deleteJoin(applicantId) {
             alert("삭제 완료!")
             loadRecruitmentDetail(recruitmentId)
             loadJoin(recruitmentId)
-            loadParticipant(recruitmentId)
         } else {
             alert("권한이 없습니다.")
         }
     }
 }
+
+
+window.acceptApplicant = acceptApplicant
+window.rejectApplicant = rejectApplicant
+window.submitJoin = submitJoin
+window.getJoin = getJoin
+window.editJoin = editJoin
+window.deleteJoin = deleteJoin
+window.recruitmentEdit = recruitmentEdit
+window.recruitmentDelete = recruitmentDelete

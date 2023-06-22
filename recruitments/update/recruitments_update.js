@@ -1,4 +1,5 @@
-const proxy = "http://127.0.0.1:8000"
+import { proxy } from "../../proxy.js"
+// const proxy = "http://127.0.0.1:8000"
 // const proxy = "https://api.bechol.com"
 const front_proxy = "http://127.0.0.1:5500"
 
@@ -119,7 +120,7 @@ export async function updateRecruitment() {
 
         if (response.status == 200) {
             alert("수정 완료")
-            window.location.replace(`recruitments_detail.html?recruitment_id=${recruitment_id}`)
+            window.location.replace(`/recruitments/detail/index.html?recruitment_id=${recruitment_id}`)
         }
     }
 

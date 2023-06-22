@@ -1,16 +1,17 @@
-const proxy = "http://127.0.0.1:8000"
+import { proxy } from "../proxy.js"
+// const proxy = "http://127.0.0.1:8000"
 // const proxy = "https://api.bechol.com"
 const front_proxy = "http://127.0.0.1:5500"
 
 
 window.onload = async function () {
     const pageParams = new URLSearchParams(window.location.search)
-    currentPage = pageParams.get('page')
+    let currentPage = pageParams.get('page')
     if (currentPage == null) {
         currentPage = 1
     }
 
-    recruitments = await getRecruitments(currentPage)
+    let recruitments = await getRecruitments(currentPage)
     console.log(recruitments)
 
     loadRecruitments(recruitments)
@@ -28,8 +29,8 @@ async function loadRecruitments(recruitments) {
         template.setAttribute("onclick", `recruitmentDetail(${recruitment.id})`)
 
         let imagePath = "/images/place-1.jpg"
-        departure = recruitment.departure.split('T')[0]
-        arrival = recruitment.arrival.split('T')[0]
+        let departure = recruitment.departure.split('T')[0]
+        let arrival = recruitment.arrival.split('T')[0]
 
         if (recruitment.image) {
             imagePath = recruitment.image;
@@ -56,7 +57,7 @@ async function loadRecruitments(recruitments) {
 
 function recruitmentDetail(recruitment_id) {
     console.log(recruitment_id)
-    window.location.href = `${front_proxy}/recruitments/recruitments_detail.html?recruitment_id=${recruitment_id}`
+    window.location.href = `${front_proxy}/recruitments/detail/index.html?recruitment_id=${recruitment_id}`
 }
 
 
@@ -80,7 +81,7 @@ async function pagination(recruitments, currentPage) {
 
     previousButton.addEventListener("click", function () {
         const prevPage = currentPage - 1
-        window.location.href = `recruitments.html?page=${prevPage}`
+        window.location.href = `index.html?page=${prevPage}`
     });
 
     if (recruitments.previous == null) {
@@ -93,7 +94,7 @@ async function pagination(recruitments, currentPage) {
 
     nextButton.addEventListener("click", function () {
         const nextPage = currentPage + 1
-        window.location.href = `recruitments.html?page=${nextPage}`
+        window.location.href = `index.html?page=${nextPage}`
     });
 
     if (recruitments.next == null) {
@@ -111,3 +112,5 @@ async function pagination(recruitments, currentPage) {
     pageButton.appendChild(nextButton)
 }
 
+
+window.recruitmentDetail = recruitmentDetail

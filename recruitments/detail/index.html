@@ -66,8 +66,10 @@
 	<link rel="stylesheet" href="/css/style.css">
 
 
+
 	<!-- Modernizr JS -->
 	<script src="/js/modernizr-2.6.2.min.js"></script>
+	<script type="module" src="recruitments_detail.js" defer></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -76,7 +78,7 @@
 </head>
 
 <body>
-	<div id="fh5co-wrapper">
+	<div id="fh5co-wrapper" class="fh5co-section-gray">
 		<div id="fh5co-page">
 
 			<header id="fh5co-header-section" class="sticky-banner">
@@ -90,7 +92,7 @@
 							<ul class="sf-menu" id="fh5co-primary-menu">
 								<li><a href="vacation.html">리뷰</a></li>
 								<li><a href="hotel.html">루트</a></li>
-								<li><a href="recruitments.html">동료</a></li>
+								<li><a href="/recruitments/index.html">동료</a></li>
 								<li><a href="car.html">AI</a></li>
 								<li><a href="contact.html" class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
 									<ul class="fh5co-sub-menu">
@@ -106,112 +108,74 @@
 			</header>
 
 			<!-- end:header-top -->
-
-			<div id="fh5co-contact" class="fh5co-section-gray" style="padding-top: 80px;">
+			<div>
 				<div class="container">
-					<div class="row animate-box">
-						<div>
-							<div class="col-md-4">
-								<div class="input-field" style="color: black;">
-									<label for="from">사진</label>
-									<input type="file" class="form-control-file" id="image" />
-								</div>
-								<div style="margin-top: 25px;">
-									<img id="preview-image" src="" width="300">
-								</div>
-							</div>
-							<div class="row col-md-8">
-								<div class="col-xxs-12 col-xs-12 mt">
-									<div class="input-field">
-										<label for="from">제목</label>
-										<input type="text" class="form-control" id="title" />
-									</div>
-								</div>
-								<div class="col-xxs-12 col-xs-12 mt">
-									<div class="input-field">
-										<label for="from">여행 장소</label>
-										<input type="text" class="form-control" id="place" />
-									</div>
-								</div>
-								<div class="col-xxs-12 col-xs-6 mt alternate">
-									<div class="input-field">
-										<label for="date-start">여행 시작일</label>
-										<input type="text" class="form-control" id="date-start"
-											placeholder="mm/dd/yyyy" />
-									</div>
-								</div>
-								<div class="col-xxs-12 col-xs-6 mt alternate">
-									<div class="input-field">
-										<label for="date-end">여행 마무리일</label>
-										<input type="text" class="form-control" id="date-end"
-											placeholder="mm/dd/yyyy" />
-									</div>
-								</div>
-								<div class="col-xxs-12 col-xs-6 mt alternate">
-									<div class="input-field">
-										<label for="from">비용 (단위 : 원)</label>
-										<input type="number" class="form-control" id="cost"
-											placeholder="숫자만 입력할수 있습니다." />
-									</div>
-								</div>
-								<div class="col-xxs-12 col-xs-6 mt alternate">
-									<section>
-										<label for="class">모집 정원</label>
-										<select class="cs-select cs-skin-border" id="participant">
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
-											<option value="6">6</option>
-											<option value="7">7</option>
-											<option value="8">8</option>
-											<option value="9">9</option>
-											<option value="10">10</option>
-										</select>
-									</section>
-								</div>
-								<div class="col-xxs-12 col-xs-12 mt">
-									<div class="form-group">
-										<textarea style="resize: none;" name="" class="form-control" cols="30" rows="4"
-											placeholder="내용을 입력해주세요." id="content"></textarea>
-									</div>
-								</div>
-								<div class="col-xs-12">
-									<input type="button" class="btn btn-primary btn-block" value="수정 완료"
-										id="recruitment-update">
-								</div>
+					<div class="animate-box" id="recruitment-card">
+						<div id="recruitment-image" class="text-center">
+						</div>
+						<h1 class="text-center" id="recruitment-title" style="color: black;">Title</h1>
+						<div id="recruitment" class="col-md-9">
+							<div id="recruitment-buttons">
 							</div>
 						</div>
-						<!-- </div> -->
-
+						<div class="col-md-3">
+							<div id="writer-info" style="color: black;">Writer Info
+							</div>
+						</div>
+						<div id="participant" class="col-md-3"></div>
+					</div>
+				</div>
+				<div id="recruitment-button" style="margin-left: 21%; display: none;">
+					<button class="btn btn-primary btn-outline" type="button" style="color: black;"
+						onclick="recruitmentEdit()">수정</button>
+					<button class="btn btn-primary btn-outline" type="button" style="color: black;"
+						onclick="recruitmentDelete()">삭제</button>
+				</div>
+				<div style="height:50px;"></div>
+			</div>
+		</div>
+		<div id=" fh5co-testimonial" style="margin-top: 3%;">
+			<div class="container">
+				<div class="row animate-box" id="applicant-join" style="margin-bottom: 2%;">
+					<div class="col-md-9">
+						<input type="text" id="new-join" class="form-control" placeholder="Appeal"
+							style="width: 90%; display: inline;">
+						<input type="button" class="btn btn-primary" onclick="submitJoin()" value="신청">
+					</div>
+				</div>
+				<div id="applicant" class="col-md-9">
+					<div id="applicant-count" style="color:black"></div>
+					<div id="applicant-list" style="color:black">신청자
+					</div>
+				</div>
+				<!-- <div id="participant">
+					<div id="participant-count" style="color:black">참가자 수</div>
+					<div id="participant-list" style="color:black">참가자
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div id="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center">
+						<p class="fh5co-social-icons">
+							<a href="#"><i class="icon-twitter2"></i></a>
+							<a href="#"><i class="icon-facebook2"></i></a>
+							<a href="#"><i class="icon-instagram"></i></a>
+							<a href="#"><i class="icon-dribbble2"></i></a>
+							<a href="#"><i class="icon-youtube"></i></a>
+						</p>
+						Shared by <i class="fa fa-love"></i><a href="https://bootstrapthemes.co">BootstrapThemes</a>
 					</div>
 				</div>
 			</div>
-
-			<footer>
-				<div id="footer">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-6 col-md-offset-3 text-center">
-								<p class="fh5co-social-icons">
-									<a href="#"><i class="icon-twitter2"></i></a>
-									<a href="#"><i class="icon-facebook2"></i></a>
-									<a href="#"><i class="icon-instagram"></i></a>
-									<a href="#"><i class="icon-dribbble2"></i></a>
-									<a href="#"><i class="icon-youtube"></i></a>
-								</p>
-								Shared by <i class="fa fa-love"></i><a
-									href="https://bootstrapthemes.co">BootstrapThemes</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</footer>
-
-
-
 		</div>
-		<!-- END fh5co-page -->
+	</footer>
+	</div>
+	<!-- END fh5co-page -->
 
 	</div>
 	<!-- END fh5co-wrapper -->
@@ -244,7 +208,6 @@
 
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
-	<script type="module" src="recruitments_update.js"></script>
 
 </body>
 
