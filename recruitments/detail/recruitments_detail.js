@@ -332,7 +332,7 @@ function getPKFromAccessToken(accessToken) {
 
 
 async function recruitmentEdit() {
-    window.location.href = `recruitments_update.html?id=${recruitmentId}`
+    location.href = `${front_proxy}/recruitments/update/index.html?id=${recruitmentId}`
 }
 
 
@@ -347,7 +347,7 @@ async function recruitmentDelete() {
         })
         if (response.status === 204) {
             alert("삭제 완료!")
-            location.replace('recruitments.html')
+            location.replace('../index.html')
         } else {
             alert("권한이 없습니다.")
         }

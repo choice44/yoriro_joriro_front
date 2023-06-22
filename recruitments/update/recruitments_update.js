@@ -119,7 +119,7 @@ export async function updateRecruitment() {
 
         if (response.status == 200) {
             alert("수정 완료")
-            window.location.replace(`recruitments_detail.html?recruitment_id=${recruitment_id}`)
+            window.location.replace(`/recruitments/detail/index.html?recruitment_id=${recruitment_id}`)
         }
     }
 

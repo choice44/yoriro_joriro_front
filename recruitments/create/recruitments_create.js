@@ -50,7 +50,7 @@ async function postRecruitment() {
 
     if (response.status == 201) {
         alert("글작성 완료!")
-        window.location.replace(`${front_proxy}/recruitments/recruitments.html`)
+        window.location.replace(`${front_proxy}/recruitments/index.html`)
     } else {
         alert(response.data)
     }

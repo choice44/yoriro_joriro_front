@@ -83,14 +83,14 @@
 				<div class="container">
 					<div class="nav-header">
 						<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle dark"><i></i></a>
-						<h1 id="fh5co-logo"><a href="index.html"><img src="/images/logo_64.png"
+						<h1 id="fh5co-logo"><a href="/index.html"><img src="/images/logo_64.png"
 									alt="logo">YoriroJoriro</a></h1>
 						<!-- START #fh5co-menu-wrap -->
 						<nav id="fh5co-menu-wrap" role="navigation">
 							<ul class="sf-menu" id="fh5co-primary-menu">
 								<li><a href="vacation.html">리뷰</a></li>
 								<li><a href="hotel.html">루트</a></li>
-								<li><a href="recruitments.html">동료</a></li>
+								<li><a href="/recruitments/index.html">동료</a></li>
 								<li><a href="car.html">AI</a></li>
 								<li><a href="contact.html" class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
 									<ul class="fh5co-sub-menu">
@@ -120,7 +120,7 @@
 									<img id="preview-image" src="" width="300">
 								</div>
 							</div>
-							<div class="col-md-8">
+							<div class="row col-md-8">
 								<div class="col-xxs-12 col-xs-12 mt">
 									<div class="input-field">
 										<label for="from">제목</label>
@@ -177,11 +177,13 @@
 									</div>
 								</div>
 								<div class="col-xs-12">
-									<input type="button" class="btn btn-primary btn-block" onclick="postRecruitment()"
-										value="작성 완료">
+									<input type="button" class="btn btn-primary btn-block" value="수정 완료"
+										id="recruitment-update">
 								</div>
 							</div>
 						</div>
+						<!-- </div> -->
+
 					</div>
 				</div>
 			</div>
@@ -242,7 +244,7 @@
 
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
-	<script src="recruitments_create.js"></script>
+	<script type="module" src="recruitments_update.js"></script>
 
 </body>
 

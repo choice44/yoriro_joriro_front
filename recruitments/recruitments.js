@@ -56,7 +56,7 @@ async function loadRecruitments(recruitments) {
 
 function recruitmentDetail(recruitment_id) {
     console.log(recruitment_id)
-    window.location.href = `${front_proxy}/recruitments/recruitments_detail.html?recruitment_id=${recruitment_id}`
+    window.location.href = `${front_proxy}/recruitments/detail/index.html?recruitment_id=${recruitment_id}`
 }
 
 
@@ -80,7 +80,7 @@ async function pagination(recruitments, currentPage) {
 
     previousButton.addEventListener("click", function () {
         const prevPage = currentPage - 1
-        window.location.href = `recruitments.html?page=${prevPage}`
+        window.location.href = `index.html?page=${prevPage}`
     });
 
     if (recruitments.previous == null) {
@@ -93,7 +93,7 @@ async function pagination(recruitments, currentPage) {
 
     nextButton.addEventListener("click", function () {
         const nextPage = currentPage + 1
-        window.location.href = `recruitments.html?page=${nextPage}`
+        window.location.href = `index.html?page=${nextPage}`
     });
 
     if (recruitments.next == null) {
