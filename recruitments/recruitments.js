@@ -43,8 +43,8 @@ async function loadRecruitments(recruitments) {
                 <h3>${recruitment.title}</h3>
                 <span>${recruitment.place}</span>
                 <span>${departure + ' ~ ' + arrival}</span>
-                <span id="is-complete" style="color:${recruitment.is_complete == 0 ? 'red' : 'gray'};">${status[recruitment.is_complete]}</span>
-                <span style="color:${recruitment.participant.length == recruitment.participant_max || recruitment.is_complete != 0 ? 'gray;">모집 완료' : 'white;">모집 현황'}
+                <h3 style="color:${recruitment.is_complete == 0 ? 'red' : 'gray'};">${status[recruitment.is_complete]}</h3>
+                <span style="color:${recruitment.participant.length == recruitment.participant_max || recruitment.is_complete != 0 ? 'gray;">모집 완료 ' : 'white;">모집 현황 '}
                 <h3 style="display:inline; color:${recruitment.participant.length == recruitment.participant_max || recruitment.is_complete != 0 ? 'gray;"' : 'white;"'}>${recruitment.participant.length + '/' + recruitment.participant_max}</h3></span>
                 <a class="btn btn-primary btn-outline" href="#">지원하기 <i class="icon-arrow-right22"></i></a>
             </div>

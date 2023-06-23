@@ -181,17 +181,17 @@ async function loadJoin(recruitmentId) {
     const accessToken = localStorage.getItem('access')
     let userId = getPKFromAccessToken(accessToken)
 
-    const result = await checkAuthor(recruitmentId)
-    const joinReset = document.getElementById("applicant")
+    const result = await checkAuthor(recruitmentId);
+    const joinReset = document.getElementById("applicant");
 
     const applicantJoinCreate = document.getElementById("applicant-join")
-    if (!isLoggedIn()) {
-        applicantJoinCreate.style.display = "none"
+    if (result) {
+        applicantJoinCreate.style.display = "none";
     } else {
-        applicantJoinCreate.style.display = "block"
+        applicantJoinCreate.style.display = "block";
     }
 
-    const applicantCount = document.getElementById("applicant-count")
+    // const applicantCount = document.getElementById("applicant-count")
     const applicantList = document.getElementById("applicant-list")
     applicantList.innerHTML = ""
 
