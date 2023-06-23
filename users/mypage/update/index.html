@@ -107,63 +107,104 @@
 
 			<div id="fh5co-contact" class="fh5co-section-gray" style="padding-top:50px;">
 				<div class="container">
-					<form action="#">
+					<form>
 						<div class="row animate-box">
-							<div class="col-md-4" id="review_create_cardbox">
-								<label>다녀오신 곳은 어땠나요?</label>
-								<!-- <div class="fh5co-blog"> -->
-								<!-- <div style="height:250px;"><img class="img-responsive" src="/images/place-1.jpg"
-											alt=""></div>
+							<div class="col-md-4" id="mypage_update_cardbox">
+								<div class="fh5co-blog">
+									<div style="height:250px;" id="mypage_update_old_image">
+										<!-- <img class="img-responsive" src="/images/place-1.jpg" alt="기존 프로필 사진"> -->
+									</div>
 									<div class="blog-text">
 										<div class="prod-title">
-											<h3>장소 이름</h3>
-											<span class="price">장소 주소1</span>
+											<h3 id="mypage_update_email">이메일</h3>
 										</div>
-									</div> -->
-								<!-- </div> -->
+									</div>
+								</div>
 							</div>
 							<div class="col-md-8">
 								<div class="row">
 									<div class="col-md-6">
-										<label>평점:</label>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="닉네임"
+												id="mypage_update_nickname">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="나이"
+												id="mypage_update_age">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="password" class="form-control" placeholder="비밀번호"
+												style="height:50px;" id="mypage_update_password1">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" style="height:50px;">
+											<input type="password" class="form-control" placeholder="비밀번호 확인"
+												style="height:50px;" id="mypage_update_password2">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<label>성별:</label>
 										<select class="form-control" style="height:50px; margin-bottom:30px;"
-											id="review_update_rate">
-											<option value="1">⭐</option>
-											<option value="2">⭐⭐</option>
-											<option value="3">⭐⭐⭐</option>
-											<option value="4">⭐⭐⭐⭐</option>
-											<option value="5">⭐⭐⭐⭐⭐</option>
+											id="mypage_update_gender">
+											<option value="" selected>선택</option>
+											<option value="F" id="mypage_update_female">여성</option>
+											<option value="M" id="mypage_update_male">남성</option>
 										</select>
 									</div>
-									<div class="col-xxs-12 col-xs-6 mt alternate">
-										<div class="input-field">
-											<label for="date-start">방문 날짜:</label>
-											<input type="text" class="form-control" id="date-start"
-												placeholder="mm/dd/yyyy" />
-										</div>
+									<div class="col-md-4">
+										<label>지역:</label>
+										<select class="form-control" style="height:50px; margin-bottom:30px;"
+											onchange="changeSigunguForMypageUpdate(this.selectedIndex);"
+											id="mypage_update_area">
+											<option value="" selected>선택</option>
+											<option value="1">서울</option>
+											<option value="2">인천</option>
+											<option value="3">대전</option>
+											<option value="4">대구</option>
+											<option value="5">광주</option>
+											<option value="6">부산</option>
+											<option value="7">울산</option>
+											<option value="8">세종특별자치시</option>
+											<option value="31">경기도</option>
+											<option value="32">강원도</option>
+											<option value="33">충청북도</option>
+											<option value="34">충청남도</option>
+											<option value="35">경상북도</option>
+											<option value="36">경상남도</option>
+											<option value="37">전라북도</option>
+											<option value="38">전라남도</option>
+											<option value="39">제주도</option>
+										</select>
+									</div>
+									<div class="col-md-4">
+										<label>시군구:</label>
+										<select class="form-control" style="height:50px; margin-bottom:30px;"
+											id="mypage_update_sigungu">
+											<option value="" selected>선택</option>
+										</select>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
-											<label for="review_thumbnail" id="review_update_image_name"></label>
-											<input type="file" class="form-control" id="review_update_thumbnail"
+											<label for="mypage_update_thumbnail">새 프로필 이미지</label>
+											<input type="file" class="form-control" id="mypage_update_image"
 												style="height:50px;" accept="image/*">
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="text" class="form-control" id="review_update_title">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
 											<textarea name="" class="form-control" cols="30" rows="7"
-												id="review_update_content"></textarea>
+												placeholder="자기소개를 입력해주세요." id="mypage_update_bio"></textarea>
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="button" value="리뷰 수정하기" class="btn btn-primary btn-lg"
-												style="float:right;" id="review_update_button">
+											<input type="button" value="수정하기" class="btn btn-primary btn-lg"
+												style="float:right;" id="mypage_update_button">
 										</div>
 									</div>
 								</div>
@@ -282,7 +323,7 @@
 	<script src="/js/main.js"></script>
 
 	<!-- Review Create JS -->
-	<script src="review_update.js" type="module"></script>
+	<script src="mypage_update.js" type="module"></script>
 
 </body>
 

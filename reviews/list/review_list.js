@@ -48,6 +48,8 @@ async function loadReviewList(type) {
             // // 디폴트 이미지
             if (!review.image) {
                 review.image = "/images/place-1.jpg";
+            } else {
+                review.image = proxy + review.image
             };
 
             // Review 카드 생성
@@ -100,9 +102,7 @@ async function loadReviewList(type) {
 
 async function viewMoreReviewList(next) {
 
-    // http://127.0.0.1:8000 -> proxy
-    const orignal_next_url = next.split('/');
-    const new_next_url = proxy + '/' + orignal_next_url[3] + '/' + orignal_next_url[4] + '/' + orignal_next_url[5];
+    const new_next_url = proxy + next;
 
     const more_button = document.getElementById("review_more_button");
     more_button.remove();
@@ -123,6 +123,8 @@ async function viewMoreReviewList(next) {
         // 디폴트 이미지
         if (!review.image) {
             review.image = "/images/place-1.jpg";
+        } else {
+            review.image = proxy + review.image
         };
 
         // Review 카드 생성

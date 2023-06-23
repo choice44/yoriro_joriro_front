@@ -80,6 +80,12 @@ async function handleUpdateReview() {
     formData.append('visited_date', new_visited_date);
     formData.append('content', new_content);
     if (new_image !== undefined) {
+        let imgSize = new_image.size;
+        let maxSize = 3 * 1024 * 1024;
+        if (imgSize > maxSize) {
+            alert("이미지 용량은 3MB 이내로 등록 가능합니다.");
+            return;
+        };
         formData.append('image', new_image);
     };
 

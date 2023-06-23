@@ -105,71 +105,129 @@
 
 			<!-- end:header-top -->
 
-			<div id="fh5co-contact" class="fh5co-section-gray" style="padding-top:50px;">
+			<div id="fh5co-tours" class="fh5co-section-gray">
 				<div class="container">
-					<form action="#">
-						<div class="row animate-box">
-							<div class="col-md-4" id="review_create_cardbox">
-								<label>다녀오신 곳은 어땠나요?</label>
-								<!-- <div class="fh5co-blog"> -->
-								<!-- <div style="height:250px;"><img class="img-responsive" src="/images/place-1.jpg"
-											alt=""></div>
-									<div class="blog-text">
-										<div class="prod-title">
-											<h3>장소 이름</h3>
-											<span class="price">장소 주소1</span>
-										</div>
-									</div> -->
-								<!-- </div> -->
+					<div class="row row-bottom-padded-md">
+
+						<div class="col-md-5 animate-box">
+							<img class="img-responsive" src="/images/cover_bg_3.jpg" alt="travel">
+							<a href="#" class="flight-book">
+								<div class="plane-name">
+									<span class="p-flight">성별</span>
+								</div>
+								<div class="desc">
+									<div class="right">
+										<span class="price">
+											여성
+										</span>
+									</div>
+								</div>
+							</a>
+							<a href="#" class="flight-book">
+								<div class="plane-name">
+									<span class="p-flight">연령대</span>
+								</div>
+								<div class="desc">
+									<div class="right">
+										<span class="price">
+											60대
+										</span>
+									</div>
+								</div>
+							</a>
+							<a href="#" class="flight-book">
+								<div class="plane-name">
+									<span class="p-flight">지역</span>
+								</div>
+								<div class="desc">
+									<div class="right">
+										<span class="price">
+											서울
+										</span>
+									</div>
+								</div>
+							</a>
+							<a href="#" class="flight-book">
+								<div class="plane-name">
+									<span class="p-flight">시군구</span>
+								</div>
+								<div class="desc">
+									<div class="right">
+										<span class="price">
+											강남구
+										</span>
+									</div>
+								</div>
+							</a>
+							<div class="form-group" id="profile_author_only_buttons">
+								<input type="button" value="수정하기" class="btn btn-primary btn-outline btn-lg"
+									style="margin-right:15px; margin-top: 25px;" id="profile_update_button">
+								<input type="submit" value="탈퇴하기" class="btn btn-primary btn-lg"
+									style="background-color:#848484; margin-top: 25px;" id="profile_delete_button">
 							</div>
-							<div class="col-md-8">
-								<div class="row">
-									<div class="col-md-6">
-										<label>평점:</label>
-										<select class="form-control" style="height:50px; margin-bottom:30px;"
-											id="review_update_rate">
-											<option value="1">⭐</option>
-											<option value="2">⭐⭐</option>
-											<option value="3">⭐⭐⭐</option>
-											<option value="4">⭐⭐⭐⭐</option>
-											<option value="5">⭐⭐⭐⭐⭐</option>
-										</select>
+						</div>
+						<div class="col-md-7 animate-box">
+							<div class="row">
+								<div class="col-md-12" id="fh5co-testimonial"
+									style="padding:50px 20px 0; margin-bottom:30px;">
+
+									<div class="box-testimony animate-box" style="margin-bottom: 0;">
+										<blockquote>
+											<span class="quote"><span><i class="icon-quotes-right"></i></span></span>
+											<p>&ldquo;자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 &rdquo;</p>
+										</blockquote>
+										<p class="author">닉네임<span class="subtext">이메일</span></p>
 									</div>
-									<div class="col-xxs-12 col-xs-6 mt alternate">
-										<div class="input-field">
-											<label for="date-start">방문 날짜:</label>
-											<input type="text" class="form-control" id="date-start"
-												placeholder="mm/dd/yyyy" />
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<label for="review_thumbnail" id="review_update_image_name"></label>
-											<input type="file" class="form-control" id="review_update_thumbnail"
-												style="height:50px;" accept="image/*">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="review_update_title">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea name="" class="form-control" cols="30" rows="7"
-												id="review_update_content"></textarea>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="button" value="리뷰 수정하기" class="btn btn-primary btn-lg"
-												style="float:right;" id="review_update_button">
+								</div>
+								<div class="tabulation animate-box" style="margin-top:0;">
+
+									<!-- Nav tabs -->
+									<ul class="nav nav-tabs" role="tablist">
+										<li role="presentation" class="active">
+											<a aria-controls="flights" role="tab" data-toggle="tab"
+												style="cursor:pointer;" id="review_list_tourist_spot"
+												onclick="loadReviewList(12)">팔로워 6</a>
+										</li>
+										<li role="presentation">
+											<a aria-controls="hotels" role="tab" data-toggle="tab"
+												style="cursor:pointer;" id="review_list_restaurant"
+												onclick="loadReviewList(39)">팔로잉 17</a>
+										</li>
+									</ul>
+
+									<!-- Tab panes -->
+									<div class="tab-content">
+										<div role="tabpanel" class="tab-pane active" id="tourist_spots">
+											<div class="row">
+												<div id="fh5co-car" class="fh5co-section"
+													style="padding-top:0; padding-bottom:0;">
+													<!-- 팔로워 -->
+													<div class="col-md-12" style="height:80px; line-height:80px;">
+														<h3 class="price"
+															style="color:#F78536; display:inline; line-height:80px;">팔로워
+															이메일</h3>
+														<input type="button" value="팔로우"
+															class="btn btn-primary btn-outline btn-lg"
+															style="float:right; margin:16px 0;"
+															id="profile_update_button">
+													</div>
+													<div class="col-md-12" style="height:80px; line-height:80px;">
+														<h3 class="price"
+															style="color:#F78536; display:inline; line-height:80px;">팔로워
+															이메일</h3>
+														<input type="button" value="팔로우"
+															class="btn btn-primary btn-outline btn-lg"
+															style="float:right; margin:16px 0;"
+															id="profile_update_button">
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 
@@ -281,8 +339,9 @@
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
 
-	<!-- Review Create JS -->
-	<script src="review_update.js" type="module"></script>
+	<!-- Main JS -->
+	<script src="/js/main.js"></script>
+
 
 </body>
 
