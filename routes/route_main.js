@@ -51,7 +51,8 @@ async function viewRouteList() {
             }
 
             if (route.rate) {
-                rate = route.rate + "점"
+                let rate_halfup = Math.round(route.rate * 10) / 10;
+                rate = rate_halfup + "점";
             }
 
             template.innerHTML = `

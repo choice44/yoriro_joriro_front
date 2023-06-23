@@ -133,6 +133,11 @@ async function routeRating(route_id) {
             return alert("평점을 입력해주세요")
         }
 
+        // 평점이 0 이하 혹은 100 초과일 때
+        if (rating < 0 || rating > 100) {
+            return alert("평점은 0과 100 사이의 값이어야 합니다.")
+        }
+
         const response = await fetch(`${proxy}/routes/${route_id}/rate/`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -164,6 +169,7 @@ async function viewRouteDetail() {
     const area_id = route.areas[0].area // route의 시/도 id 
     const sigungu_id = route.areas[0].sigungu   // route의 시군구 id
     const spot_ids = route.spots
+    const rate_half_up = Math.round(route.rate * 10) / 10;  // 평점 반올림
 
     const area = await getRouteArea(area_id);   // 시/도의 이름
     const sigungu = await getRouteSigungu(area_id, sigungu_id)  // 시군구의 이름
@@ -185,7 +191,7 @@ async function viewRouteDetail() {
     route_duration.innerText = route.duration + `일`
     route_cost.innerText = route.cost + `원`
     route_spots.innerHTML = ''
-    route_rate.innerText = route.rate + `점`
+    route_rate.innerText = rate_half_up + `점`
     route_content.innerText = route.content
 
     // 수정버튼 수정페이지 링크 부여
