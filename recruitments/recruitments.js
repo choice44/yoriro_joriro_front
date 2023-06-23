@@ -43,8 +43,9 @@ async function loadRecruitments(recruitments) {
                 <h3>${recruitment.title}</h3>
                 <span>${recruitment.place}</span>
                 <span>${departure + ' ~ ' + arrival}</span>
-                <h3>${recruitment.participant.length + '/' + recruitment.participant_max}
-                <small id="is-complete" style="margin-left:3%; color:${recruitment.is_complete == 0 ? 'red' : ''};">${status[recruitment.is_complete]}</small></h3>
+                <span id="is-complete" style="color:${recruitment.is_complete == 0 ? 'red' : 'gray'};">${status[recruitment.is_complete]}</span>
+                <span style="color:${recruitment.participant.length == recruitment.participant_max || recruitment.is_complete != 0 ? 'gray;">모집 완료' : 'white;">모집 현황'}
+                <h3 style="display:inline; color:${recruitment.participant.length == recruitment.participant_max || recruitment.is_complete != 0 ? 'gray;"' : 'white;"'}>${recruitment.participant.length + '/' + recruitment.participant_max}</h3></span>
                 <a class="btn btn-primary btn-outline" href="#">지원하기 <i class="icon-arrow-right22"></i></a>
             </div>
         </div>`
@@ -64,6 +65,7 @@ function recruitmentDetail(recruitment_id) {
 
 function CreateRecruitment() {
     if (localStorage.getItem("access")) {
+        ``
         window.location.href = `/recruitments/create/index.html`
     } else {
         alert("로그인이 필요합니다.")
