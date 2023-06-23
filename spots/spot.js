@@ -43,7 +43,7 @@ async function loadSpotDetail(spot_id) {
 
     // null 처리
     if (!spot.addr1) {
-        spot.addr1 = "주소 없음";
+        spot.addr1 = "주소 정보 없음";
     }
 
     if (!spot.addr2) {
