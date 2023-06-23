@@ -264,15 +264,25 @@ async function routeComment() {
 
 }
 
-// 댓글 조회 함수
 async function getComments(route_id) {
     const response = await fetch(`${proxy}/routes/${route_id}/comments/`);
     const comments = await response.json();
 
+    // JS에서 제공하는 시간 날짜 설정 객체
+    const formatter = new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+
+
     comments.forEach((comment, index) => {
         const commentList = document.getElementById('comment-list');
         const date = new Date(comment.created_at);
-        const formattedDate = date.toLocaleDateString() + " " + date.toLocaleTimeString().slice(0, 7);
+        const formattedDate = formatter.format(date);   // 날짜 포멧
+        const isCommentOwner = (userInfo.user_id === comment.user.id); // 본인이 작성한 댓글인지 확인
 
         commentList.insertAdjacentHTML('beforeend', `
         <div id="comment-${comment.id}" class="card mb-3 text-start" style="${index !== 0 ? 'border-top: 1px solid #000;' : ''}"> <!-- 첫 번째 댓글을 제외하고 모든 댓글에 상단 경계선 추가 -->
@@ -293,15 +303,17 @@ async function getComments(route_id) {
                     </div>
                 </div>
             </div>
+            ${isCommentOwner ? ` <!-- 본인이 작성한 댓글일 경우에만 수정 및 삭제 버튼 표시 -->
             <div class="row g-0">
                 <div class="col-md-10"></div>
                 <div class="col-md-2">
-                    <div class="card-body d-flex justify-content-end">
-                        <a href="#" onclick="event.preventDefault(); editComment(${comment.id})" class="btn btn-secondary btn-sm me-md-2">댓글수정</a>
-                        <a href="#" onclick="event.preventDefault(); CommentDelete(${comment.id})" class="btn btn-secondary btn-sm">댓글삭제</a>
+                    <div class="comment-update-box">
+                        <a href="#" onclick="event.preventDefault(); editComment(${comment.id})">댓글수정</a>
+                        <a href="#" onclick="event.preventDefault(); CommentDelete(${comment.id})">댓글삭제</a>
                     </div>
                 </div>
             </div>
+            ` : ''} <!-- 본인이 작성한 댓글이 아닐 경우 버튼을 빈 문자열로 대체 -->
         </div>
         `);
     });

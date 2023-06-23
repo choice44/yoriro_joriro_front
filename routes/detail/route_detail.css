@@ -63,3 +63,10 @@
         opacity: 1
     }
 }
+
+.comment-update-box a {
+    font-size: 0.8em;
+    /* 폰트 크기 조절 */
+    margin-right: 25px;
+    /* 오른쪽 마진으로 버튼 사이의 간격 조절 */
+}
