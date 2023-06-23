@@ -52,6 +52,11 @@ async function loadData() {
         return alert("내 사진을 선택해 주세요.");
     };
 
+    let maxSize = 3 * 1024 * 1024;
+    if (image.size > maxSize) {
+        return alert("3MB 이하의 파일만 업로드 가능합니다.")
+    }
+
     const formData = new FormData();
     formData.append("model", model);
     formData.append("place", place);
@@ -78,11 +83,14 @@ async function loadJoriro(formData) {
             },
             body: formData,
         });
-
-        const data = await response.json();
-        console.log("Success:", data);
-
-        appendResult(data);
+        if (response.status == 201) {
+            const data = await response.json();
+            alert("성공!")
+            appendResult(data);
+        } else {
+            const data = await response.json();
+            alert(data.detail)
+        }
 
     } catch (error) {
         console.log("Error:", error);
