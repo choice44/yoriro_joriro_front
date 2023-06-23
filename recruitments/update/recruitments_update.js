@@ -1,8 +1,4 @@
 import { proxy } from "../../proxy.js"
-// const proxy = "http://127.0.0.1:8000"
-// const proxy = "https://api.bechol.com"
-const front_proxy = "http://127.0.0.1:5500"
-
 
 const update = document.getElementById("recruitment-update")
 update.addEventListener('click', updateRecruitment)
@@ -11,7 +7,6 @@ let response_json
 let recruitment_id
 setThumbnail()
 
-// export async function getUpdeteRecruitment() {
 window.onload = async function getUpdeteRecruitment() {
     recruitment_id = new URLSearchParams(window.location.search).get("id")
     const token = localStorage.getItem('access')
@@ -45,18 +40,16 @@ window.onload = async function getUpdeteRecruitment() {
         document.getElementById("date-start").value = departure
         document.getElementById("date-end").value = arrival
         document.getElementById("cost").value = response_json.cost
-        document.getElementById("participant").value = response_json.participant_max
+        // document.getElementById("participant").value = response_json.participant_max
 
-        // const participantSelect = document.getElementById("participant");
-        // const participantOptions = participantSelect.options;
-        // console.log(participantOptions)
+        const participantSelect = document.getElementById("participant")
 
-        // for (let i = 0; i < participantOptions.length; i++) {
-        //     if (participantOptions[i].value === response_json.participant_max) {
-        //         participantOptions[i].selected = true;
-        //         break;
-        //     }
-        // }
+        for (let i = 0; i <= 8; i++) {
+            if (i == response_json.participant_max) {
+                participantSelect.selectedIndex = i
+                break
+            }
+        }
 
         document.getElementById("content").value = response_json.content
         const imageUrl = response_json.image
@@ -108,7 +101,16 @@ export async function updateRecruitment() {
         formdata.append("cost", cost)
         formdata.append("participant_max", participant)
         formdata.append("content", content)
-        formdata.append("image", image)
+
+        let maxSize = 3 * 1024 * 1024
+        if (image && image.size > maxSize) {
+            alert("이미지 용량은 3MB 이내로 등록 가능합니다.")
+            return
+        }
+
+        if (image) {
+            formdata.append("image", image)
+        }
 
         const response = await fetch(`${proxy}/recruitments/${recruitment_id}/`, {
             method: 'PUT',
@@ -143,6 +145,18 @@ async function setThumbnail() {
         } else {
             previewImage.src = ""
             formdata.delete("image")
+        }
+
+        const maxSize = 3 * 1024 * 1024
+        const imageSize = document.getElementById("file-size")
+        let MBsize = (file.size / (1024 * 1024)).toFixed(2)
+        console.log("filesize ", file.size)
+        imageSize.innerText = `${MBsize}MB`
+
+        if (file.size >= maxSize) {
+            imageSize.setAttribute("style", "color:red;")
+        } else {
+            imageSize.setAttribute("style", "color:black;")
         }
     })
 }

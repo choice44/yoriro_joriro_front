@@ -1,7 +1,4 @@
 import { proxy } from "../../proxy.js"
-// const proxy = "http://127.0.0.1:8000"
-// const proxy = "https://api.bechol.com"
-const front_proxy = "http://127.0.0.1:5500"
 
 let recruitmentId
 let applicantId
@@ -30,8 +27,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     recruitmentImage.innerHTML = `
     <img src="${imagePath}" height="300px" style="object-fit: cover; object-position: center; width: 100%; margin-top:50px;">
     `
-    console.log(response)
-    console.log(imagePath)
+    console.log("imagepath", imagePath)
 
     const recruitmentTitle = document.getElementById("recruitment-title")
     recruitmentTitle.setAttribute("style", "margin-top:50px; margin-bottom:30px")
@@ -333,7 +329,7 @@ function getPKFromAccessToken(accessToken) {
 
 
 async function recruitmentEdit() {
-    location.href = `${front_proxy}/recruitments/update/index.html?id=${recruitmentId}`
+    location.href = `/recruitments/update/index.html?id=${recruitmentId}`
 }
 
 

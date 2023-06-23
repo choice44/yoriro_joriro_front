@@ -1,8 +1,4 @@
 import { proxy } from "../../proxy.js"
-// const proxy = "http://127.0.0.1:8000"
-// const proxy = "https://api.bechol.com"
-const front_proxy = "http://127.0.0.1:5500"
-
 
 setThumbnail()
 
@@ -37,7 +33,17 @@ async function postRecruitment() {
     formdata.append("cost", cost)
     formdata.append("participant_max", participant)
     formdata.append("content", content)
-    formdata.append("image", image)
+
+    let maxSize = 3 * 1024 * 1024
+    if (image.size > maxSize) {
+        alert("이미지 용량은 3MB 이내로 등록 가능합니다.")
+        return
+    }
+
+    if (image) {
+        formdata.append("image", image)
+    }
+
 
     let token = localStorage.getItem("access")
 
@@ -51,7 +57,7 @@ async function postRecruitment() {
 
     if (response.status == 201) {
         alert("글작성 완료!")
-        window.location.replace(`${front_proxy}/recruitments/index.html`)
+        window.location.replace(`../index.html`)
     } else {
         alert(response.data)
     }
@@ -75,6 +81,17 @@ async function setThumbnail() {
         } else {
             previewImage.src = ""
             formdata.delete("image")
+        }
+        const maxSize = 3 * 1024 * 1024
+        const imageSize = document.getElementById("file-size")
+        let MBsize = (file.size / (1024 * 1024)).toFixed(2)
+        console.log("filesize ", file.size)
+        imageSize.innerText = `${MBsize}MB`
+
+        if (file.size >= maxSize) {
+            imageSize.setAttribute("style", "color:red;")
+        } else {
+            imageSize.setAttribute("style", "color:black;")
         }
     })
 }
