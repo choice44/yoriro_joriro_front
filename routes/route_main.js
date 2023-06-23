@@ -63,7 +63,7 @@ async function viewRouteList() {
                     <span>댓글 수: ${route.comment_count}</span>
                     <span>${route.user.nickname}</span>
                     <span style="font-size: 23px;">${rate}</span>
-					<a class="btn btn-primary btn-outline" href="detail/?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
+					<a class="btn btn-primary btn-outline" href="detail/index.html?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
 				</div>
             </div>
             `;
@@ -123,7 +123,7 @@ async function viewMoreRouteList(nextURL) {
                     <span>댓글 수: ${route.comment_count}</span>
                     <span>${route.user.nickname}</span>
                     <span style="font-size: 23px;">${rate}</span>
-					<a class="btn btn-primary btn-outline" href="detail/?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
+					<a class="btn btn-primary btn-outline" href="detail/index.html?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
 				</div>
             </div>
             `;

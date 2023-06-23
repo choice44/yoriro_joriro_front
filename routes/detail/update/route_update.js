@@ -428,7 +428,6 @@ window.changeSigungu = changeSigungu
 
 // 이미지가 변경되었을 때 미리보기 기능
 image.addEventListener('change', function (e) {
-    var file = e.target.files[0];
     var reader = new FileReader();  // fileReader함수를 사용
 
     const maxSize = 3 * 1024 * 1024;   // 3MB

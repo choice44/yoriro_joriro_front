@@ -3,6 +3,8 @@ import { createMarker } from "./detail_map.js";
 
 // 주소창에서 가져온 게시글 id
 const route_id = new URLSearchParams(window.location.search).get('id');
+// 로컬 스토리지에서 유저의 정보를 가지고옴
+const userInfo = JSON.parse(localStorage.getItem('payload'));
 
 // 모달창 관련 변수들
 const modal = document.getElementById("ratingModal");
@@ -12,6 +14,7 @@ const submitRating = document.getElementById("submitRating");
 const route_rating = document.getElementById("route-detail-rating")
 
 // 수정하기, 삭제하기
+const update_box = document.getElementById("update-box")
 const update_href = document.getElementById("route-update-href")
 
 // 게시글 요청 함수
@@ -175,7 +178,6 @@ async function viewRouteDetail() {
     const route_rate = document.getElementById("route-detail-rate")
     const route_content = document.getElementById("route-detail-content")
 
-
     route_title.innerText = route.title
     route_image.setAttribute("src", proxy + route.image)
     route_area.innerText = area
@@ -187,8 +189,15 @@ async function viewRouteDetail() {
     route_content.innerText = route.content
 
     // 수정버튼 수정페이지 링크 부여
-    update_href.setAttribute("href", `/routes/detail/update/index.html?id=${route_id}`)
+    const route_user_id = route.user.id;
 
+
+    if (userInfo.user_id === route_user_id) {
+        update_box.style.display = 'block';
+        update_href.setAttribute("href", `/routes/detail/update/index.html?id=${route_id}`)
+    } else {
+        update_box.style.display = 'none';
+    }
 
     // 목적지 목록에 목적지 순차 부여
     let spotCount = 1
@@ -210,6 +219,7 @@ async function viewRouteDetail() {
     createMarker(spot_ids)
 }
 
+// 여행루트 삭제 함수
 export async function routeDelete() {
     if (confirm("삭제하시겠습니까?")) {
         const accessToken = localStorage.getItem('access');
