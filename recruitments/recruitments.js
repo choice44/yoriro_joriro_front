@@ -1,8 +1,4 @@
 import { proxy } from "../proxy.js"
-// const proxy = "http://127.0.0.1:8000"
-// const proxy = "https://api.bechol.com"
-const front_proxy = "http://127.0.0.1:5500"
-
 
 window.onload = async function () {
     const pageParams = new URLSearchParams(window.location.search)
@@ -33,14 +29,15 @@ async function loadRecruitments(recruitments) {
         let arrival = recruitment.arrival.split('T')[0]
 
         if (recruitment.image) {
-            imagePath = recruitment.image;
+            imagePath = proxy + recruitment.image;
+            // imagePath = imagePath.split("8000")[1];
         } else {
             imagePath = "/images/car-2.jpg"
         }
         console.log(imagePath)
 
         template.innerHTML = `
-        <div><img src="${imagePath}" alt="여행루트 게시글 이미지" class="img-responsive recruitment-image-thumbnail">
+        <div><img src="${imagePath}" alt="동료 모집 게시글 이미지" class="img-responsive recruitment-image-thumbnail">
             <div class="desc">
                 <span></span>
                 <h3>${recruitment.title}</h3>
@@ -58,7 +55,7 @@ async function loadRecruitments(recruitments) {
 
 function recruitmentDetail(recruitment_id) {
     console.log(recruitment_id)
-    window.location.href = `${front_proxy}/recruitments/detail/index.html?recruitment_id=${recruitment_id}`
+    window.location.href = `/recruitments/detail/index.html?recruitment_id=${recruitment_id}`
 }
 
 

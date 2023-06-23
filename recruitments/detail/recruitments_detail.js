@@ -27,8 +27,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     recruitmentImage.innerHTML = `
     <img src="${imagePath}" height="300px" style="object-fit: cover; object-position: center; width: 100%; margin-top:50px;">
     `
-    console.log(response)
-    console.log(imagePath)
+    console.log("imagepath", imagePath)
 
     const recruitmentTitle = document.getElementById("recruitment-title")
     recruitmentTitle.setAttribute("style", "margin-top:50px; margin-bottom:30px")
