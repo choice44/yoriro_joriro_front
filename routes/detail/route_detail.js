@@ -322,25 +322,28 @@ async function getComments(route_id) {
 // 댓글 수정 함수
 async function editComment(commentId) {
     // 댓글 내용을 가져오기
-    const commentContent = document.getElementById(`comment-content-${commentId}`).textContent;
+    const commentContent = document.getElementById(`comment-content-${commentId}`);
 
     // 댓글 수정 폼 생성
-    const editForm = document.createElement('form');
-    editForm.innerHTML = `
-      <input type="text" id="edit-comment-${commentId}" value="${commentContent}">
-      <button type="button" onclick="updateComment(${commentId})">Submit</button>
+    const originalContent = commentContent.textContent;
+    commentContent.innerHTML = `
+        <input type="text" id="edit-comment-${commentId}" value="${originalContent}" style="width: 600px;">
+        <button type="button" onclick="updateComment(${commentId})">댓글수정</button>
+        <button type="button" onclick="cancelEdit(${commentId}, '${originalContent}')">취소</button>
     `;
+}
 
-    // 댓글 수정 폼 표시
-    const commentDiv = document.getElementById(`comment-${commentId}`);
-    commentDiv.innerHTML = '';
-    commentDiv.appendChild(editForm);
+// 댓글 수정 취소 함수
+function cancelEdit(commentId, originalContent) {
+    const commentContent = document.getElementById(`comment-content-${commentId}`);
+    commentContent.innerHTML = originalContent;
 }
 
 // 수정 댓글 저장 함수
 async function updateComment(commentId) {
     // 수정된 댓글 내용 가져오기
-    const editedContent = document.getElementById(`edit-comment-${commentId}`).value;
+    const commentContent = document.getElementById(`comment-content-${commentId}`);
+    const editedContent = commentContent.querySelector('input').value;
 
     // 수정된 댓글 내용을 서버에 전송
     const accessToken = localStorage.getItem('access');
@@ -355,8 +358,8 @@ async function updateComment(commentId) {
 
     if (response.ok) {
         // 댓글 목록 다시 불러오기
+        commentContent.textContent = editedContent;
         alert("수정 완료!")
-        location.reload()
     }
 }
 
@@ -389,6 +392,7 @@ window.routeDelete = routeDelete
 window.routeComment = routeComment
 window.editComment = editComment
 window.updateComment = updateComment
+window.cancelEdit = cancelEdit
 window.CommentDelete = CommentDelete
 
 
