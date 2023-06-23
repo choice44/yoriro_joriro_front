@@ -207,9 +207,27 @@ async function viewRouteDetail() {
 
     // 목적지 목록에 목적지 순차 부여
     let spotCount = 1
-    for (let spot of spot_ids) {
+    let spot_image = "/images/place-1.jpg"
+    let spot_addr = "기록된 주소가 없습니다."
 
-        route_spots.innerHTML += `<p style="font-size: 20px">${spotCount}. ${spot.title}</p>`
+    for (let spot of spot_ids) {
+        console.log(spot)
+        if (spot.firstimage) {
+            spot_image = spot.firstimage
+        }
+        if (spot.addr1) {
+            spot_addr = spot.addr1
+        }
+        route_spots.innerHTML += `
+        <a class="row" style="margin: 0;" id="review_detail_spot_cardbox" href="http://127.0.0.1:5500/spots/?id=${spot.id}">
+            <div class="col-md-4" style="height:100px; padding:0; overflow: hidden;">
+                <img class="img-responsive" src="${spot_image}" alt="방문지 이미지" id="review_detail_spot_image" style="height: 100%; width: 100%; object-fit: cover;">
+            </div>
+            <div class="col-md-8" style="background-color: rgb(0, 0, 0, 0.04); height:100px;">
+                <h3 style="margin-bottom:0; margin-top:20px;" id="review_detail_spot_title">${spotCount}. ${spot.title}</h3>
+                <span class="price" id="review_detail_spot_addr">${spot_addr}</span>
+            </div>
+        </a>`
         spotCount += 1
     }
 
