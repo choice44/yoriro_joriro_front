@@ -187,11 +187,15 @@ async function viewRouteDetail() {
     route_content.innerText = route.content
 
     // 수정버튼 수정페이지 링크 부여
-    update_href.setAttribute("href", `/routes/detail/update/?id=${route_id}`)
+    update_href.setAttribute("href", `/routes/detail/update/index.html?id=${route_id}`)
+
 
     // 목적지 목록에 목적지 순차 부여
+    let spotCount = 1
     for (let spot of spot_ids) {
-        route_spots.innerHTML += `<p>${spot.title}</p>`
+
+        route_spots.innerHTML += `<p style="font-size: 20px">${spotCount}. ${spot.title}</p>`
+        spotCount += 1
     }
 
     // 평점이 하나도 없을 시

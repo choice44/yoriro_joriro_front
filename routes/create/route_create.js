@@ -333,6 +333,27 @@ document.addEventListener('click', (event) => {
     }
 });
 
+// 이미지 파일 첨부에 변동이 있을 때 크기 제한
+document.getElementById("route-image").addEventListener('change', function () {
+    const maxSize = 3 * 1024 * 1024;   // 3MB
+
+    // 선택된 파일이 없을 경우 아무것도 하지 않음
+    // this는 이벤트 핸들러가 바인딩한 파일입력 요소
+    // files는 파일들의 목록을 배열형태로 만듬 -> this.files는 사용자가 선택한 파일의 목록
+    if (!this.files || this.files.length === 0) {
+        return;
+    }
+
+    const file = this.files[0];
+
+    // 파일 크기가 3MB를 초과할 경우 경고 메시지를 표시
+    if (file.size > maxSize) {
+        alert("3MB 이하의 이미지만 업로드 가능합니다.");
+        // 선택한 파일을 초기화
+        this.value = '';
+    }
+});
+
 // 버튼 클릭 시 게시글 작성 함수 호출
 const createButton = document.getElementById("route-button");
 createButton.addEventListener('click', handleCreateRoute);
