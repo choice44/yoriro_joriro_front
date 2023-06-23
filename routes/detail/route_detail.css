@@ -1,0 +1,65 @@
+/* 모달 배경 */
+.modal {
+    display: none;
+    /* 기본적으로 안 보이게 설정 */
+    position: fixed;
+    /* 화면 스크롤 시에도 위치 고정 */
+    z-index: 1;
+    /* 다른 컨텐츠 위에 나타나도록 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* 전체 너비 */
+    height: 100%;
+    /* 전체 높이 */
+    overflow: auto;
+    /* 내용이 많을 때 스크롤 */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* 모달 컨텐츠 */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 100% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* 팝업 효과 */
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* 닫기 버튼 */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 애니메이션 추가 */
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}

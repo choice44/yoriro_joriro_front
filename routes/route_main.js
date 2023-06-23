@@ -43,14 +43,11 @@ async function viewRouteList() {
             template.setAttribute("data-animate-effect", "fadeIn");
 
             let imagePath = "/images/place-1.jpg"
-            let backendURL = "http://127.0.0.1:8000/";
             let rate = "아직 평점이 없습니다"
 
             // 백엔드 주소 같이 출력되는 것을 제거
             if (route.image) {
-                imagePath = route.image;
-                imagePath = imagePath.replace(backendURL, "");
-                imagePath = proxy + '/' + imagePath
+                imagePath = proxy + '/' + route.image
             }
 
             if (route.rate) {
@@ -80,7 +77,7 @@ async function viewRouteList() {
             template.setAttribute("id", "route_more_button");
             template.setAttribute("class", "col-md-12 text-center");
 
-            template.innerHTML = `<input class="btn btn-primary btn-lg" onclick="viewMoreReviewList('${routes_all.next}')"
+            template.innerHTML = `<input class="btn btn-primary btn-lg" onclick="viewMoreRouteList('${proxy}/${routes_all.next}')"
                 value="▼ 더보기 ▼" />`;
 
             route_list.appendChild(template);
@@ -91,7 +88,7 @@ async function viewRouteList() {
     }
 }
 
-async function viewMoreReviewList(nextURL) {
+async function viewMoreRouteList(nextURL) {
     try {
         // 데이터 요청함수를 이용하여 다음 페이지의 데이터를 불러옵니다.
         const response = await fetch(nextURL);
@@ -106,14 +103,11 @@ async function viewMoreReviewList(nextURL) {
             template.setAttribute("data-animate-effect", "fadeIn");
 
             let imagePath = "/images/place-1.jpg"
-            let backendURL = "http://127.0.0.1:8000/";
             let rate = "아직 평점이 없습니다"
 
             // 백엔드 주소 같이 출력되는 것을 제거
             if (route.image) {
-                imagePath = route.image;
-                imagePath = imagePath.replace(backendURL, "");
-                imagePath = proxy + '/' + imagePath
+                imagePath = proxy + '/' + route.image;
             }
 
             if (route.rate) {
@@ -149,7 +143,7 @@ async function viewMoreReviewList(nextURL) {
             template.setAttribute("id", "route_more_button");
             template.setAttribute("class", "col-md-12 text-center");
 
-            template.innerHTML = `<input class="btn btn-primary btn-lg" onclick="viewMoreReviewList('${routes_all.next}')"
+            template.innerHTML = `<input class="btn btn-primary btn-lg" onclick="viewMoreRouteList('${proxy}/${routes_all.next}')"
                 value="▼ 더보기 ▼" />`;
 
             route_list.appendChild(template);
@@ -160,6 +154,6 @@ async function viewMoreReviewList(nextURL) {
     }
 }
 
-window.viewMoreReviewList = viewMoreReviewList
+window.viewMoreRouteList = viewMoreRouteList
 
 viewRouteList()

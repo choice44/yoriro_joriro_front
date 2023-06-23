@@ -65,6 +65,7 @@
 
     <link rel="stylesheet" href="/css/style.css">
 
+    <link rel="stylesheet" href="./route_detail.css">
 
     <!-- Modernizr JS -->
     <script src="/js/modernizr-2.6.2.min.js"></script>
@@ -110,12 +111,8 @@
                     <div class="row">
 
                         <div class="row animate-box">
-                            <div style="background-color: antiquewhite;">
-                                <img id="route-detail-image" src="" alt="...">
-                            </div>
-
                             <div>
-                                <h1 id="route-detail-title"></h1>
+                                <h1 id="route-detail-title" style="text-align: center;"></h1>
                             </div>
                         </div>
 
@@ -180,12 +177,16 @@
 
                         <div class="desc2 animate-box">
                             <div class="col-sm-6 col-sm-push-1 col-md-7 col-md-push-1">
-                                <div>
+                                <div style="width: 500px; text-align:right" ;>
                                     <a id="route-update-href">수정하기</a>
-                                    <a href="#" id="route-delete-href" onclick="routeDelete()">삭제하기</a>
+                                    <a href="#" id="route-delete-href" onclick="routeDelete()"
+                                        style="margin-left: 20px;">삭제하기</a>
+                                </div>
+                                <div>
+                                    <img id="route-detail-image" src="" alt="..." style="height: 300px;" width="500px">
                                 </div>
                                 <label for=" day1">1일차 여행경로</label>
-                                <div id="map" style="width:500px;height:600px;"></div>
+                                <div id="map" style="width:500px;height:300px;"></div>
                             </div>
 
                             <div class="col-md-12" style="margin-top: 20px;">
