@@ -111,8 +111,8 @@ async function viewRecruitmentList() {
             template.innerHTML = `
         <div onclick="location.href='/recruitments/detail/index.html?id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
             <div class="desc">
-                <h3>${recruitment.place} <span style="display:inline; color:#F78536">${recruitment.participant_max}명 </span><small
-                        style="color:red; font-weight:600;">모집중</small>
+                <h3>${recruitment.place} <span style="display:inline; color:#F78536">${recruitment.participant.length}명</span><small
+                        style="color:red; font-weight:600;"><span style="display:inline; font-weight:500;">/${recruitment.participant_max}명 </span>모집중</small>
                 </h3>
                 <span>${recruitment.title}</span>
             </div>    
