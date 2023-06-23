@@ -45,7 +45,7 @@ window.onload = async function getUpdeteRecruitment() {
         const participantSelect = document.getElementById("participant")
 
         for (let i = 0; i <= 8; i++) {
-            if (i == response_json.participant_max) {
+            if (i == response_json.participant_max - 2) {
                 participantSelect.selectedIndex = i
                 break
             }
