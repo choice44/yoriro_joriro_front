@@ -61,10 +61,10 @@ async function postRecruitment() {
 
     let token = localStorage.getItem("access")
 
-    const response = await fetch(`${proxy} /recruitments/`, {
+    const response = await fetch(`${proxy}/recruitments/`, {
         method: 'POST',
         headers: {
-            "Authorization": `Bearer ${token} `
+            "Authorization": `Bearer ${token}`
         },
         body: formdata,
     })
