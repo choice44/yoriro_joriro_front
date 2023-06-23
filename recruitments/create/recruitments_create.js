@@ -22,8 +22,6 @@ async function postRecruitment() {
     day = dateEnd.split('/')[1]
     let arrival = `${year}-${month}-${day}`
 
-    console.log(title, place, departure, arrival, cost, participant, content, image)
-
     const formdata = new FormData()
 
     formdata.append("title", title)
@@ -85,7 +83,6 @@ async function setThumbnail() {
         const maxSize = 3 * 1024 * 1024
         const imageSize = document.getElementById("file-size")
         let MBsize = (file.size / (1024 * 1024)).toFixed(2)
-        console.log("filesize ", file.size)
         imageSize.innerText = `${MBsize}MB`
 
         if (file.size >= maxSize) {

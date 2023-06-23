@@ -6,11 +6,9 @@ let applicantId
 window.onload = async function () {
     const urlParams = new URLSearchParams(window.location.search)
     recruitmentId = urlParams.get('recruitment_id')
-    console.log(recruitmentId)
 
     await loadRecruitmentDetail(recruitmentId)
     await loadJoin(recruitmentId)
-    console.log("loadJoin에 들어가는 recruitmentId", recruitmentId)
 }
 
 
@@ -27,7 +25,6 @@ async function loadRecruitmentDetail(recruitmentId) {
     recruitmentImage.innerHTML = `
     <img src="${imagePath}" height="300px" style="object-fit: cover; object-position: center; width: 100%; margin-top:50px;">
     `
-    console.log("imagepath", imagePath)
 
     const recruitmentTitle = document.getElementById("recruitment-title")
     recruitmentTitle.setAttribute("style", "margin-top:50px; margin-bottom:30px")
@@ -95,13 +92,11 @@ async function loadRecruitmentDetail(recruitmentId) {
         </table>`
 
     let participant = response.participant
-    console.log("participant", participant)
 
     const participantCard = document.getElementById("participant")
     participantCard.innerHTML = ""
     const participantTable = document.createElement("table")
     participantTable.innerHTML = ""
-    // participantTable.setAttribute("border", "1")
     participantTable.setAttribute("width", "80%")
     participantTable.setAttribute("style", "margin-top:20%;margin-left:25%;color:black; border-collapse:separate; border-radius:30px; border: 1px solid #444444; ")
     participantTable.innerHTML = `
@@ -184,7 +179,6 @@ async function loadJoin(recruitmentId) {
 
     const result = await checkAuthor(recruitmentId)
     const joinReset = document.getElementById("applicant")
-    // joinReset.innerHTML = ""
 
     const applicantJoinCreate = document.getElementById("applicant-join")
     if (!isLoggedIn()) {
@@ -196,8 +190,6 @@ async function loadJoin(recruitmentId) {
     const applicantCount = document.getElementById("applicant-count")
     const applicantList = document.getElementById("applicant-list")
     applicantList.innerHTML = ""
-
-    // applicantCount.innerText = "신청자 수 : " + applicantResponse.length;
 
     applicantResponse.forEach(applicant => {
         const { user, appeal, acceptence, id } = applicant
@@ -267,7 +259,6 @@ async function submitJoin() {
     const joinElement = document.getElementById("new-join")
     const newJoin = joinElement.value
     const response = await postJoin(recruitmentId, newJoin)
-    console.log(response)
 
     joinElement.value = ""
     loadJoin(recruitmentId)
@@ -299,7 +290,6 @@ async function postJoin(recruitmentId, newJoin) {
 
 async function isLoggedIn() {
     const accessToken = localStorage.getItem('access')
-    console.log('Access Token:', accessToken)
     return accessToken !== null
 }
 
@@ -353,7 +343,6 @@ async function recruitmentDelete() {
 
 
 async function acceptApplicant(applicantId) {
-    console.log("test", applicantId)
     let token = localStorage.getItem("access")
 
     const response = await fetch(`${proxy}/recruitments/join/${applicantId}/accept/`, {
@@ -376,7 +365,6 @@ async function acceptApplicant(applicantId) {
 
 
 async function rejectApplicant(applicantId) {
-    console.log("test", applicantId)
     let token = localStorage.getItem("access")
 
     const response = await fetch(`${proxy}/recruitments/join/${applicantId}/reject/`, {

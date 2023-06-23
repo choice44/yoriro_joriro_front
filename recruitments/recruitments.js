@@ -8,7 +8,6 @@ window.onload = async function () {
     }
 
     let recruitments = await getRecruitments(currentPage)
-    console.log(recruitments)
 
     loadRecruitments(recruitments)
     pagination(recruitments, parseInt(currentPage))
@@ -34,7 +33,6 @@ async function loadRecruitments(recruitments) {
         } else {
             imagePath = "/images/car-2.jpg"
         }
-        console.log(imagePath)
 
         template.innerHTML = `
         <div><img src="${imagePath}" alt="동료 모집 게시글 이미지" class="img-responsive recruitment-image-thumbnail">
@@ -54,7 +52,6 @@ async function loadRecruitments(recruitments) {
 
 
 function recruitmentDetail(recruitment_id) {
-    console.log(recruitment_id)
     window.location.href = `/recruitments/detail/index.html?recruitment_id=${recruitment_id}`
 }
 

@@ -21,7 +21,6 @@ window.onload = async function getUpdeteRecruitment() {
 
     if (response.status == 200) {
         response_json = await response.json()
-        console.log(response_json)
 
         const dateStart = response_json.departure
         let year = dateStart.split('-')[0]
@@ -40,7 +39,6 @@ window.onload = async function getUpdeteRecruitment() {
         document.getElementById("date-start").value = departure
         document.getElementById("date-end").value = arrival
         document.getElementById("cost").value = response_json.cost
-        // document.getElementById("participant").value = response_json.participant_max
 
         const participantSelect = document.getElementById("participant")
 
@@ -58,7 +56,7 @@ window.onload = async function getUpdeteRecruitment() {
         }
         return response_json
     } else {
-        console.log("잠시 후 다시 시도해주세요")
+        alert("잠시 후 다시 시도해주세요")
     }
 }
 
@@ -85,9 +83,6 @@ export async function updateRecruitment() {
     month = dateEnd.split('/')[0]
     day = dateEnd.split('/')[1]
     const arrival = year + "-" + month + "-" + day
-
-    console.log(title, place, departure, arrival, cost, participant, content, image)
-    console.log(participant)
 
     if (participant < response_json.participant_now) {
         alert("현재 참가자보다 적은 모집인원을 설정할 수 없습니다.")
@@ -150,7 +145,6 @@ async function setThumbnail() {
         const maxSize = 3 * 1024 * 1024
         const imageSize = document.getElementById("file-size")
         let MBsize = (file.size / (1024 * 1024)).toFixed(2)
-        console.log("filesize ", file.size)
         imageSize.innerText = `${MBsize}MB`
 
         if (file.size >= maxSize) {
