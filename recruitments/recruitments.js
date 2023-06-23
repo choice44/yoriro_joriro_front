@@ -34,6 +34,8 @@ async function loadRecruitments(recruitments) {
             imagePath = "/images/car-2.jpg"
         }
 
+        const status = { 0: "모집 중", 1: "모집 완료", 2: "여행 중", 3: "여행 완료" };
+
         template.innerHTML = `
         <div><img src="${imagePath}" alt="동료 모집 게시글 이미지" class="img-responsive recruitment-image-thumbnail">
             <div class="desc">
@@ -41,8 +43,8 @@ async function loadRecruitments(recruitments) {
                 <h3>${recruitment.title}</h3>
                 <span>${recruitment.place}</span>
                 <span>${departure + ' ~ ' + arrival}</span>
-                <span>${recruitment.participant.length + '/' + recruitment.participant_max}</span>
-                <!--<span class="price">${recruitment.title}</span>-->
+                <h3>${recruitment.participant.length + '/' + recruitment.participant_max}
+                <small id="is-complete" style="margin-left:3%; color:${recruitment.is_complete == 0 ? 'red' : ''};">${status[recruitment.is_complete]}</small></h3>
                 <a class="btn btn-primary btn-outline" href="#">지원하기 <i class="icon-arrow-right22"></i></a>
             </div>
         </div>`
@@ -52,7 +54,20 @@ async function loadRecruitments(recruitments) {
 
 
 function recruitmentDetail(recruitment_id) {
-    window.location.href = `/recruitments/detail/index.html?recruitment_id=${recruitment_id}`
+    if (localStorage.getItem("access")) {
+        window.location.href = `/recruitments/detail/index.html?recruitment_id=${recruitment_id}`
+    } else {
+        alert("로그인이 필요합니다.")
+    }
+}
+
+
+function CreateRecruitment() {
+    if (localStorage.getItem("access")) {
+        window.location.href = `/recruitments/create/index.html`
+    } else {
+        alert("로그인이 필요합니다.")
+    }
 }
 
 
@@ -109,3 +124,4 @@ async function pagination(recruitments, currentPage) {
 
 
 window.recruitmentDetail = recruitmentDetail
+window.CreateRecruitment = CreateRecruitment

@@ -98,12 +98,12 @@ export async function updateRecruitment() {
         formdata.append("content", content)
 
         let maxSize = 3 * 1024 * 1024
-        if (image && image.size > maxSize) {
-            alert("이미지 용량은 3MB 이내로 등록 가능합니다.")
-            return
-        }
 
         if (image) {
+            if (image.size > maxSize) {
+                alert("이미지 용량은 3MB 이내로 등록 가능합니다.")
+                return
+            }
             formdata.append("image", image)
         }
 
@@ -118,6 +118,10 @@ export async function updateRecruitment() {
         if (response.status == 200) {
             alert("수정 완료")
             window.location.replace(`/recruitments/detail/index.html?recruitment_id=${recruitment_id}`)
+        } else if (response.status == 400) {
+            alert("필수 항목을 확인하세요")
+        } else {
+            alert(response.data)
         }
     }
 

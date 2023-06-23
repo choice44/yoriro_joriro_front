@@ -38,6 +38,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     let departure = response.departure.split('T')[0]
     let arrival = response.arrival.split('T')[0]
     let updated_at = response.updated_at.split('T')[0] + " " + response.updated_at.split('T')[1].split('.')[0]
+    const statusIsComplete = { 0: "모집중", 1: "모집완료", 2: "여행중", 3: "여행완료" };
     template.innerHTML = `
         <table width="100%" style="text-align:center; margin-right:5%; margin-top:5%; border: 1px solid #444444; border-collapse:separate; border-radius:8px;">
             <tr height=60px>
@@ -46,12 +47,13 @@ async function loadRecruitmentDetail(recruitmentId) {
                 <td style="text-align:right">경비</td>
                 <th style="text-align:center">${response.cost}원</th>
                 <td style="text-align:right">모집 정원</td>
-                <th style="text-align:center">${response.participant.length + "/" + response.participant_max}</th>
+                <th style="text-align:center; color:${response.participant.length == response.participant_max ? 'red' : ''};">${response.participant.length + "/" + response.participant_max}</th>
                 <td width=20px></td>
             </tr>
             <tr height=70px>
                 <td style="text-align:right">기간</td>
-                <th style="text-align:center" colspan="5">${departure + ' ~ ' + arrival}</th>
+                <th style="text-align:center" colspan="4">${departure + ' ~ ' + arrival}</th>
+                <th id="is-complete" style="color:${response.is_complete == 0 ? 'red' : ''};">${statusIsComplete[response.is_complete]}</th>
             </tr>
         </table>
         
@@ -63,6 +65,8 @@ async function loadRecruitmentDetail(recruitmentId) {
 
         <div>updated : ${updated_at}
         </div>`
+
+
     recruitmentLoad.appendChild(template)
 
     let gender = response.user.gender
@@ -71,7 +75,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     } else if (gender == "M") {
         gender = "남성"
     } else {
-        gender = "설정하지 않음"
+        gender = ""
     }
 
     const recruitmentWriterInfo = document.getElementById("writer-info")
@@ -112,7 +116,7 @@ async function loadRecruitmentDetail(recruitmentId) {
         } else if (user.gender == "M") {
             user.gender = "남성"
         } else {
-            user.gender = "지정하지 않음"
+            user.gender = ""
         }
 
         participantTable.innerHTML += `
