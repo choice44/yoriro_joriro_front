@@ -42,6 +42,10 @@ async function loadSpotDetail(spot_id) {
     }
 
     // null 처리
+    if (!spot.addr1) {
+        spot.addr1 = "주소 없음";
+    }
+
     if (!spot.addr2) {
         spot.addr2 = "없음";
     }
@@ -53,8 +57,10 @@ async function loadSpotDetail(spot_id) {
     // 타입 텍스트 처리
     if (spot.type == 12) {
         spot.type = "관광지";
-    } else {
+    } else if (spot.type == 39) {
         spot.type = "맛집";
+    } else {
+        spot.type = "기타";
     }
 
     // rate 없으면 null이 아니라 빈칸
