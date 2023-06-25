@@ -41,7 +41,7 @@
 	<meta name="twitter:card" content="" />
 
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="shortcut icon" href="/favicon.ico">
 
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
 
@@ -68,7 +68,6 @@
 
 	<!-- Modernizr JS -->
 	<script src="/js/modernizr-2.6.2.min.js"></script>
-
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -106,139 +105,86 @@
 
 			<!-- end:header-top -->
 
-			<div class="fh5co-hero" style="height: 400px;">
-				<div class="fh5co-overlay" style="height: 400px;"></div>
-				<div class="fh5co-cover" data-stellar-background-ratio="0.5"
-					style="background-image: url(/images/cover_bg_1.jpg); height:400px;">
-					<div class="desc" style="margin: auto; top:50%;">
-						<div class="container">
-							<div class="tabulation animate-box">
-
-								<!-- Tab panes -->
-								<div class="tab-content">
-									<div class="row">
-										<div class="col-xs-4 mt">
-											<label for="class">유형:</label>
-											<section>
-												<select class="form-control" id="search_select_type">
-													<option value="" selected>전체</option>
-													<option value="12">관광지</option>
-													<option value="39">맛집</option>
-												</select>
-											</section>
-										</div>
-										<div class="col-xs-4 mt">
-											<section>
-												<label for="class">지역:</label>
-												<select onchange="changeSigunguForSpotSearch(this.selectedIndex);"
-													id="search_select_area" class="form-control">
-													<option value="" selected>전체</option>
-													<option value="1">서울</option>
-													<option value="2">인천</option>
-													<option value="3">대전</option>
-													<option value="4">대구</option>
-													<option value="5">광주</option>
-													<option value="6">부산</option>
-													<option value="7">울산</option>
-													<option value="8">세종특별자치시</option>
-													<option value="31">경기도</option>
-													<option value="32">강원도</option>
-													<option value="33">충청북도</option>
-													<option value="34">충청남도</option>
-													<option value="35">경상북도</option>
-													<option value="36">경상남도</option>
-													<option value="37">전라북도</option>
-													<option value="38">전라남도</option>
-													<option value="39">제주도</option>
-												</select>
-											</section>
-										</div>
-										<div class="col-xs-4 mt">
-											<section>
-												<label for="class">시군구:</label>
-												<select id="search_select_sigungu" class="form-control">
-													<option value="" selected>전체</option>
-												</select>
-											</section>
-										</div>
-										<div class="col-xs-12 mt">
-											<div class="input-field" style="position:relative;">
-												<input type="text" class="form-control" id="form-place"
-													placeholder="검색어를 입력해주세요." style="width:75%; font-size:18px;" />
-												<input type="button" class="btn btn-primary btn-block" value="검색"
-													style="position:absolute; top:0; right: -1px; width:25%; height:42px; padding:0;"
-													onclick="viewSpotList()">
-											</div>
-										</div>
+			<div id="fh5co-contact" class="fh5co-section-gray" style="padding-top: 80px;">
+				<div class="container">
+					<div class="row animate-box">
+						<div>
+							<div class="col-md-4">
+								<div class="input-field" style="color: black;">
+									<label for="from">사진</label>
+									<input type="file" class="form-control-file" id="image" />
+								</div>
+								<div id="file-size">파일 크기
+								</div>
+								<div style="margin-top: 25px;">
+									<img id="preview-image" src="" width="300">
+								</div>
+							</div>
+							<div class="row col-md-8">
+								<div class="col-xxs-12 col-xs-12 mt">
+									<div class="input-field">
+										<label for="from">제목</label>
+										<input type="text" class="form-control" id="title" />
 									</div>
+								</div>
+								<div class="col-xxs-12 col-xs-12 mt">
+									<div class="input-field">
+										<label for="from">여행 장소</label>
+										<input type="text" class="form-control" id="place" />
+									</div>
+								</div>
+								<div class="col-xxs-12 col-xs-6 mt alternate">
+									<div class="input-field">
+										<label for="date-start">여행 시작일</label>
+										<input type="text" class="form-control" id="date-start"
+											placeholder="mm/dd/yyyy" />
+									</div>
+								</div>
+								<div class="col-xxs-12 col-xs-6 mt alternate">
+									<div class="input-field">
+										<label for="date-end">여행 마무리일</label>
+										<input type="text" class="form-control" id="date-end"
+											placeholder="mm/dd/yyyy" />
+									</div>
+								</div>
+								<div class="col-xxs-12 col-xs-6 mt alternate">
+									<div class="input-field">
+										<label for="from">비용 (단위 : 원)</label>
+										<input type="number" class="form-control" id="cost"
+											placeholder="숫자만 입력할수 있습니다." />
+									</div>
+								</div>
+								<div class="col-xxs-12 col-xs-6 mt alternate">
+									<section>
+										<label for="class">모집 정원</label>
+										<select class="form-control" id="participant">
+											<option value=2>2</option>
+											<option value=3>3</option>
+											<option value=4>4</option>
+											<option value=5>5</option>
+											<option value=6>6</option>
+											<option value=7>7</option>
+											<option value=8>8</option>
+											<option value=9>9</option>
+											<option value=10>10</option>
+										</select>
+									</section>
+								</div>
+								<div class="col-xxs-12 col-xs-12 mt">
+									<div class="form-group">
+										<textarea style="resize: none;" name="" class="form-control" cols="30" rows="4"
+											placeholder="내용을 입력해주세요." id="content"></textarea>
+									</div>
+								</div>
+								<div class="col-xs-12">
+									<input type="button" class="btn btn-primary btn-block" value="수정 완료"
+										id="recruitment-update">
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-
-			</div>
-			<div id="fh5co-features" style="padding-top:30px;">
-				<div class="container">
-					<div class="row row-bottom-padded-md" id="search_spot_cardbox">
-						<!-- 검색 결과가 없을 때 -->
-						<!-- <h3 style="text-align: center;">검색 결과가 없습니다.</h3> -->
-
-						<!-- 검색 결과가 있을 떄 -->
-						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn"
-							style="cursor: pointer;">
-							<div onclick="location.href='/spots/?id=${spot.id}'" style="overflow:hidden;"><img
-									src="/images/place-6.jpg" alt="Free HTML5 Website Template by FreeHTML5.co"
-									class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
-								<div class="desc">
-									<h3>Hongkong <span style="display:inline; color:#F78536">2.7</span></h3>
-									<span>2 nights</span>
-								</div>
-							</div>
-						</div> -->
-
-						<!-- 더보기 버튼 -->
-						<!-- <div class="col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated"> -->
-						<!-- <p style="text-align:center;"><a class="btn btn-primary btn-outline btn-lg" href="#"><i
-									class="icon-arrow-down22"></i> 더보기
-								<i class="icon-arrow-down22"></i></a></p> -->
 						<!-- </div> -->
 
 					</div>
-				</div>
-				<div class="container">
-					<!-- 여행 루트 글 카드 박스 -->
-					<div class="row row-bottom-padded-md" id="main_routes_cardbox">
-						<div class="desc2 animate-box" style="margin-bottom:15px;">
-							<h2 style="color:#F78536; font-size:32px; font-weight:600; display:inline;">여행 루트</h2>
-							<a href="/routes/index.html" style="display: inline; float: right;">더보기</a>
-						</div>
-
-						<!-- 루트 js파일 innerHTML -->
-
-					</div>
-					<!-- 여행 동료 모집 글 카드 박스 -->
-					<div class="row row-bottom-padded-md" id="main_recruitments_cardbox">
-						<div class="desc2 animate-box" style="margin-bottom:15px;">
-							<h2 style="color:#F78536; font-size:32px; font-weight:600; display:inline;">동료 모집</h2>
-							<a href="/recruitments/index.html" style="display: inline; float: right;">더보기</a>
-						</div>
-
-						<!-- 동료모집 js파일 innerHTML -->
-
-					</div>
-
-					<!-- 관광 장소 리뷰 카드 박스 -->
-					<div class="row row-bottom-padded-md" id="main_reviews_cardbox">
-						<div class="desc2 animate-box" style="margin-bottom:15px;">
-							<h2 style="color:#F78536; font-size:32px; font-weight:600; display:inline;">리뷰</h2>
-							<a href="/reviews/list/index.html" style="display: inline; float: right;">더보기</a>
-						</div>
-
-						<!-- 리뷰 js파일 innerHTML -->
-
-					</div>
-
 				</div>
 			</div>
 
@@ -321,6 +267,7 @@
 
 	</div>
 	<!-- END fh5co-wrapper -->
+
 	<script src="/users/api.js"></script>
 	<!-- jQuery -->
 	<script src="/js/jquery.min.js"></script>
@@ -348,11 +295,7 @@
 
 	<!-- Main JS -->
 	<script src="/js/main.js"></script>
-
-	<!-- Search JS -->
-	<script src="search.js" type="module"></script>
-	<!-- YoriroJoriro Main JS -->
-	<script src="index.js" type="module"></script>
+	<script type="module" src="recruitments_update.js"></script>
 
 </body>
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+
+<body>
+  <article class="login">
+    <header class="login-header">
+      <h1 class="login-title">로그인 또는 회원가입</h1>
+      <!-- <img src="/images/close.png" class="close-btn" /> -->
+    </header>
+    <main class="login-main">
+      <article class="login-section">
+        <h2 class="login-main-header">
+          로그인 :
+        </h2>
+        <form action="" method="" class="login-form">
+          <input id="email" type="text" required placeholder="이메일" />
+          <input id="password" type="password" required placeholder="비밀번호" />
+          <button type="button" class="login-btn" id="login-btn"
+            style="margin-top: 15px; border-radius: 5px;">로그인</button>
+        </form>
+        <div style="text-align: center;">
+          <a href="/users/signup/index.html">회원가입</a>
+        </div>
+      </article>
+      <div class="or">또는</div>
+      <article class="social-login">
+        <a id="google-btn" class="social-login-btn google-btn" href="#">
+          구글 계정으로 로그인
+        </a>
+        <!-- <a class="social-login-btn naver-btn" href="#" target="_blank">
+          네이버 계정으로 로그인
+        </a> -->
+        <a type="button" id="kakao-btn" class="social-login-btn kakao-btn" href="#">
+          카카오톡 계정으로 로그인
+        </a>
+      </article>
+    </main>
+  </article>
+  <script type="module" src="login.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="/images/favicon-96x96.png" />
+    <title>YoriroJoriro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
+    <meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+    <meta name="author" content="FREEHTML5.CO" />
+
+    <!-- 
+	//////////////////////////////////////////////////////
+
+	FREE HTML5 TEMPLATE 
+	DESIGNED & DEVELOPED by FREEHTML5.CO
+		
+	Website: 		http://freehtml5.co/
+	Email: 			info@freehtml5.co
+	Twitter: 		http://twitter.com/fh5co
+	Facebook: 		https://www.facebook.com/fh5co
+
+	//////////////////////////////////////////////////////
+	 -->
+
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:title" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="" />
+    <meta property="og:description" content="" />
+    <meta name="twitter:title" content="" />
+    <meta name="twitter:image" content="" />
+    <meta name="twitter:url" content="" />
+    <meta name="twitter:card" content="" />
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="/css/icomoon.css">
+    <!-- Flaticon Icons-->
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <!-- Superfish -->
+    <link rel="stylesheet" href="/css/superfish.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+    <!-- CS Select -->
+    <link rel="stylesheet" href="/css/cs-select.css">
+    <link rel="stylesheet" href="/css/cs-skin-border.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="/routes/create/route_create.css">
+
+    <link rel="stylesheet" href="./route_update.css">
+
+
+    <!-- Modernizr JS -->
+    <script src="/js/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+    <div id="fh5co-wrapper">
+        <div id="fh5co-page">
+
+            <header id="fh5co-header-section" class="sticky-banner">
+                <div class="container">
+                    <div class="nav-header">
+                        <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle dark"><i></i></a>
+                        <h1 id="fh5co-logo"><a href="/"><img src="/images/logo_64.png" alt="logo">YoriroJoriro</a></h1>
+                        <!-- START #fh5co-menu-wrap -->
+                        <nav id="fh5co-menu-wrap" role="navigation">
+                            <ul class="sf-menu" id="fh5co-primary-menu">
+                                <li><a href="/reviews/list/index.html">리뷰</a></li>
+                                <li><a href="/routes/index.html">루트</a></li>
+                                <li><a href="/recruitments/index.html">동료</a></li>
+                                <li><a href="/joriro/index.html">AI</a></li>
+                                <li><a class="fh5co-sub-ddown"><i class="fi fi-sr-user"></i></a>
+                                    <ul id="profile" class="fh5co-sub-menu">
+                                        <li><a href="/users/login/index.html">로그인</a></li>
+                                        <li><a href="/users/signup/index.html">회원가입</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+
+            <!-- end:header-top -->
+
+            <div id="fh5co-contact" class="fh5co-section-gray">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-5 col-md-5">
+                            <div class="row animate-box">
+
+                                <div class="col-xxs-12 col-xs-12 mt">
+                                    <div class="input-field">
+                                        <label for="title">여행 제목:</label>
+                                        <input type="text" class="form-control" id="route-title"
+                                            placeholder="여행 제목을 입력해주세요" />
+                                    </div>
+                                </div>
+
+                                <div class="col-xxs-12 col-xs-6 mt alternate">
+                                    <div class="input-field">
+                                        <label for="duration">여행 일수:</label>
+                                        <input type="text" class="form-control" id="route-duration"
+                                            placeholder="숫자로만 작성" />
+                                    </div>
+                                </div>
+
+                                <div class="col-xxs-12 col-xs-6 mt alternate">
+                                    <div class="input-field">
+                                        <label for="cost">여행 비용:</label>
+                                        <input type="text" class="form-control" id="route-cost" placeholder="숫자로만 작성" />
+                                    </div>
+                                </div>
+
+                                <div class="col-xxs-12 col-xs-6 mt alternate">
+                                    <div class="input-field">
+                                        <label for="area">시/도:</label>
+                                        <select onchange="changeSigungu(this.value);" id="route-area"
+                                            class="form-control">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xxs-12 col-xs-6 mt alternate">
+                                    <div class="input-field">
+                                        <label for="sigungu">시/군/구:</label>
+                                        <select id="route-sigungu" class="form-control">
+                                            <option value="" selected>전체</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xxs-12 col-xs-12 mt alternate">
+                                    <div class="input-field">
+                                        <label for="image">썸네일 사진:</label>
+                                        <input type="file" class="form-control" id="route-image"
+                                            style="font-size: 12px;" accept="image/*" />
+                                    </div>
+                                    <div id="img-preview-box" style="display: none;">
+                                        <label for="image">사진 미리보기:</label>
+                                        <img src="" alt="..." id="img-preview">
+                                    </div>
+                                </div>
+
+                                <div class=" col-xxs-12 col-xs-12 mt">
+                                    <div class="input-field">
+                                        <label for="spot">목적지:</label>
+                                        <input type="text" class="form-control" id="route-spot"
+                                            placeholder="목적지를 입력해주세요" />
+                                        <div id="spot-results"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xxs-12 col-xs-12 mt" id="spot-saved-box" style="display: none;">
+                                    <div class="input-field">
+                                        <label for="spot">저장된 목적지:</label>
+                                        <div id="spot-saved" style="background-color: white;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xxs-12 col-xs-12 mt">
+                                    <div id="selected-spots"></div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="content">본문 내용:</label>
+                                        <textarea name="" class="form-control" id="route-content" cols="30" rows="7"
+                                            placeholder="본문 내용을 입력해주세요."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <input type="submit" class="btn btn-primary btn-block" id="route-button"
+                                        value="작성 완료">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="desc2 animate-box">
+                            <div class="col-sm-6 col-sm-push-1 col-md-7 col-md-push-1">
+                                <label for="day1">1일차 여행경로</label>
+                                <div id="map" style="width:600px;height:700px;"></div>
+                                <div class="input-field" id="create-name-box" style="display: none;">
+                                    <label for="create-name">목적지 이름:</label>
+                                    <input type="text" id="create-name" placeholder="클릭한 장소의 이름을 입력해주세요">
+                                    <button type="button" id="create-name-button">목적지
+                                        추가</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <div id="footer">
+                    <div class="container">
+                        <div class="row row-bottom-padded-md">
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>트래블러</h3>
+                                <p>트래블러는 여행을 좋아하는 다섯 명의 개발자로 이루어진 팀입니다.</p>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>최승원</h3>
+                                <ul>
+                                    <li><a href="https://github.com/choice44/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2"> 깃허브</i></a></li>
+                                    <li><a href="https://cswcoding.tistory.com/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog"> 블로그</i></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>장우석</h3>
+                                <ul>
+                                    <li><a href="https://github.com/wooseokjang202302/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2">
+                                                깃허브</i></a></li>
+                                    <li><a href=https://velog.io/@william741/ target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog">
+                                                블로그</i></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>서지인</h3>
+                                <ul>
+                                    <li><a href="https://github.com/jeanallen928/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2">
+                                                깃허브</i></a></li>
+                                    <li><a href="https://never-stop.tistory.com/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog">
+                                                블로그</i></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>이도윤</h3>
+                                <ul>
+                                    <li><a href="https://github.com/MiDoRye/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2">
+                                                깃허브</i></a></li>
+                                    <li><a href="https://velog.io/@ehdbs1276/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog">
+                                                블로그</i></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>이찬주</h3>
+                                <ul>
+                                    <li><a href="https://github.com/chanjulee0309/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2">
+                                                깃허브</i></a></li>
+                                    <li><a href="https://cheesemango.tistory.com/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog">
+                                                블로그</i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3 text-center">
+                                Shared by <i class="fa fa-love"></i><a
+                                    href="https://bootstrapthemes.co">BootstrapThemes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+
+        </div>
+        <!-- END fh5co-page -->
+
+    </div>
+    <!-- END fh5co-wrapper -->
+
+    <script src="/users/api.js"></script>
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- jQuery Easing -->
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="/js/jquery.waypoints.min.js"></script>
+    <script src="/js/sticky.js"></script>
+
+    <!-- Stellar -->
+    <script src="/js/jquery.stellar.min.js"></script>
+    <!-- Superfish -->
+    <script src="/js/hoverIntent.js"></script>
+    <script src="/js/superfish.js"></script>
+    <!-- Magnific Popup -->
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/magnific-popup-options.js"></script>
+    <!-- Date Picker -->
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <!-- CS Select -->
+    <script src="/js/classie.js"></script>
+    <script src="/js/selectFx.js"></script>
+
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    <!-- Kakao Map JS -->
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6dafad47184ae097399aaf131aa177ce"></script>
+    <script type="module" src="update_map.js"></script>
+    <script type="module" src="route_update.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,214 @@
+@import "./reset.css";
+
+:root {
+  --main-bg-color: #e5e5e5;
+  --main-border-color: #c4c4c4;
+  --main-border-radius: 10px;
+  --sub-border-radius: 5px;
+}
+
+body {
+  background-color: var(--main-bg-color);
+  font-family: "Spoqa Han Sans Neo";
+  color: #767676;
+}
+
+input {
+  border-radius: var(--sub-border-radius);
+}
+
+.login {
+  width: 520px;
+  height: 712px;
+  border: 1px solid var(--main-border-color);
+  box-sizing: border-box;
+  border-radius: var(--main-border-radius);
+  margin: 5% auto;
+  background-color: white;
+}
+
+.login-header {
+  display: flex;
+  align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.login-header .login-title {
+  font-weight: 500;
+  font-size: 16px;
+  padding: 20px;
+  color: black;
+}
+
+.login-header .close-btn {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  right: 20px;
+}
+
+.login-header {
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.login-main {
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.login-section .login-main-header {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form input {
+  border: 1px solid #c4c4c4;
+  box-sizing: border-box;
+  height: 50px;
+  padding-left: 16px;
+  font-size: 16px;
+}
+
+.login-form input:first-child {
+  margin-bottom: 10px;
+}
+
+.login-status {
+  margin: 17px 0;
+}
+
+.login-status input[id="chkbox"] {
+  display: none;
+}
+
+.login-status input[id="chkbox"]+label em {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  background-image: url("/images/check-box.png");
+  background-size: cover;
+  vertical-align: sub;
+  cursor: pointer;
+  transition: all ease 0.2s;
+}
+
+.login-status input[id="chkbox"]:checked+label em {
+  background-image: url("/images/check-box-blue.png");
+}
+
+.login-form .login-btn {
+  color: white;
+  background-color: #F78536;
+  padding: 14px 0;
+  border: none;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.login-form .login-btn:hover {
+  background-color: #d96715;
+}
+
+.find {
+  text-align: center;
+}
+
+.find a {
+  font-size: 14px;
+  color: #767676;
+}
+
+.find a:first-child::after {
+  content: "";
+  width: 0.8px;
+  height: 15px;
+  display: inline-block;
+  background-color: #767676;
+  margin: 0 12px;
+  vertical-align: bottom;
+}
+
+.or {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  font-size: 14px;
+  margin: 30px 0;
+}
+
+.or::before,
+.or::after {
+  content: "";
+  flex-grow: 1;
+  height: 1px;
+  background-color: var(--main-border-color);
+}
+
+.social-login .social-login-btn {
+  border-radius: var(--sub-border-radius);
+  padding: 15px;
+  color: #767676;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.social-login-btn::before {
+  content: "";
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  left: 10px;
+  background: url("/images/css_sprites_2x.png") no-repeat;
+  background-size: 76px;
+}
+
+.social-login .social-login-btn:not(.kakao-btn) {
+  margin-bottom: 15px;
+}
+
+.google-btn {
+  border: 1px solid #767676;
+}
+
+.google-btn::before {
+  background-position: -43px -43px;
+}
+
+.facebook-btn {
+  border: 1px solid #2d9cdb;
+}
+
+.facebook-btn::before {
+  background-position: -5px -43px;
+}
+
+.naver-btn {
+  border: 1px solid #00bf18;
+}
+
+.naver-btn::before {
+  background-position: -43px -5px;
+}
+
+.kakao-btn {
+  border: 1px solid #f2c94c;
+}
+
+.kakao-btn::before {
+  background-position: -5px -5px;
+}
