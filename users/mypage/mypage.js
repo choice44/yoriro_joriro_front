@@ -1,5 +1,6 @@
 import { proxy } from "/proxy.js";
 import { loadFollowers } from "./mypage_follow.js";
+import { handleLogout } from "/users/api.js";
 
 console.log("로드 완료")
 
@@ -56,3 +57,48 @@ async function inputUserInfo(user) {
   // // 이미지를 프론트엔드에 표시
   // user_image.appendChild(imgElement);
 }
+
+
+// 회원탈퇴 함수
+async function deleteUser() {
+
+  const user_id = JSON.parse(localStorage.getItem("payload")).user_id;
+
+  try {
+    const confirmation = confirm('회원 탈퇴하시겠습니까?');
+
+    if (!confirmation) {
+      return; // 탈퇴 취소 시 함수 종료
+    }
+
+    // 로컬 스토리지에서 엑세스 토큰 가져옴
+    const accessToken = localStorage.getItem('access');
+
+    // 백엔드에 회원 탈퇴 요청
+    const response = await fetch(`${proxy}/users/mypage/${user_id}/`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('회원 탈퇴에 실패하였습니다.');
+    }
+
+    alert('회원 탈퇴가 완료되었습니다.');
+
+    // 로그아웃 함수 가져옴, 로그아웃 시 로그인 페이지로 이동
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("payload");
+
+    location.replace('/')
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+
+window.deleteUser = deleteUser

@@ -163,8 +163,9 @@
 								<input type="button" value="수정하기" class="btn btn-primary btn-outline btn-lg"
 									style="margin-right:15px; margin-top: 25px;" id="profile_update_button"
 									onclick="location.href='/users/mypage/update/index.html'">
-								<input type="submit" value="탈퇴하기" class="btn btn-primary btn-lg"
-									style="background-color:#848484; margin-top: 25px;" id="profile_delete_button">
+								<input type="button" value="탈퇴하기" class="btn btn-primary btn-lg"
+									style="background-color:#848484; margin-top: 25px;" id="profile_delete_button"
+									onclick="deleteUser()">
 							</div>
 						</div>
 						<div class="col-md-7 animate-box">
@@ -298,7 +299,7 @@
 	</div>
 	<!-- END fh5co-wrapper -->
 
-	<script src="/users/api.js"></script>
+	<script src="/users/api.js" type="module"></script>
 	<!-- jQuery -->
 	<script src="/js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
