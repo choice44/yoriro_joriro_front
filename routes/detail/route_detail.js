@@ -1,8 +1,10 @@
-import { proxy } from "../../proxy.js";
+import { proxy, front_proxy } from "../../proxy.js";
 import { createMarker } from "./detail_map.js";
 
 // 주소창에서 가져온 게시글 id
 const route_id = new URLSearchParams(window.location.search).get('id');
+// 로컬 스토리지에서 유저의 정보를 가지고옴
+const userInfo = JSON.parse(localStorage.getItem('payload'));
 
 // 모달창 관련 변수들
 const modal = document.getElementById("ratingModal");
@@ -12,6 +14,7 @@ const submitRating = document.getElementById("submitRating");
 const route_rating = document.getElementById("route-detail-rating")
 
 // 수정하기, 삭제하기
+const update_box = document.getElementById("update-box")
 const update_href = document.getElementById("route-update-href")
 
 // 게시글 요청 함수
@@ -130,6 +133,11 @@ async function routeRating(route_id) {
             return alert("평점을 입력해주세요")
         }
 
+        // 평점이 0 이하 혹은 100 초과일 때
+        if (rating < 0 || rating > 100) {
+            return alert("평점은 0과 100 사이의 값이어야 합니다.")
+        }
+
         const response = await fetch(`${proxy}/routes/${route_id}/rate/`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -161,6 +169,7 @@ async function viewRouteDetail() {
     const area_id = route.areas[0].area // route의 시/도 id 
     const sigungu_id = route.areas[0].sigungu   // route의 시군구 id
     const spot_ids = route.spots
+    const rate_half_up = Math.round(route.rate * 10) / 10;  // 평점 반올림
 
     const area = await getRouteArea(area_id);   // 시/도의 이름
     const sigungu = await getRouteSigungu(area_id, sigungu_id)  // 시군구의 이름
@@ -175,7 +184,6 @@ async function viewRouteDetail() {
     const route_rate = document.getElementById("route-detail-rate")
     const route_content = document.getElementById("route-detail-content")
 
-
     route_title.innerText = route.title
     route_image.setAttribute("src", proxy + route.image)
     route_area.innerText = area
@@ -183,18 +191,42 @@ async function viewRouteDetail() {
     route_duration.innerText = route.duration + `일`
     route_cost.innerText = route.cost + `원`
     route_spots.innerHTML = ''
-    route_rate.innerText = route.rate + `점`
+    route_rate.innerText = rate_half_up + `점`
     route_content.innerText = route.content
 
     // 수정버튼 수정페이지 링크 부여
-    update_href.setAttribute("href", `/routes/detail/update/index.html?id=${route_id}`)
+    const route_user_id = route.user.id;
 
+
+    if (userInfo.user_id === route_user_id) {
+        update_box.style.display = 'block';
+        update_href.setAttribute("href", `/routes/detail/update/index.html?id=${route_id}`)
+    } else {
+        update_box.style.display = 'none';
+    }
 
     // 목적지 목록에 목적지 순차 부여
     let spotCount = 1
-    for (let spot of spot_ids) {
+    let spot_image = "/images/place-1.jpg"
+    let spot_addr = "기록된 주소가 없습니다."
 
-        route_spots.innerHTML += `<p style="font-size: 20px">${spotCount}. ${spot.title}</p>`
+    for (let spot of spot_ids) {
+        if (spot.firstimage) {
+            spot_image = spot.firstimage
+        }
+        if (spot.addr1) {
+            spot_addr = spot.addr1
+        }
+        route_spots.innerHTML += `
+        <a class="row" style="margin: 0;" id="review_detail_spot_cardbox" href="${front_proxy}/spots/index.html?id=${spot.id}">
+            <div class="col-md-4" style="height:100px; padding:0; overflow: hidden;">
+                <img class="img-responsive" src="${spot_image}" alt="방문지 이미지" id="review_detail_spot_image" style="height: 100%; width: 100%; object-fit: cover;">
+            </div>
+            <div class="col-md-8" style="background-color: rgb(0, 0, 0, 0.04); height:100px;">
+                <h3 style="margin-bottom:0; margin-top:20px;" id="review_detail_spot_title">${spotCount}. ${spot.title}</h3>
+                <span class="price" id="review_detail_spot_addr">${spot_addr}</span>
+            </div>
+        </a>`
         spotCount += 1
     }
 
@@ -210,6 +242,7 @@ async function viewRouteDetail() {
     createMarker(spot_ids)
 }
 
+// 여행루트 삭제 함수
 export async function routeDelete() {
     if (confirm("삭제하시겠습니까?")) {
         const accessToken = localStorage.getItem('access');
@@ -254,15 +287,25 @@ async function routeComment() {
 
 }
 
-// 댓글 조회 함수
 async function getComments(route_id) {
     const response = await fetch(`${proxy}/routes/${route_id}/comments/`);
     const comments = await response.json();
 
+    // JS에서 제공하는 시간 날짜 설정 객체
+    const formatter = new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+
+
     comments.forEach((comment, index) => {
         const commentList = document.getElementById('comment-list');
         const date = new Date(comment.created_at);
-        const formattedDate = date.toLocaleDateString() + " " + date.toLocaleTimeString().slice(0, 7);
+        const formattedDate = formatter.format(date);   // 날짜 포멧
+        const isCommentOwner = (userInfo.user_id === comment.user.id); // 본인이 작성한 댓글인지 확인
 
         commentList.insertAdjacentHTML('beforeend', `
         <div id="comment-${comment.id}" class="card mb-3 text-start" style="${index !== 0 ? 'border-top: 1px solid #000;' : ''}"> <!-- 첫 번째 댓글을 제외하고 모든 댓글에 상단 경계선 추가 -->
@@ -283,15 +326,17 @@ async function getComments(route_id) {
                     </div>
                 </div>
             </div>
+            ${isCommentOwner ? ` <!-- 본인이 작성한 댓글일 경우에만 수정 및 삭제 버튼 표시 -->
             <div class="row g-0">
                 <div class="col-md-10"></div>
                 <div class="col-md-2">
-                    <div class="card-body d-flex justify-content-end">
-                        <a href="#" onclick="event.preventDefault(); editComment(${comment.id})" class="btn btn-secondary btn-sm me-md-2">댓글수정</a>
-                        <a href="#" onclick="event.preventDefault(); CommentDelete(${comment.id})" class="btn btn-secondary btn-sm">댓글삭제</a>
+                    <div class="comment-update-box">
+                        <a href="#" onclick="event.preventDefault(); editComment(${comment.id})">댓글수정</a>
+                        <a href="#" onclick="event.preventDefault(); CommentDelete(${comment.id})">댓글삭제</a>
                     </div>
                 </div>
             </div>
+            ` : ''} <!-- 본인이 작성한 댓글이 아닐 경우 버튼을 빈 문자열로 대체 -->
         </div>
         `);
     });
@@ -300,25 +345,28 @@ async function getComments(route_id) {
 // 댓글 수정 함수
 async function editComment(commentId) {
     // 댓글 내용을 가져오기
-    const commentContent = document.getElementById(`comment-content-${commentId}`).textContent;
+    const commentContent = document.getElementById(`comment-content-${commentId}`);
 
     // 댓글 수정 폼 생성
-    const editForm = document.createElement('form');
-    editForm.innerHTML = `
-      <input type="text" id="edit-comment-${commentId}" value="${commentContent}">
-      <button type="button" onclick="updateComment(${commentId})">Submit</button>
+    const originalContent = commentContent.textContent;
+    commentContent.innerHTML = `
+        <input type="text" id="edit-comment-${commentId}" value="${originalContent}" style="width: 600px;">
+        <button type="button" onclick="updateComment(${commentId})">댓글수정</button>
+        <button type="button" onclick="cancelEdit(${commentId}, '${originalContent}')">취소</button>
     `;
+}
 
-    // 댓글 수정 폼 표시
-    const commentDiv = document.getElementById(`comment-${commentId}`);
-    commentDiv.innerHTML = '';
-    commentDiv.appendChild(editForm);
+// 댓글 수정 취소 함수
+function cancelEdit(commentId, originalContent) {
+    const commentContent = document.getElementById(`comment-content-${commentId}`);
+    commentContent.innerHTML = originalContent;
 }
 
 // 수정 댓글 저장 함수
 async function updateComment(commentId) {
     // 수정된 댓글 내용 가져오기
-    const editedContent = document.getElementById(`edit-comment-${commentId}`).value;
+    const commentContent = document.getElementById(`comment-content-${commentId}`);
+    const editedContent = commentContent.querySelector('input').value;
 
     // 수정된 댓글 내용을 서버에 전송
     const accessToken = localStorage.getItem('access');
@@ -333,8 +381,8 @@ async function updateComment(commentId) {
 
     if (response.ok) {
         // 댓글 목록 다시 불러오기
+        commentContent.textContent = editedContent;
         alert("수정 완료!")
-        location.reload()
     }
 }
 
@@ -367,6 +415,7 @@ window.routeDelete = routeDelete
 window.routeComment = routeComment
 window.editComment = editComment
 window.updateComment = updateComment
+window.cancelEdit = cancelEdit
 window.CommentDelete = CommentDelete
 
 
