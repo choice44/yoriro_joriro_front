@@ -327,6 +327,12 @@ function removeSpot(spot) {
         // splice(index, n)는 해당 index부터 n번 삭제
         savedSpots.splice(index, 1);
 
+        // spotsId에서도 제거
+        const spotIdIndex = spotsId.indexOf(spot.id);
+        if (spotIdIndex !== -1) {
+            spotsId.splice(spotIdIndex, 1);
+        }
+
         // 관광지 목록 재업데이트
         updateSavedSpots();
         // 마커 재생성

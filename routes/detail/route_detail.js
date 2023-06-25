@@ -207,15 +207,19 @@ async function viewRouteDetail() {
 
     // 목적지 목록에 목적지 순차 부여
     let spotCount = 1
-    let spot_image = "/images/place-1.jpg"
-    let spot_addr = "기록된 주소가 없습니다."
+    let spot_image = ""
+    let spot_addr = ""
 
     for (let spot of spot_ids) {
         if (spot.firstimage) {
             spot_image = spot.firstimage
+        } else {
+            spot_image = "/images/place-1.jpg"
         }
         if (spot.addr1) {
             spot_addr = spot.addr1
+        } else {
+            spot_addr = "기록된 주소가 없습니다."
         }
         route_spots.innerHTML += `
         <a class="row" style="margin: 0;" id="review_detail_spot_cardbox" href="/spots/index.html?id=${spot.id}">
@@ -255,6 +259,7 @@ export async function routeDelete() {
         })
         if (response.status === 204) {
             alert("삭제 완료!")
+            location.replace('../index.html')
         } else {
             alert("권한이 없습니다.")
         }
