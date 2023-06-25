@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   if (localStorage.getItem("payload")) {
 
     profile.innerHTML = `
-        <li><a href="/index.html">마이페이지</a></li>
+        <li><a href="/users/mypage/index.html">마이페이지</a></li>
         <li><a onclick="handleLogout()">로그아웃</a></li>
       `
   }
