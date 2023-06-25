@@ -1,6 +1,5 @@
 import { proxy } from "/proxy.js";
 import { loadFollowers } from "./mypage_follow.js";
-import { handleLogout } from "/users/api.js";
 
 console.log("로드 완료")
 
