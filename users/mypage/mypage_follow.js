@@ -4,10 +4,6 @@ const user_id = JSON.parse(localStorage.getItem("payload")).user_id;
 const token = localStorage.getItem('access')
 const following_id_list = []
 
-window.onload = async function loadMypage() {
-    loadFollowers()
-}
-
 
 async function getMypage(user_id) {
     const response = await fetch(`${proxy}/users/mypage/${user_id}/`)
@@ -48,7 +44,7 @@ async function loadFollowings() {
 };
 
 
-async function loadFollowers() {
+export async function loadFollowers() {
 
     const userProfile = await getMypage(user_id)
 
