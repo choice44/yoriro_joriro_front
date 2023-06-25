@@ -174,15 +174,16 @@ async function viewRouteDetail() {
     const area = await getRouteArea(area_id);   // 시/도의 이름
     const sigungu = await getRouteSigungu(area_id, sigungu_id)  // 시군구의 이름
 
-    const route_title = document.getElementById("route-detail-title")
-    const route_image = document.getElementById("route-detail-image")
-    const route_area = document.getElementById("route-detail-area")
-    const route_sigungu = document.getElementById("route-detail-sigungu")
-    const route_duration = document.getElementById("route-detail-duration")
-    const route_cost = document.getElementById("route-detail-cost")
-    const route_spots = document.getElementById("route-detail-spots")
-    const route_rate = document.getElementById("route-detail-rate")
-    const route_content = document.getElementById("route-detail-content")
+    const route_title = document.getElementById("route-detail-title");
+    const route_image = document.getElementById("route-detail-image");
+    const route_area = document.getElementById("route-detail-area");
+    const route_sigungu = document.getElementById("route-detail-sigungu");
+    const route_duration = document.getElementById("route-detail-duration");
+    const route_cost = document.getElementById("route-detail-cost");
+    const route_spots = document.getElementById("route-detail-spots");
+    const route_rate = document.getElementById("route-detail-rate");
+    const route_content = document.getElementById("route-detail-content");
+    const route_user = document.getElementById("route-detail-user");
 
     route_title.innerText = route.title
     route_image.setAttribute("src", proxy + route.image)
@@ -193,6 +194,11 @@ async function viewRouteDetail() {
     route_spots.innerHTML = ''
     route_rate.innerText = rate_half_up + `점`
     route_content.innerText = route.content
+    route_user.innerText = route.user.nickname
+
+    route_user.addEventListener('click', function () {
+        window.location.href = `/users/mypage/index.html?id=${route.user.id}`;
+    });
 
     // 수정버튼 수정페이지 링크 부여
     const route_user_id = route.user.id;
@@ -222,7 +228,7 @@ async function viewRouteDetail() {
             spot_addr = "기록된 주소가 없습니다."
         }
         route_spots.innerHTML += `
-        <a class="row" style="margin: 0;" id="review_detail_spot_cardbox" href="/spots/index.html?id=${spot.id}">
+        <a class="row-spot" style="margin: 0;" id="review_detail_spot_cardbox" href="/spots/index.html?id=${spot.id}">
             <div class="col-md-4" style="height:100px; padding:0; overflow: hidden;">
                 <img class="img-responsive" src="${spot_image}" alt="방문지 이미지" id="review_detail_spot_image" style="height: 100%; width: 100%; object-fit: cover;">
             </div>
@@ -335,8 +341,8 @@ async function getComments(route_id) {
                 <div class="col-md-10"></div>
                 <div class="col-md-2">
                     <div class="comment-update-box">
-                        <a href="#" onclick="event.preventDefault(); editComment(${comment.id})">댓글수정</a>
-                        <a href="#" onclick="event.preventDefault(); CommentDelete(${comment.id})">댓글삭제</a>
+                        <a href="#" class="comment-btn" onclick="event.preventDefault(); editComment(${comment.id})">댓글수정</a>
+                        <a href="#" class="comment-btn" onclick="event.preventDefault(); CommentDelete(${comment.id})">댓글삭제</a>
                     </div>
                 </div>
             </div>
