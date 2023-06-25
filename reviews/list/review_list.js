@@ -90,7 +90,7 @@ async function loadReviewList(type) {
         template.setAttribute("id", "review_more_button");
         template.setAttribute("class", "col-md-12 text-center");
 
-        template.innerHTML = `<input class="btn btn-primary btn-lg" onclick="viewMoreReviewList('${reviews.next}')"
+        template.innerHTML = `<input type="button" class="btn btn-primary btn-lg" onclick="viewMoreReviewList('${reviews.next}')"
             value="▼ 더보기 ▼" />`;
 
         review_list.appendChild(template);
@@ -164,7 +164,7 @@ async function viewMoreReviewList(next) {
         template.setAttribute("id", "review_more_button");
         template.setAttribute("class", "col-md-12 text-center");
 
-        template.innerHTML = `<input class="btn btn-primary btn-lg" onclick="viewMoreReviewList('${more_reviews.next}')"
+        template.innerHTML = `<input type="button" class="btn btn-primary btn-lg" onclick="viewMoreReviewList('${more_reviews.next}')"
         value="▼ 더보기 ▼" />`;
 
         review_list.appendChild(template);
