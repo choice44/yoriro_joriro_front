@@ -168,8 +168,8 @@ async function updateRoute(formData) {
             throw new Error('게시글 작성에 실패하였습니다.');
         }
 
-        //여행루트 작성 후 메인 페이지로 이동
-        window.location.href = `../?id=${route_id}`
+        //여행루트 수정 후 메인 페이지로 이동
+        window.location.href = `../index.html?id=${route_id}`
 
     } catch (error) {
         console.error('Error:', error);
