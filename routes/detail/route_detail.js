@@ -255,7 +255,6 @@ export async function routeDelete() {
         })
         if (response.status === 204) {
             alert("삭제 완료!")
-            location.replace('../')
         } else {
             alert("권한이 없습니다.")
         }
