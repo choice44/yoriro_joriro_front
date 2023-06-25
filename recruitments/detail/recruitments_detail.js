@@ -442,10 +442,10 @@ async function editJoin(applicantId) {
             body: JSON.stringify(data)
         })
         hideEditButton.style.display = "block"
+        alert("신청 수정 완료!")
     })
 
     joinCard.appendChild(saveButton)
-    alert("신청 수정 완료!")
 }
 
 
