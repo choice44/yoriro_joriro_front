@@ -89,7 +89,7 @@ async function inputReviewDetail(review) {
 
     /* 방문지 */
     const spot_card = document.getElementById("review_detail_spot_cardbox");
-    spot_card.setAttribute("href", `/spots/?id=${review.spot.id}`)
+    spot_card.setAttribute("href", `/spots/index.html?id=${review.spot.id}`)
 
     if (review.spot.image) {
         const spot_image = document.getElementById("review_detail_spot_image");

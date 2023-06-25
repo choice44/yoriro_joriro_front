@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     if (response.status == 200 || 201) {
         const response_json = await response.json();
-        console.log(response);
-        console.log(response_json);
 
         localStorage.setItem("access", response_json.access);
         localStorage.setItem("refresh", response_json.refresh);
