@@ -1,4 +1,4 @@
-import { proxy, front_proxy } from "../../proxy.js";
+import { proxy } from "../../proxy.js";
 import { createMarker } from "./detail_map.js";
 
 // 주소창에서 가져온 게시글 id
@@ -218,7 +218,7 @@ async function viewRouteDetail() {
             spot_addr = spot.addr1
         }
         route_spots.innerHTML += `
-        <a class="row" style="margin: 0;" id="review_detail_spot_cardbox" href="${front_proxy}/spots/index.html?id=${spot.id}">
+        <a class="row" style="margin: 0;" id="review_detail_spot_cardbox" href="/spots/index.html?id=${spot.id}">
             <div class="col-md-4" style="height:100px; padding:0; overflow: hidden;">
                 <img class="img-responsive" src="${spot_image}" alt="방문지 이미지" id="review_detail_spot_image" style="height: 100%; width: 100%; object-fit: cover;">
             </div>
