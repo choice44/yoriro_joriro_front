@@ -22,6 +22,7 @@ window.onload = async function getUpdeteRecruitment() {
     if (response.status == 200) {
         response_json = await response.json()
 
+        // html에 보여지는 날짜 값으로 변경
         const dateStart = response_json.departure
         let year = dateStart.split('-')[0]
         let month = dateStart.split('-')[1]
@@ -42,6 +43,7 @@ window.onload = async function getUpdeteRecruitment() {
 
         const participantSelect = document.getElementById("participant")
 
+        // 설정한 모집 정원에 맞춰 수정 페이지에서 보여지는 값 변경
         for (let i = 0; i <= 8; i++) {
             if (i == response_json.participant_max - 2) {
                 participantSelect.selectedIndex = i
@@ -51,6 +53,7 @@ window.onload = async function getUpdeteRecruitment() {
 
         document.getElementById("content").value = response_json.content
         const imageUrl = response_json.image
+        // 저장된 이미지가 있으면 preview
         if (imageUrl) {
             document.getElementById("preview-image").src = proxy + imageUrl
         }
@@ -84,6 +87,7 @@ export async function updateRecruitment() {
     day = dateEnd.split('/')[1]
     const arrival = year + "-" + month + "-" + day
 
+    // 현재 참가자보다 적은 인원으로 모집 정원 변경 불가
     if (participant < response_json.participant_now) {
         alert("현재 참가자보다 적은 모집인원을 설정할 수 없습니다.")
     } else {
@@ -127,6 +131,8 @@ export async function updateRecruitment() {
 
 }
 
+
+// 섬네일 호출 함수
 async function setThumbnail() {
     const previewImage = document.getElementById("preview-image")
     const imageInput = document.getElementById("image")

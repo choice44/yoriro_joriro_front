@@ -1,5 +1,6 @@
 import { proxy } from "../../proxy.js"
 
+// 섬네일 확인 함수 항상 호출
 setThumbnail()
 
 async function postRecruitment() {
@@ -12,10 +13,12 @@ async function postRecruitment() {
     const content = document.getElementById("content").value
     const image = document.getElementById("image").files[0]
 
+    // 현재 시간 가져오기
     let timeNow = new Date()
     timeNow = `${timeNow.getFullYear()}${('00' + (timeNow.getMonth() + 1)).slice(-2)
         }${timeNow.getDate()} `
 
+    // 저장된 데이터베이스와 같은 형식으로 날짜 변경
     let year = dateStart.split('/')[2]
     let month = dateStart.split('/')[0]
     let day = dateStart.split('/')[1]
@@ -48,6 +51,7 @@ async function postRecruitment() {
     formdata.append("participant_max", participant)
     formdata.append("content", content)
 
+    // 사진 최대크기 설정
     let maxSize = 3 * 1024 * 1024
 
     if (image) {
@@ -57,7 +61,6 @@ async function postRecruitment() {
         }
         formdata.append("image", image)
     }
-
 
     let token = localStorage.getItem("access")
 
@@ -80,14 +83,18 @@ async function postRecruitment() {
 }
 
 
+// 섬네일 호출 함수
 async function setThumbnail() {
     const previewImage = document.getElementById("preview-image")
     const imageInput = document.getElementById("image")
     const formdata = new FormData()
 
+    // input이 있으면 섬네일 변경 및 파일 크기 출력
     imageInput.addEventListener('input', function () {
+        // input 되는 사진 가져오기
         const file = imageInput.files[0]
         if (file) {
+            // 사진이 있을 경우 previewImage에 사진 가져오기
             const reader = new FileReader()
             reader.onload = function (event) {
                 previewImage.src = event.target.result
@@ -95,14 +102,17 @@ async function setThumbnail() {
             reader.readAsDataURL(file)
             formdata.set("image", file)
         } else {
+            // 사진이 없을 경우 previewImage 삭제
             previewImage.src = ""
             formdata.delete("image")
         }
         const maxSize = 3 * 1024 * 1024
         const imageSize = document.getElementById("file-size")
+        // 소수 둘째자리까지 출력하면서 파일 크기를 MB로 변경
         let MBsize = (file.size / (1024 * 1024)).toFixed(2)
         imageSize.innerText = `${MBsize} MB`
 
+        // 사진이 지정 사이즈가 넘으면 빨간색으로 출력
         if (file.size >= maxSize) {
             imageSize.setAttribute("style", "color:red;")
         } else {

@@ -16,6 +16,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     const response = await getRecruitment(recruitmentId)
     let imagePath
 
+    // 이미지 값이 있으면 이미지 출력, 없으면 기본 이미지 출력
     if (response.image) {
         imagePath = proxy + response.image;
     } else {
@@ -39,6 +40,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     let arrival = response.arrival.split('T')[0]
     let updated_at = response.updated_at.split('T')[0] + " " + response.updated_at.split('T')[1].split('.')[0]
     const statusIsComplete = { 0: "모집 중", 1: "모집 완료", 2: "여행 중", 3: "여행 완료" };
+    // 게시글 생성 부분
     template.innerHTML = `
         <table width="100%" style="text-align:center; margin-right:5%; margin-top:5%; border: 1px solid #444444; border-collapse:separate; border-radius:8px;">
             <tr height=60px>
@@ -69,6 +71,7 @@ async function loadRecruitmentDetail(recruitmentId) {
 
     recruitmentLoad.appendChild(template)
 
+    // F일때 여성, M일때 남성, 없을때 빈 문자열 출력
     let gender = response.user.gender
     if (gender == "F") {
         gender = "여성"
@@ -78,6 +81,7 @@ async function loadRecruitmentDetail(recruitmentId) {
         gender = ""
     }
 
+    // 게시글 작성자 정보
     const recruitmentWriterInfo = document.getElementById("writer-info")
     recruitmentWriterInfo.innerHTML = ""
     recruitmentWriterInfo.innerHTML = `
@@ -97,6 +101,7 @@ async function loadRecruitmentDetail(recruitmentId) {
 
     let participant = response.participant
 
+    // 참가자 정보
     const participantCard = document.getElementById("participant")
     participantCard.innerHTML = ""
     const participantTable = document.createElement("table")
@@ -134,6 +139,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     `
     participantCard.appendChild(participantTable)
 
+    // 게시글 작성자가 아니면 수정, 삭제버튼이 보이지 않음
     const result = await checkAuthor(recruitmentId);
     if (result) {
         const recruitmentButton = document.getElementById("recruitment-button")
@@ -176,14 +182,17 @@ async function getApplicant(recruitmentId) {
 }
 
 
+// 지원자 호출 함수
 async function loadJoin(recruitmentId) {
     const applicantResponse = await getApplicant(recruitmentId);
+    // 로그인 유저 id 가져오기
     const accessToken = localStorage.getItem('access')
     let userId = getPKFromAccessToken(accessToken)
 
     const result = await checkAuthor(recruitmentId);
     const joinReset = document.getElementById("applicant");
 
+    // 게시글 작성자가 로그인하면 신청칸과 버튼 보이지 않게 설정
     const applicantJoinCreate = document.getElementById("applicant-join")
     if (result) {
         applicantJoinCreate.style.display = "none";
@@ -196,6 +205,7 @@ async function loadJoin(recruitmentId) {
     applicantList.innerHTML = ""
 
     applicantResponse.forEach(applicant => {
+        // applicant에 있는 정보들이 user = applicant.user, appeal = applicant.appeal, acceptence = applicant.acceptence, id = applicant.id 에 각각 담아줌
         const { user, appeal, acceptence, id } = applicant
         const { nickname, age, gender } = user
 
@@ -218,6 +228,7 @@ async function loadJoin(recruitmentId) {
             acceptencePrint = "수락됨"
         }
 
+        // 3항 연산자를 사용해서 게시글 작성자가 로그인 하면 수락, 거절버튼이 보이고, 신청 작성자가 로그인하면 신청 수정, 삭제 버튼이 보인다.
         const tableHTML = `
         <table class="col-md-12">
             <tr>
@@ -283,21 +294,22 @@ async function postJoin(recruitmentId, newJoin) {
         })
     })
 
-    if (response.status == 200) {
-        response_json = await response.json()
-        return response_json
+    if (response.status == 201) {
+        alert("동료 모집 신청 완료")
     } else {
         alert(response.status)
     }
 }
 
 
+// 로그인 확인 함수
 async function isLoggedIn() {
     const accessToken = localStorage.getItem('access')
     return accessToken !== null
 }
 
 
+// 로그인을 한 사용자가 게시글 작성자인지 확인, 작성자이면 true, 아니면 false값 리턴
 async function checkAuthor(recruitmentId) {
     const response = await getRecruitment(recruitmentId)
 
@@ -312,6 +324,7 @@ async function checkAuthor(recruitmentId) {
 }
 
 
+// 토큰 가져오는 부분
 function getPKFromAccessToken(accessToken) {
     const tokenParts = accessToken.split('.')  // 토큰 값을 .으로 나눔
     const payloadBase64 = tokenParts[1]    // 나눠진 토큰중 1번 인덱스에 해당하는 값을 저장
@@ -322,11 +335,13 @@ function getPKFromAccessToken(accessToken) {
 }
 
 
+// 동료모집 글 수정 페이지 호출
 async function recruitmentEdit() {
     location.href = `/recruitments/update/index.html?id=${recruitmentId}`
 }
 
 
+// 동료모집 글 삭제
 async function recruitmentDelete() {
     if (confirm("삭제하시겠습니까?")) {
         const response = await fetch(`${proxy}/recruitments/${recruitmentId}`, {
@@ -346,6 +361,7 @@ async function recruitmentDelete() {
 }
 
 
+// 신청 수락
 async function acceptApplicant(applicantId) {
     let token = localStorage.getItem("access")
 
@@ -368,6 +384,7 @@ async function acceptApplicant(applicantId) {
 }
 
 
+// 신청 거절
 async function rejectApplicant(applicantId) {
     let token = localStorage.getItem("access")
 
@@ -390,6 +407,7 @@ async function rejectApplicant(applicantId) {
 }
 
 
+// 신청 수정
 async function editJoin(applicantId) {
     let token = localStorage.getItem("access")
     const hideEditButton = document.getElementById(`edit-appeal-button-${applicantId}`)
@@ -428,6 +446,7 @@ async function editJoin(applicantId) {
 }
 
 
+// 신청 삭제
 async function deleteJoin(applicantId) {
     if (confirm("삭제하시겠습니까?")) {
         const response = await fetch(`${proxy}/recruitments/join/${applicantId}/`, {
