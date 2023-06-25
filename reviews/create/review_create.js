@@ -65,7 +65,7 @@ async function createReview(formData) {
         }
 
         const data = await response.json();
-        console.log(data[0]["message"]);
+
         location.replace('/reviews/list/index.html')
 
     } catch (error) {
