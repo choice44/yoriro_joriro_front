@@ -71,7 +71,6 @@ function recruitmentDetail(recruitment_id) {
 // 로그인을 하지 않으면 게시글 생성 불가
 function CreateRecruitment() {
     if (localStorage.getItem("access")) {
-        ``
         window.location.href = `/recruitments/create/index.html`
     } else {
         alert("로그인이 필요합니다.")
