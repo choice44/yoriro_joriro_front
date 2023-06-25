@@ -45,7 +45,7 @@ async function viewRouteList() {
         if (!route.rate || route.rate == 0) {
             route.rate = "";
         } else {
-            route.rate = Math.round(route.rate) + "점";
+            route.rate = Math.round(route.rate * 10) / 10 + "점";
         };
 
         const areas = { 1: "서울", 2: "인천", 3: "대전", 4: "대구", 5: "광주", 6: "부산", 7: "울산", 8: "세종특별자치시", 31: "경기도", 32: "강원도", 33: "충청북도", 34: "충청남도", 35: "경상북도", 36: "경상남도", 37: "전라북도", 38: "전라남도", 39: "제주도" };
