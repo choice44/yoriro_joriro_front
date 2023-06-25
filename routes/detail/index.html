@@ -65,6 +65,7 @@
 
     <link rel="stylesheet" href="/css/style.css">
 
+    <link rel="stylesheet" href="./route_detail.css">
 
     <!-- Modernizr JS -->
     <script src="/js/modernizr-2.6.2.min.js"></script>
@@ -110,12 +111,8 @@
                     <div class="row">
 
                         <div class="row animate-box">
-                            <div style="background-color: antiquewhite;">
-                                <img id="route-detail-image" src="" alt="...">
-                            </div>
-
                             <div>
-                                <h1 id="route-detail-title"></h1>
+                                <h1 id="route-detail-title" style="text-align: center;"></h1>
                             </div>
                         </div>
 
@@ -153,7 +150,7 @@
                                 <div class="col-xxs-12 col-xs-12 mt">
                                     <div class="input-field">
                                         <label for="spot" style="font-size: 30px">목적지 목록:</label>
-                                        <div id="route-detail-spots" style="background-color: white"></div>
+                                        <div id="route-detail-spots"></div>
                                     </div>
                                 </div>
 
@@ -180,12 +177,16 @@
 
                         <div class="desc2 animate-box">
                             <div class="col-sm-6 col-sm-push-1 col-md-7 col-md-push-1">
-                                <div>
+                                <div id="update-box" style="width: 500px; display:none; text-align:right" ;>
                                     <a id="route-update-href">수정하기</a>
-                                    <a href="#" id="route-delete-href" onclick="routeDelete()">삭제하기</a>
+                                    <a href="#" id="route-delete-href" onclick="routeDelete()"
+                                        style="margin-left: 20px;">삭제하기</a>
+                                </div>
+                                <div>
+                                    <img id="route-detail-image" src="" alt="..." style="height: 300px;" width="500px">
                                 </div>
                                 <label for=" day1">1일차 여행경로</label>
-                                <div id="map" style="width:500px;height:600px;"></div>
+                                <div id="map" style="width:500px;height:300px;"></div>
                             </div>
 
                             <div class="col-md-12" style="margin-top: 20px;">
@@ -207,119 +208,120 @@
                         </div>
                     </div>
                 </div>
-                <footer>
-                    <div id="footer">
-                        <div class="container">
-                            <div class="row row-bottom-padded-md">
-                                <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                    <h3>트래블러</h3>
-                                    <p>트래블러는 여행을 좋아하는 다섯 명의 개발자로 이루어진 팀입니다.</p>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                    <h3>최승원</h3>
-                                    <ul>
-                                        <li><a href="https://github.com/choice44/" target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-github2"> 깃허브</i></a></li>
-                                        <li><a href="https://cswcoding.tistory.com/" target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-blog"> 블로그</i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                    <h3>장우석</h3>
-                                    <ul>
-                                        <li><a href="https://github.com/wooseokjang202302/" target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-github2">
-                                                    깃허브</i></a></li>
-                                        <li><a href=https://velog.io/@william741/ target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-blog">
-                                                    블로그</i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                    <h3>서지인</h3>
-                                    <ul>
-                                        <li><a href="https://github.com/jeanallen928/" target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-github2">
-                                                    깃허브</i></a></li>
-                                        <li><a href="https://never-stop.tistory.com/" target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-blog">
-                                                    블로그</i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                    <h3>이도윤</h3>
-                                    <ul>
-                                        <li><a href="https://github.com/MiDoRye/" target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-github2">
-                                                    깃허브</i></a></li>
-                                        <li><a href="https://velog.io/@ehdbs1276/" target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-blog">
-                                                    블로그</i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
-                                    <h3>이찬주</h3>
-                                    <ul>
-                                        <li><a href="https://github.com/chanjulee0309/" target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-github2">
-                                                    깃허브</i></a></li>
-                                        <li><a href="https://cheesemango.tistory.com/" target="_blank"
-                                                rel="noopener noreferrer"><i class=" icon-blog">
-                                                    블로그</i></a></li>
-                                    </ul>
-                                </div>
+            </div>
+            <footer>
+                <div id="footer">
+                    <div class="container">
+                        <div class="row row-bottom-padded-md">
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>트래블러</h3>
+                                <p>트래블러는 여행을 좋아하는 다섯 명의 개발자로 이루어진 팀입니다.</p>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-3 text-center">
-                                    Shared by <i class="fa fa-love"></i><a
-                                        href="https://bootstrapthemes.co">BootstrapThemes</a>
-                                </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>최승원</h3>
+                                <ul>
+                                    <li><a href="https://github.com/choice44/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2"> 깃허브</i></a></li>
+                                    <li><a href="https://cswcoding.tistory.com/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog"> 블로그</i></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>장우석</h3>
+                                <ul>
+                                    <li><a href="https://github.com/wooseokjang202302/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2">
+                                                깃허브</i></a></li>
+                                    <li><a href=https://velog.io/@william741/ target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog">
+                                                블로그</i></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>서지인</h3>
+                                <ul>
+                                    <li><a href="https://github.com/jeanallen928/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2">
+                                                깃허브</i></a></li>
+                                    <li><a href="https://never-stop.tistory.com/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog">
+                                                블로그</i></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>이도윤</h3>
+                                <ul>
+                                    <li><a href="https://github.com/MiDoRye/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2">
+                                                깃허브</i></a></li>
+                                    <li><a href="https://velog.io/@ehdbs1276/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog">
+                                                블로그</i></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12 fh5co-footer-link">
+                                <h3>이찬주</h3>
+                                <ul>
+                                    <li><a href="https://github.com/chanjulee0309/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-github2">
+                                                깃허브</i></a></li>
+                                    <li><a href="https://cheesemango.tistory.com/" target="_blank"
+                                            rel="noopener noreferrer"><i class=" icon-blog">
+                                                블로그</i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3 text-center">
+                                Shared by <i class="fa fa-love"></i><a
+                                    href="https://bootstrapthemes.co">BootstrapThemes</a>
                             </div>
                         </div>
                     </div>
-                </footer>
+                </div>
+            </footer>
 
 
-
-            </div>
-            <!-- END fh5co-page -->
 
         </div>
-        <!-- END fh5co-wrapper -->
+        <!-- END fh5co-page -->
 
-        <script src="/users/api.js"></script>
-        <!-- jQuery -->
-        <script src="/js/jquery.min.js"></script>
-        <!-- jQuery Easing -->
-        <script src="/js/jquery.easing.1.3.js"></script>
-        <!-- Bootstrap -->
-        <script src="/js/bootstrap.min.js"></script>
-        <!-- Waypoints -->
-        <script src="/js/jquery.waypoints.min.js"></script>
-        <script src="/js/sticky.js"></script>
+    </div>
+    <!-- END fh5co-wrapper -->
 
-        <!-- Stellar -->
-        <script src="/js/jquery.stellar.min.js"></script>
-        <!-- Superfish -->
-        <script src="/js/hoverIntent.js"></script>
-        <script src="/js/superfish.js"></script>
-        <!-- Magnific Popup -->
-        <script src="/js/jquery.magnific-popup.min.js"></script>
-        <script src="/js/magnific-popup-options.js"></script>
-        <!-- Date Picker -->
-        <script src="/js/bootstrap-datepicker.min.js"></script>
-        <!-- CS Select -->
-        <script src="/js/classie.js"></script>
-        <script src="/js/selectFx.js"></script>
+    <script src="/users/api.js"></script>
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- jQuery Easing -->
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="/js/jquery.waypoints.min.js"></script>
+    <script src="/js/sticky.js"></script>
 
-        <!-- Main JS -->
-        <script src="/js/main.js"></script>
+    <!-- Stellar -->
+    <script src="/js/jquery.stellar.min.js"></script>
+    <!-- Superfish -->
+    <script src="/js/hoverIntent.js"></script>
+    <script src="/js/superfish.js"></script>
+    <!-- Magnific Popup -->
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/magnific-popup-options.js"></script>
+    <!-- Date Picker -->
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <!-- CS Select -->
+    <script src="/js/classie.js"></script>
+    <script src="/js/selectFx.js"></script>
 
-        <!-- Kakao Map JS -->
-        <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6dafad47184ae097399aaf131aa177ce"></script>
-        <script type="module" src="../detail/detail_map.js"></script>
-        <script type="module" src="route_detail.js"></script>
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    <!-- Kakao Map JS -->
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6dafad47184ae097399aaf131aa177ce"></script>
+    <script type="module" src="../detail/detail_map.js"></script>
+    <script type="module" src="route_detail.js"></script>
 
 </body>
 

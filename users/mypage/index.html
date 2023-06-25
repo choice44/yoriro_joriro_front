@@ -110,14 +110,14 @@
 					<div class="row row-bottom-padded-md">
 
 						<div class="col-md-5 animate-box">
-							<img class="img-responsive" src="/images/cover_bg_3.jpg" alt="travel">
+							<img class="img-responsive" src="/images/cover_bg_3.jpg" alt="travel" id="mypage_image">
 							<a href="#" class="flight-book">
 								<div class="plane-name">
 									<span class="p-flight">성별</span>
 								</div>
 								<div class="desc">
 									<div class="right">
-										<span class="price">
+										<span class="price" id="mypage_gender">
 											여성
 										</span>
 									</div>
@@ -125,12 +125,12 @@
 							</a>
 							<a href="#" class="flight-book">
 								<div class="plane-name">
-									<span class="p-flight">연령대</span>
+									<span class="p-flight">나이</span>
 								</div>
 								<div class="desc">
 									<div class="right">
-										<span class="price">
-											60대
+										<span class="price" id="mypage_age">
+											25세
 										</span>
 									</div>
 								</div>
@@ -174,9 +174,9 @@
 									<div class="box-testimony animate-box" style="margin-bottom: 0;">
 										<blockquote>
 											<span class="quote"><span><i class="icon-quotes-right"></i></span></span>
-											<p>&ldquo;자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 &rdquo;</p>
+											<p id="mypage_bio">&ldquo;자기소개 자기소개 &rdquo;</p>
 										</blockquote>
-										<p class="author">닉네임<span class="subtext">이메일</span></p>
+										<p class="author" id="mypage_nickname">닉네임<span class="subtext" id="mypage_email">이메일</span></p>
 									</div>
 								</div>
 								<div class="tabulation animate-box" style="margin-top:0;">
@@ -327,6 +327,7 @@
 	<!-- Main JS -->
 	<script src="mypage_follow.js" type="module"></script>
 
+	<script type="module" src="/users/mypage/mypage.js"></script>
 
 </body>
 

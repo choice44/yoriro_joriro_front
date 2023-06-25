@@ -37,7 +37,6 @@ async function viewRouteList() {
         const routes = routes_all.results
         const route_list = document.getElementById("route-list");
 
-
         routes.forEach((route) => {
             const template = document.createElement("div");
             template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated");
@@ -46,8 +45,70 @@ async function viewRouteList() {
             let imagePath = "/images/place-1.jpg"
             let rate = "아직 평점이 없습니다"
 
+            // 백엔드 주소 같이 출력되는 것을 제거
             if (route.image) {
-                imagePath = route.image;
+                imagePath = proxy + '/' + route.image
+            }
+
+            if (route.rate) {
+                let rate_halfup = Math.round(route.rate * 10) / 10;
+                rate = rate_halfup + "점";
+            }
+
+            template.innerHTML = `
+            <div href="#"><img src="${imagePath}" alt="여행루트 게시글 이미지" class="img-responsive">
+				<div class="desc">
+					<span></span>
+					<h3>${route.title}</h3>
+					<span>${route.duration}일</span>
+                    <span>댓글 수: ${route.comment_count}</span>
+                    <span>${route.user.nickname}</span>
+                    <span style="font-size: 23px;">${rate}</span>
+					<a class="btn btn-primary btn-outline" href="detail/index.html?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
+				</div>
+            </div>
+            `;
+            route_list.appendChild(template)
+
+        })
+        // 더보기 버튼 생성
+        if (routes_all.next) {
+            const template = document.createElement("div");
+
+            template.setAttribute("id", "route_more_button");
+            template.setAttribute("class", "col-md-12 text-center");
+
+            template.innerHTML = `<input class="btn btn-primary btn-lg" onclick="viewMoreRouteList('${proxy}/${routes_all.next}')"
+                value="▼ 더보기 ▼" />`;
+
+            route_list.appendChild(template);
+        }
+
+    } catch (error) {
+        console.log("에러가 발생했습니다", error);
+    }
+}
+
+async function viewMoreRouteList(nextURL) {
+    try {
+        // 데이터 요청함수를 이용하여 다음 페이지의 데이터를 불러옵니다.
+        const response = await fetch(nextURL);
+        const routes_all = await response.json();
+        const routes = routes_all.results;
+        const route_list = document.getElementById("route-list");
+
+        // for문 돌면서 게시글들을 생성
+        routes.forEach((route) => {
+            const template = document.createElement("div");
+            template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated");
+            template.setAttribute("data-animate-effect", "fadeIn");
+
+            let imagePath = "/images/place-1.jpg"
+            let rate = "아직 평점이 없습니다"
+
+            // 백엔드 주소 같이 출력되는 것을 제거
+            if (route.image) {
+                imagePath = proxy + '/' + route.image;
             }
 
             if (route.rate) {
@@ -63,16 +124,37 @@ async function viewRouteList() {
                     <span>댓글 수: ${route.comment_count}</span>
                     <span>${route.user.nickname}</span>
                     <span style="font-size: 23px;">${rate}</span>
-					<a class="btn btn-primary btn-outline" href="detail/?id=${route.id}">Book Now <i class="icon-arrow-right22"></i></a>
+					<a class="btn btn-primary btn-outline" href="detail/index.html?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
 				</div>
             </div>
             `;
-            route_list.appendChild(template)
+            route_list.appendChild(template);
         })
+
+        // 기존의 '더보기' 버튼을 제거
+        const oldButton = document.getElementById("route_more_button");
+        if (oldButton) {
+            oldButton.remove();
+        }
+
+        // 만약 다음 페이지가 있으면, 새로운 '더보기' 버튼을 생성합니다.
+        if (routes_all.next) {
+            const template = document.createElement("div");
+
+            template.setAttribute("id", "route_more_button");
+            template.setAttribute("class", "col-md-12 text-center");
+
+            template.innerHTML = `<input class="btn btn-primary btn-lg" onclick="viewMoreRouteList('${proxy}/${routes_all.next}')"
+                value="▼ 더보기 ▼" />`;
+
+            route_list.appendChild(template);
+        }
 
     } catch (error) {
         console.log("에러가 발생했습니다", error);
     }
 }
+
+window.viewMoreRouteList = viewMoreRouteList
 
 viewRouteList()
