@@ -375,6 +375,7 @@ async function acceptApplicant(applicantId) {
 
     if (response.status == 200) {
         let response_json = await response.json()
+        alert("신청 수락 완료!")
         loadRecruitmentDetail(recruitmentId)
         loadJoin(recruitmentId)
         return response_json
@@ -398,6 +399,7 @@ async function rejectApplicant(applicantId) {
 
     if (response.status == 200) {
         let response_json = await response.json()
+        alert("신청 수락 완료!")
         loadRecruitmentDetail(recruitmentId)
         loadJoin(recruitmentId)
         return response_json
@@ -443,6 +445,7 @@ async function editJoin(applicantId) {
     })
 
     joinCard.appendChild(saveButton)
+    alert("신청 수정 완료!")
 }
 
 
