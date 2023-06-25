@@ -91,7 +91,7 @@ async function createRoute(formData) {
         }
 
         //여행루트 작성 후 메인 페이지로 이동
-        window.location.href = "../"
+        window.location.href = "../index.html"
 
     } catch (error) {
         console.error('Error:', error);

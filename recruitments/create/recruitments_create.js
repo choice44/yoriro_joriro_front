@@ -17,18 +17,19 @@ async function postRecruitment() {
     let timeNow = new Date()
     timeNow = `${timeNow.getFullYear()}${('00' + (timeNow.getMonth() + 1)).slice(-2)
         }${timeNow.getDate()} `
+    console.log(timeNow)
 
     // 저장된 데이터베이스와 같은 형식으로 날짜 변경
     let year = dateStart.split('/')[2]
     let month = dateStart.split('/')[0]
     let day = dateStart.split('/')[1]
-    let departure = `${year} -${month} -${day} `
+    let departure = `${year}-${month}-${day}`
     let departureCompare = year + month + day
 
     year = dateEnd.split('/')[2]
     month = dateEnd.split('/')[0]
     day = dateEnd.split('/')[1]
-    let arrival = `${year} -${month} -${day} `
+    let arrival = `${year}-${month}-${day}`
     let arrivalCompare = year + month + day
 
     if (departureCompare <= timeNow) {
@@ -74,7 +75,7 @@ async function postRecruitment() {
 
     if (response.status == 201) {
         alert("글작성 완료!")
-        window.location.replace(`../ index.html`)
+        window.location.replace(`../index.html`)
     } else if (response.status == 400) {
         alert("필수 항목을 확인하세요")
     } else {

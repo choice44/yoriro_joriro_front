@@ -65,7 +65,7 @@ window.onload = async function getUpdeteRecruitment() {
 
 
 // 게시글 수정 PUT 요청
-export async function updateRecruitment() {
+async function updateRecruitment() {
     const access = localStorage.getItem("access")
 
     const title = document.getElementById("title").value
