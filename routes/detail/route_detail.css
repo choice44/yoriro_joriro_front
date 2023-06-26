@@ -70,3 +70,36 @@
     margin-right: 25px;
     /* 오른쪽 마진으로 버튼 사이의 간격 조절 */
 }
+
+#route-detail-user {
+    float: right;
+    margin-right: 86px;
+    font-size: 30px;
+    color: #F78536;
+    cursor: pointer;
+}
+
+#route-detail-user:hover {
+    color: #5c3c25;
+}
+
+#route-update-href:hover {
+    color: #5c3c25;
+}
+
+#route-delete-href:hover {
+    color: #5c3c25;
+}
+
+.comment-btn:hover {
+    color: #5c3c25;
+}
+
+.row-spot {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.row-spot:hover {
+    transform: scale(1.1);
+    opacity: 0.5;
+}
