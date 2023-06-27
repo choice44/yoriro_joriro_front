@@ -149,12 +149,7 @@ async function loadRecruitmentDetail(recruitmentId) {
 
 
 async function getRecruitment(recruitmentId) {
-    const token = localStorage.getItem('access')
-    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/`)
 
     if (response.status == 200) {
         let response_json = await response.json()
@@ -166,12 +161,7 @@ async function getRecruitment(recruitmentId) {
 
 
 async function getApplicant(recruitmentId) {
-    const token = localStorage.getItem('access')
-    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join`)
 
     if (response.status == 200) {
         const response_json = await response.json()
@@ -254,12 +244,7 @@ async function loadJoin(recruitmentId) {
 
 
 async function getJoin(recruitmentId) {
-    const token = localStorage.getItem('access');
-    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
+    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`)
 
     if (response.status == 200) {
         response_json = await response.json()
@@ -296,6 +281,8 @@ async function postJoin(recruitmentId, newJoin) {
 
     if (response.status == 201) {
         alert("동료 모집 신청 완료")
+    } else if (response.status == 401) {
+        alert("로그인 후 이용할 수 있습니다.")
     } else {
         alert(response.status)
     }
