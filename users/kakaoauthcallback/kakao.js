@@ -7,10 +7,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const response = await fetch(`${proxy}/users/kakao/login/callback?code=${code}`)
 
-    console.log("리스폰스1", response.status)
 
-    if (response.status == 200 || 201) {
-        console.log("리스폰스2", response.status)
+    if (response.ok) {
         const response_json = await response.json();
 
         localStorage.setItem("access", response_json.access);
