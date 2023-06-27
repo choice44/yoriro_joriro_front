@@ -74,6 +74,15 @@ async function handleUpdateReview() {
     const date_numbers = new_visited_date.split("/")
     new_visited_date = date_numbers[2] + "-" + date_numbers[0] + "-" + date_numbers[1]
 
+    // 현재 시간 가져오기
+    let timeNow = new Date()
+    timeNow = `${timeNow.getFullYear()}-${('00' + (timeNow.getMonth() + 1)).slice(-2)}-${timeNow.getDate()}`
+
+    // 오늘 날짜까지는 입력 가능. 그 이후 미래 날짜는 입력 불가.
+    if (new_visited_date > timeNow) {
+        return alert("날짜를 확인해주세요.");
+    };
+
     const formData = new FormData();
     formData.append('title', new_title);
     formData.append('rate', new_rate);
