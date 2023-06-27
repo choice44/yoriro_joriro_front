@@ -2,32 +2,16 @@ name: S3 Auto Deploy
 
 on:
   push:
-    branches: [ "deploy" ]
+    branches:
+      - deploy
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [14.x]
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-      
-#       - name: Setup Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v1
-#         with:
-#           node-version: ${{ matrix.node-version }}
-      
-#       - name: Install Dependaencies
-#         run: npm install
-        
-#       - name: Build Project
-#         run: ./node_modules/react-scripts/bin/react-scripts.js build build
-#         env:
-#           CI: false
+        uses: actions/checkout@v2
           
       - name: Deploy S3
         env:
