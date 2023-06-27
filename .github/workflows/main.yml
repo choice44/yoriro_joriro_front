@@ -3,7 +3,7 @@ name: S3 Auto Deploy
 on:
   push:
     branches:
-    - deploy
+      - deploy
 
 jobs:
   deploy:
