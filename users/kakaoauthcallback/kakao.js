@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     } else {
         const response_json = await response.json();
-        console.log(response_json)
         alert(response_json.err_msg);;
     }
 })
