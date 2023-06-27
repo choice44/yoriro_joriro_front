@@ -1,4 +1,7 @@
-const proxy = "https://api.bechol.com"
+// const proxy = "https://api.bechol.com"
+const proxy = "http://127.0.0.1:8000";
+
+const my_id = JSON.parse(localStorage.getItem("payload")).user_id;
 
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -8,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   if (localStorage.getItem("payload")) {
 
     profile.innerHTML = `
-        <li><a href="/users/mypage/index.html">마이페이지</a></li>
+        <li><a href="/users/mypage/index.html?${my_id}">마이페이지</a></li>
         <li><a onclick="handleLogout()">로그아웃</a></li>
       `
   }
