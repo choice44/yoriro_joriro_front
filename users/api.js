@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   if (localStorage.getItem("payload")) {
     const my_id = JSON.parse(localStorage.getItem("payload")).user_id;
     profile.innerHTML = `
-        <li><a href="/users/mypage/index.html?${my_id}">마이페이지</a></li>
+        <li><a href="/users/mypage/index.html?id=${my_id}">마이페이지</a></li>
         <li><a onclick="handleLogout()">로그아웃</a></li>
       `
   }
