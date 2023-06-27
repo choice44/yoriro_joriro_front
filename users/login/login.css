@@ -19,7 +19,7 @@ input {
 
 .login {
   width: 520px;
-  height: 712px;
+  /* height: 712px; */
   border: 1px solid var(--main-border-color);
   box-sizing: border-box;
   border-radius: var(--main-border-radius);
