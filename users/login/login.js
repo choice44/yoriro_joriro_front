@@ -72,5 +72,5 @@ function checkLogin() {
     }
 }
 
-const login = document.getElementById('login-btn');
-login.addEventListener('click', handleLogin);
+// const login = document.getElementById('login-btn');
+// login.addEventListener('click', handleLogin);
