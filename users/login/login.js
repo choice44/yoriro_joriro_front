@@ -3,7 +3,7 @@ import { SOCIAL_AUTH_NAVER_CLIENT_ID, SOCIAL_AUTH_KAKAO_CLIENT_ID, SOCIAL_AUTH_G
 
 checkLogin();
 
-const NAVER_REDIRECT_URI = "http://localhost:5500/users/naverauthcallback/index.html";
+const NAVER_REDIRECT_URI = "https://cdn.bechol.com/users/naverauthcallback/index.html";
 const KAKAO_REDIRECT_URI = "https://cdn.bechol.com/users/kakaoauthcallback/index.html";
 const GOOGLE_REDIRECT_URI = "https://cdn.bechol.com/users/googleauthcallback/index.html";
 

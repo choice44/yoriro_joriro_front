@@ -1,5 +1,4 @@
-// const proxy = "https://api.bechol.com"
-const proxy = "http://127.0.0.1:8000";
+const proxy = "https://api.bechol.com"
 
 
 document.addEventListener('DOMContentLoaded', async function () {
