@@ -1,5 +1,9 @@
 import { proxy } from "/proxy.js";
-import { loadFollowers } from "./mypage_follow.js";
+
+const my_id = JSON.parse(localStorage.getItem("payload")).user_id;
+const user_id = new URLSearchParams(window.location.search).get("id");
+const token = localStorage.getItem('access')
+let following_id_list = []
 
 
 const areaDict = {};
@@ -43,104 +47,302 @@ sigunguDict[39] = new Array("선택", "남제주군", "북제주군", "서귀포
 
 
 window.onload = async function loadMypage() {
-  const user_id = JSON.parse(localStorage.getItem("payload")).user_id;
-  const user = await getMypage(user_id)
-  inputUserInfo(user)
-  loadFollowers()
+
+	const my_info = await getMypage(my_id)
+
+	for (const following of my_info.followings) {
+		following_id_list.push(following.id)
+	}
+
+	if (user_id == my_id) {
+		my_info.is_mymypage = true
+		inputUserInfo(my_info)
+	} else {
+		my_info.is_mymypage = false
+		const user = await getMypage(user_id)
+		inputUserInfo(user)
+	}
+
+	loadFollowers()
+	my_info.is_mymypage ? showEditButtons() : showFollowButton()
 }
 
 async function getMypage(user_id) {
-  const response = await fetch(`${proxy}/users/mypage/${user_id}/`)
-  if (response.status == 200) {
-    const response_json = await response.json();
-    return response_json
-  } else {
-    alert("불러오는데 실패했습니다")
-  }
+	const response = await fetch(`${proxy}/users/mypage/${user_id}/`)
+	if (response.status == 200) {
+		const response_json = await response.json();
+		return response_json
+	} else {
+		alert("불러오는데 실패했습니다")
+	}
 }
 
 function convertGender(gender) {
-  if (gender === "F") {
-    return "여성";
-  } else if (gender === "M") {
-    return "남성";
-  } else {
-    return "";
-  }
+	if (gender === "F") {
+		return "여성";
+	} else if (gender === "M") {
+		return "남성";
+	} else {
+		return "";
+	}
 }
 
 // 유저 정보 집어넣기
 async function inputUserInfo(user) {
-  const user_nickname = document.getElementById("mypage_nickname")
-  user_nickname.innerHTML = user.nickname
-  const user_bio = document.getElementById("mypage_bio")
-  user_bio.innerHTML = user.bio
-  const user_gender = document.getElementById("mypage_gender");
-  user_gender.innerHTML = convertGender(user.gender)
-  const user_age = document.getElementById("mypage_age")
-  user_age.innerHTML = user.age
-  const user_followers = document.getElementById("mypage_followers")
-  user_followers.innerHTML = "팔로워 " + user.followers_count;
-  const user_followings = document.getElementById("mypage_followings")
-  user_followings.innerHTML = "팔로잉 " + user.followings_count
+	const user_nickname = document.getElementById("mypage_nickname")
+	user_nickname.innerHTML = user.nickname
+	const user_bio = document.getElementById("mypage_bio")
+	user_bio.innerHTML = user.bio
+	const user_gender = document.getElementById("mypage_gender");
+	user_gender.innerHTML = convertGender(user.gender)
+	const user_age = document.getElementById("mypage_age")
+	user_age.innerHTML = user.age
+	const user_followers = document.getElementById("mypage_followers")
+	user_followers.innerHTML = "팔로워 " + user.followers_count;
+	const user_followings = document.getElementById("mypage_followings")
+	user_followings.innerHTML = "팔로잉 " + user.followings_count
 
-  const user_image = document.getElementById("mypage_image");
-  if (user.image) {
-    user_image.setAttribute("src", proxy + user.image);
-  };
-  const user_area = document.getElementById("mypage_area")
-  if (user.area) {
-    user_area.innerHTML = areaDict[user.area]
-  }
-  const user_sigungu = document.getElementById("mypage_sigungu")
-  if (user.sigungu) {
-    user_sigungu.innerHTML = sigunguDict[user.area][user.sigungu] 
-  }
+	const user_image = document.getElementById("mypage_image");
+	if (user.image) {
+		user_image.setAttribute("src", proxy + user.image);
+	};
+	const user_area = document.getElementById("mypage_area")
+	if (user.area) {
+		user_area.innerHTML = areaDict[user.area]
+	}
+	const user_sigungu = document.getElementById("mypage_sigungu")
+	if (user.sigungu) {
+		user_sigungu.innerHTML = sigunguDict[user.area][user.sigungu]
+	}
 }
 
+
+async function loadFollowings() {
+
+	const userProfile = await getMypage(user_id)
+
+	const followingElement = document.getElementById("mypage_follow_list");
+
+	followingElement.innerHTML = "";
+
+	for (const following of userProfile.followings) {
+		following.is_following = following_id_list.includes(following.id);
+		// 자기 자신일 경우 팔로우/언팔로우 버튼 없음
+		if (following.id == my_id) {
+			followingElement.innerHTML += `
+      <div class="col-md-12" style="height:80px; line-height:80px;">
+          <h3 class="price"
+              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
+              ${following.email}</h3>
+      </div>
+      `} else { // 팔로우하고 있는 사람의 경우 언팔로우 버튼
+			if (following.is_following) {
+				followingElement.innerHTML += `
+      <div class="col-md-12" style="height:80px; line-height:80px;">
+          <h3 class="price"
+              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
+              ${following.email}</h3>
+          <input type="button" value="언팔로우"
+              class="btn btn-primary btn-lg"
+              style="float:right; margin:16px 0; background-color:#848484; width:116px;"
+              onclick="handleFollow(${following.id}); changeMypageFollowButton(this);">
+      </div>
+      `} else { // 아니면 팔로우 버튼
+				followingElement.innerHTML += `
+      <div class="col-md-12" style="height:80px; line-height:80px;">
+          <h3 class="price"
+              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
+              ${following.email}</h3>
+          <input type="button" value="팔로우"
+              class="btn btn-primary btn-lg"
+              style="float:right; margin:16px 0; width:116px;"
+              onclick="handleFollow(${following.id}); changeMypageFollowButton(this);">
+      </div>
+      `}
+		};
+	};
+};
+
+
+async function loadFollowers() {
+
+	const userProfile = await getMypage(user_id);
+
+	const followerElement = document.getElementById("mypage_follow_list");
+
+	followerElement.innerHTML = "";
+
+	// 팔로워 표시
+	for (const follower of userProfile.followers) {
+		follower.is_following = following_id_list.includes(follower.id);
+		// 자기 자신일 경우 팔로우/언팔로우 버튼 없음
+		if (follower.id == my_id) {
+			followerElement.innerHTML += `
+      <div class="col-md-12" style="height:80px; line-height:80px;">
+          <h3 class="price"
+              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
+              ${follower.email}</h3>
+      </div>
+      `} else {
+			// 팔로우하고 있는 사람의 경우 언팔로우 버튼
+			if (follower.is_following) {
+				followerElement.innerHTML += `
+      <div class="col-md-12" style="height:80px; line-height:80px;">
+          <h3 class="price"
+              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
+              ${follower.email}</h3>
+              <input type="button" value="언팔로우"
+              class="btn btn-primary btn-lg"
+              style="float:right; margin:16px 0; background-color:#848484; width:116px;"
+              onclick="handleFollow(${follower.id}); changeMypageFollowButton(this);">
+      </div>
+      </div>
+      `} else { // 아니면 팔로우 버튼
+				followerElement.innerHTML += `
+      <div class="col-md-12" style="height:80px; line-height:80px;">
+          <h3 class="price"
+              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
+              ${follower.email}</h3>
+          <input type="button" value="팔로우"
+              class="btn btn-primary btn-lg"
+              style="float:right; margin:16px 0; width:116px;"
+              onclick="handleFollow(${follower.id}); changeMypageFollowButton(this);">
+      </div>
+      `};
+		};
+	};
+};
+
+// 팔로우
+async function handleFollow(id) {
+
+	const response = await fetch(`${proxy}/users/follow/${id}/`, {
+		headers: {
+			"content-type": "application/json",
+			"Authorization": "Bearer " + token
+		},
+		method: "POST"
+	});
+
+	if (following_id_list.includes(id)) {
+		following_id_list = following_id_list.filter(followingId => followingId !== id);
+	} else {
+		following_id_list.push(id);
+	};
+};
+
+// 팔로우/언팔로우 버튼 바꿔주는 함수
+function changeMypageFollowButton(el) {
+	const my_id = JSON.parse(localStorage.getItem("payload")).user_id;
+	if (el.value == "팔로우") {
+		el.setAttribute("value", "언팔로우");
+		el.setAttribute("style", "float:right; margin:16px 0; background-color:#848484; width:116px;")
+		if (user_id == my_id) {
+			const user_followings = document.getElementById("mypage_followings")
+			const user_followings_number = document.getElementById("mypage_followings").innerText.slice(4)
+			user_followings.innerHTML = `팔로잉 ${Number(user_followings_number) + 1}`
+		};
+	} else {
+		el.setAttribute("value", "팔로우");
+		el.setAttribute("style", "float:right; margin:16px 0; width:116px;")
+		if (user_id == my_id) {
+			const user_followings = document.getElementById("mypage_followings")
+			const user_followings_number = document.getElementById("mypage_followings").innerText.slice(4)
+			user_followings.innerHTML = `팔로잉 ${user_followings_number - 1}`
+		};
+	};
+}
 
 
 // 회원탈퇴 함수
 async function deleteUser() {
 
-  const user_id = JSON.parse(localStorage.getItem("payload")).user_id;
+	try {
+		const confirmation = confirm('회원 탈퇴하시겠습니까?');
 
-  try {
-    const confirmation = confirm('회원 탈퇴하시겠습니까?');
+		if (!confirmation) {
+			return; // 탈퇴 취소 시 함수 종료
+		}
 
-    if (!confirmation) {
-      return; // 탈퇴 취소 시 함수 종료
-    }
+		// 백엔드에 회원 탈퇴 요청
+		const response = await fetch(`${proxy}/users/mypage/${my_id}/`, {
+			method: 'DELETE',
+			headers: {
+				'Authorization': `Bearer ${token}`
+			}
+		});
 
-    // 로컬 스토리지에서 엑세스 토큰 가져옴
-    const accessToken = localStorage.getItem('access');
+		if (!response.ok) {
+			throw new Error('회원 탈퇴에 실패하였습니다.');
+		}
 
-    // 백엔드에 회원 탈퇴 요청
-    const response = await fetch(`${proxy}/users/mypage/${user_id}/`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
-    });
+		alert('회원 탈퇴가 완료되었습니다.');
 
-    if (!response.ok) {
-      throw new Error('회원 탈퇴에 실패하였습니다.');
-    }
+		// 회원 탈퇴 후 메인페이지로 이동
+		localStorage.removeItem("access");
+		localStorage.removeItem("refresh");
+		localStorage.removeItem("payload");
 
-    alert('회원 탈퇴가 완료되었습니다.');
+		location.replace('/')
 
-    // 로그아웃 함수 가져옴, 로그아웃 시 로그인 페이지로 이동
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    localStorage.removeItem("payload");
-
-    location.replace('/')
-
-  } catch (error) {
-    console.error('Error:', error);
-  }
+	} catch (error) {
+		console.error('Error:', error);
+	}
 }
 
 
 window.deleteUser = deleteUser
+window.loadFollowings = loadFollowings
+window.loadFollowers = loadFollowers
+window.handleFollow = handleFollow
+window.changeMypageFollowButton = changeMypageFollowButton
 
+
+// 본인인 경우 수정 버튼과 삭제 버튼을 보이도록 처리하는 함수
+function showEditButtons() {
+	const my_buttons = document.getElementById("mypage_my_buttons");
+
+	const temp_update_button = document.createElement("input");
+	temp_update_button.setAttribute("type", "button");
+	temp_update_button.setAttribute("class", "btn btn-primary btn-outline btn-lg");
+	temp_update_button.setAttribute("value", "수정하기");
+	temp_update_button.setAttribute("style", "margin-right:15px; margin-top: 25px;");
+	temp_update_button.setAttribute("onclick", "location.href='/users/mypage/update/index.html'")
+	my_buttons.appendChild(temp_update_button);
+
+	const temp_delete_button = document.createElement("input");
+	temp_delete_button.setAttribute("type", "button");
+	temp_delete_button.setAttribute("class", "btn btn-primary btn-lg");
+	temp_delete_button.setAttribute("id", "mypage_delete_button");
+	temp_delete_button.setAttribute("value", "탈퇴하기");
+	temp_delete_button.setAttribute("style", "background-color:#848484; margin-top: 25px;");
+	my_buttons.appendChild(temp_delete_button);
+
+	const deleteButton = document.getElementById("mypage_delete_button");
+	deleteButton.addEventListener('click', deleteUser);
+
+}
+
+// 타인인 경우 팔로우 또는 언팔로우 버튼을 보여주는 함수
+function showFollowButton() {
+
+	const my_buttons = document.getElementById("mypage_my_buttons");
+
+	if (following_id_list.includes(Number(user_id)) == true) {
+		const temp_unfollow_button = document.createElement("input");
+		temp_unfollow_button.setAttribute("type", "button");
+		temp_unfollow_button.setAttribute("class", "btn btn-primary btn-lg");
+		temp_unfollow_button.setAttribute("value", "언팔로우");
+		temp_unfollow_button.setAttribute("style", "margin-top: 25px; background-color:#848484; width:116px; float:right;");
+		temp_unfollow_button.setAttribute("onclick", `handleFollow(${user_id}); changeMypageFollowButton(this);`);
+		my_buttons.appendChild(temp_unfollow_button);
+	} else {
+		const temp_follow_button = document.createElement("input");
+		temp_follow_button.setAttribute("type", "button");
+		temp_follow_button.setAttribute("class", "btn btn-primary btn-lg");
+		temp_follow_button.setAttribute("value", "팔로우");
+		temp_follow_button.setAttribute("style", "margin-top: 25px; width:116px; float:right;");
+		temp_follow_button.setAttribute("onclick", `handleFollow(${user_id}); changeMypageFollowButton(this);`);
+		my_buttons.appendChild(temp_follow_button);
+	};
+};

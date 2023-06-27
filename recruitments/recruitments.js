@@ -69,13 +69,8 @@ async function loadRecruitments(recruitments) {
 }
 
 
-// 로그인을 하지 않으면 상세 페이지 접속 불가
 function recruitmentDetail(recruitment_id) {
-    if (localStorage.getItem("access")) {
-        window.location.href = `/recruitments/detail/index.html?recruitment_id=${recruitment_id}`
-    } else {
-        alert("로그인이 필요합니다.")
-    }
+    window.location.href = `/recruitments/detail/index.html?recruitment_id=${recruitment_id}`
 }
 
 
