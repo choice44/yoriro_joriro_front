@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const response = await fetch(`${proxy}/users/kakao/login/callback?code=${code}`)
 
-
     if (response.ok) {
         const response_json = await response.json();
 
