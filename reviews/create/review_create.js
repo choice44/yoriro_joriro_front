@@ -29,6 +29,15 @@ function handleCreateReview(event) {
     const date_numbers = visited_date.split("/")
     visited_date = date_numbers[2] + "-" + date_numbers[0] + "-" + date_numbers[1]
 
+    // 현재 시간 가져오기
+    let timeNow = new Date()
+    timeNow = `${timeNow.getFullYear()}-${('00' + (timeNow.getMonth() + 1)).slice(-2)}-${timeNow.getDate()}`
+
+    // 오늘 날짜까지는 입력 가능. 그 이후 미래 날짜는 입력 불가.
+    if (visited_date > timeNow) {
+        return alert("날짜를 확인해주세요.");
+    };
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('rate', rate);
