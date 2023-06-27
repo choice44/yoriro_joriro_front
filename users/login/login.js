@@ -1,16 +1,19 @@
 import { proxy } from "/proxy.js";
-import { SOCIAL_AUTH_KAKAO_CLIENT_ID, SOCIAL_AUTH_GOOGLE_CLIENT_ID } from "/secret.js";
+import { SOCIAL_AUTH_NAVER_CLIENT_ID, SOCIAL_AUTH_KAKAO_CLIENT_ID, SOCIAL_AUTH_GOOGLE_CLIENT_ID } from "/secret.js";
 
 checkLogin();
 
+const NAVER_REDIRECT_URI = "https://localhost:5500/users/naverauthcallback/index.html";
 const KAKAO_REDIRECT_URI = "https://cdn.bechol.com/users/kakaoauthcallback/index.html";
 const GOOGLE_REDIRECT_URI = "https://cdn.bechol.com/users/googleauthcallback/index.html";
 
 
 window.onload = function () {
+    let naver_btn = document.getElementById("naver-btn")
     let kakao_btn = document.getElementById("kakao-btn")
     let google_btn = document.getElementById("google-btn")
 
+    naver_btn.setAttribute("href", `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${SOCIAL_AUTH_NAVER_CLIENT_ID}&state=STATE_STRING&redirect_uri=${NAVER_REDIRECT_URI}`)
     kakao_btn.setAttribute("href", `https://kauth.kakao.com/oauth/authorize?client_id=${SOCIAL_AUTH_KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`)
     google_btn.setAttribute("href", `https://accounts.google.com/o/oauth2/v2/auth?client_id=${SOCIAL_AUTH_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${GOOGLE_REDIRECT_URI}&scope=https://www.googleapis.com/auth/userinfo.email`)
 
