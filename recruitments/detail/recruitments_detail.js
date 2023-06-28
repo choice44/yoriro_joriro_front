@@ -284,14 +284,14 @@ async function postJoin(recruitmentId, newJoin) {
         })
     })
 
-    const responseText = await response.text()
+    const response_json = await response.json()
 
     if (response.status == 201) {
         alert("동료 모집 신청 완료")
     } else if (response.status == 401) {
         alert("로그인 후 이용할 수 있습니다.")
     } else {
-        alert(JSON.parse(responseText).message)
+        alert(response_json.message)
     }
 }
 
