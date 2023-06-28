@@ -147,10 +147,11 @@ async function routeRating(route_id) {
             body: JSON.stringify({ "rate": rating })
         });
 
-        if (!response.ok) {
+        if (response.status == 401) {
+            alert("로그인이 필요한 서비스입니다.")
+        } if (!response.ok) {
             throw new Error('평점 등록에 실패했습니다.');
         }
-
         alert("평점 등록이 완료되었습니다.")
 
         // 평점이 등록되면 모달창을 숨기고 새로고침
@@ -190,7 +191,7 @@ async function viewRouteDetail() {
     route_area.innerText = area
     route_sigungu.innerText = sigungu
     route_duration.innerText = route.duration + `일`
-    route_cost.innerText = route.cost + `원`
+    route_cost.innerText = route.cost.toLocaleString() + `원`
     route_spots.innerHTML = ''
     route_rate.innerText = rate_half_up + `점`
     route_content.innerText = route.content
@@ -202,12 +203,15 @@ async function viewRouteDetail() {
 
     // 수정버튼 수정페이지 링크 부여
     const route_user_id = route.user.id;
-
-
-    if (userInfo.user_id === route_user_id) {
-        update_box.style.display = 'block';
-        update_href.setAttribute("href", `/routes/detail/update/index.html?id=${route_id}`)
-    } else {
+    // 유저의 로컬스토리지에 페이로드가 있다면
+    if (userInfo !== null) {
+        if (userInfo.user_id !== null && userInfo.user_id === route_user_id) {
+            update_box.style.display = 'block';
+            update_href.setAttribute("href", `/routes/detail/update/index.html?id=${route_id}`)
+        }
+    }
+    // 페이로드가 없거나, 정보가 일치하지 않는다면
+    else {
         update_box.style.display = 'none';
     }
 
@@ -288,7 +292,9 @@ async function routeComment() {
         })
     })
 
-    if (response.status == 201) {
+    if (response.status == 401) {
+        alert("로그인이 필요한 서비스입니다.")
+    } if (response.status == 201) {
         alert("댓글 작성 완료")
         location.reload();
     } else if (comment == '') {

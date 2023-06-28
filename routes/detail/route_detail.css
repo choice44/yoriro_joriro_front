@@ -12,7 +12,7 @@
     /* 전체 너비 */
     height: 100%;
     /* 전체 높이 */
-    overflow: auto;
+    overflow: hidden;
     /* 내용이 많을 때 스크롤 */
     background-color: rgb(0, 0, 0);
     /* Fallback color */
