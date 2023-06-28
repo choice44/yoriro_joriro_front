@@ -37,8 +37,10 @@ async function inputReviewDetail(review) {
     } else {
         author_image.setAttribute("src", "/images/logo_64.png");
     };
+
     const author_mypage = document.querySelector(".featured-ji");
     author_mypage.setAttribute("href", `/users/mypage/index.html?id=${review.user.id}`);
+
     const author_nickname = document.getElementById("review_detail_author_nickname");
     author_nickname.innerHTML = review.user.nickname;
 
