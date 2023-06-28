@@ -31,10 +31,14 @@ async function getReviewDetail(review_id) {
 async function inputReviewDetail(review) {
 
     /* 카드 상단 */
-    // if (review.user.image) {
-    //     const author_image = document.getElementById("review_detail_author_image");
-    //     author_image.setAttribute("src", `${proxy + review.image}`);
-    // };
+    const author_image = document.getElementById("review_detail_author_image");
+    if (review.user.image) {
+        author_image.setAttribute("src", `${proxy + review.user.image}`);
+    } else {
+        author_image.setAttribute("src", "/images/logo_64.png");
+    };
+    const author_mypage = document.querySelector(".featured-ji");
+    author_mypage.setAttribute("href", `/users/mypage/index.html?id=${review.user.id}`);
     const author_nickname = document.getElementById("review_detail_author_nickname");
     author_nickname.innerHTML = review.user.nickname;
 
@@ -203,6 +207,5 @@ review_like_button.addEventListener('click', async function () {
         }
     } else {
         alert("로그인이 필요합니다.")
-        // location.replace('/login/')
     }
 });
