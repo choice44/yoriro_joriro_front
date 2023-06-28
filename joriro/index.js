@@ -38,7 +38,7 @@ function loadPlace(e) {
     backgroud.appendChild(sourceText);
 }
 
-async function loadData() {
+async function loadData(e) {
     const model = document.getElementById("model-select").value;
     if (!model) {
         return alert("모델을 선택해 주세요.");
@@ -62,12 +62,15 @@ async function loadData() {
     formData.append("place", place);
     formData.append("image", image);
 
+    e.style.display = 'none';
+
     const loader = document.getElementsByClassName("loader")[0];
     loader.style.display = 'block';
 
     await loadJoriro(formData);
 
-    loader.style.display = 'none';;
+    loader.style.display = 'none';
+    e.style.display = 'block';
 }
 
 async function loadJoriro(formData) {

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(queryString)
     const code = urlParams.get('code')
 
-    const response = await fetch(`${proxy}/users/kakao/login/callback?code=${code}`)
+    const response = await fetch(`${proxy}/users/naver/login/callback?code=${code}`)
 
     if (response.ok) {
         const response_json = await response.json();
