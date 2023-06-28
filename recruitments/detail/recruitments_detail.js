@@ -87,7 +87,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     recruitmentWriterInfo.innerHTML = `
         <table width="80%" style="margin-top:40%;margin-left:25%;">
             <tr>
-                <th colspan="2" style="text-align:center;">${response.user.nickname}</a></th>
+                <th colspan="2" style="text-align:center;">${response.user.nickname}</th>
             </tr>
             <tr>
                 <td width="30px" style="text-align:center;">나이</td>
@@ -284,14 +284,14 @@ async function postJoin(recruitmentId, newJoin) {
         })
     })
 
-    const response_json = await response.text()
+    const responseText = await response.text()
 
     if (response.status == 201) {
         alert("동료 모집 신청 완료")
     } else if (response.status == 401) {
         alert("로그인 후 이용할 수 있습니다.")
     } else {
-        alert(JSON.parse(response_json).message)
+        alert(JSON.parse(responseText).message)
     }
 }
 
