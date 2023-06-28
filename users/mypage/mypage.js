@@ -1,6 +1,11 @@
 import { proxy } from "/proxy.js";
 
-const my_id = JSON.parse(localStorage.getItem("payload")).user_id;
+let my_id = null
+
+if (localStorage.getItem("payload")) {
+	my_id = JSON.parse(localStorage.getItem("payload")).user_id;
+};
+
 const user_id = new URLSearchParams(window.location.search).get("id");
 const token = localStorage.getItem('access')
 let following_id_list = []
@@ -47,25 +52,32 @@ sigunguDict[39] = new Array("선택", "남제주군", "북제주군", "서귀포
 
 
 window.onload = async function loadMypage() {
+	if (localStorage.getItem("payload")) {
+		const my_info = await getMypage(my_id);
 
-	const my_info = await getMypage(my_id)
+		for (const following of my_info.followings) {
+			following_id_list.push(following.id);
+		};
 
-	for (const following of my_info.followings) {
-		following_id_list.push(following.id)
-	}
-
-	if (user_id == my_id) {
-		my_info.is_mymypage = true
-		inputUserInfo(my_info)
+		if (user_id == my_id) {
+			my_info.is_mymypage = true;
+			inputUserInfo(my_info);
+		} else {
+			my_info.is_mymypage = false;
+			const user = await getMypage(user_id);
+			inputUserInfo(user);
+		};
 	} else {
-		my_info.is_mymypage = false
-		const user = await getMypage(user_id)
-		inputUserInfo(user)
-	}
+		const user = await getMypage(user_id);
+		inputUserInfo(user);
+	};
 
-	loadFollowers()
-	my_info.is_mymypage ? showEditButtons() : showFollowButton()
-}
+	loadFollowers();
+
+	if (typeof my_info !== 'undefined') {
+		my_info.is_mymypage ? showEditButtons() : showFollowButton();
+	};
+};
 
 async function getMypage(user_id) {
 	const response = await fetch(`${proxy}/users/mypage/${user_id}/`)
@@ -128,7 +140,7 @@ async function loadFollowings() {
 	for (const following of userProfile.followings) {
 		following.is_following = following_id_list.includes(following.id);
 		// 자기 자신일 경우 팔로우/언팔로우 버튼 없음
-		if (following.id == my_id) {
+		if (following.id == my_id || !localStorage.getItem("payload")) {
 			followingElement.innerHTML += `
       <div class="col-md-12" style="height:80px; line-height:80px;">
           <h3 class="price"
@@ -176,7 +188,7 @@ async function loadFollowers() {
 	for (const follower of userProfile.followers) {
 		follower.is_following = following_id_list.includes(follower.id);
 		// 자기 자신일 경우 팔로우/언팔로우 버튼 없음
-		if (follower.id == my_id) {
+		if (follower.id == my_id || !localStorage.getItem("payload")) {
 			followerElement.innerHTML += `
       <div class="col-md-12" style="height:80px; line-height:80px;">
           <h3 class="price"

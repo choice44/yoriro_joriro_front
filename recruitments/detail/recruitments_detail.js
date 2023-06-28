@@ -47,7 +47,7 @@ async function loadRecruitmentDetail(recruitmentId) {
                 <td style="text-align:right">장소</td>
                 <th style="text-align:center">${response.place}</th>
                 <td style="text-align:right">경비</td>
-                <th style="text-align:center">${response.cost}원</th>
+                <th style="text-align:center">${response.cost.toLocaleString()}원</th>
                 <td style="text-align:right">모집 정원</td>
                 <th style="text-align:center; color:${response.participant.length == response.participant_max ? 'red' : ''};">${response.participant.length + "/" + response.participant_max}</th>
                 <td width=20px></td>
@@ -225,11 +225,12 @@ async function loadJoin(recruitmentId) {
                 <th>${nickname}</th>
                 <td width="4%" style="text-align:right">${age}</td>
                 <td width="8%" style="text-align:right">${genderPrint}</td>
-                <td width="80"></td>
+                <td width="10%" style="text-align:right">${acceptencePrint}</td>
+                <td width="70"></td>
             </tr>
         </table>
         <div style="margin-bottom:5%">
-            <div width="100%" colspan="4" id="appeal-${id}">${appeal}</div>
+            <div width="100%" colspan="5" id="appeal-${id}">${appeal}</div>
             <div style="display: flex; flex-direction: row;"">
                 <input type="button" value="수정" id="edit-appeal-button-${id}" onclick="editJoin(${id})" style="margin-bottom: 5px; display: ${user.id == userId ? 'block' : 'none'}">
                 <input type="button" value="수락" id="accept-appeal-button" onclick="acceptApplicant(${id})" style="margin-bottom: 5px; display: ${acceptence == 0 && result ? 'block' : 'none'}">
@@ -258,8 +259,12 @@ async function getJoin(recruitmentId) {
 async function submitJoin() {
     const joinElement = document.getElementById("new-join")
     const newJoin = joinElement.value
-    const response = await postJoin(recruitmentId, newJoin)
+    if (newJoin == "") {
+        alert("어필을 작성하여주세요.")
+        return
+    }
 
+    const response = await postJoin(recruitmentId, newJoin)
     joinElement.value = ""
     loadJoin(recruitmentId)
 }
@@ -279,12 +284,14 @@ async function postJoin(recruitmentId, newJoin) {
         })
     })
 
+    const responseText = await response.text()
+
     if (response.status == 201) {
         alert("동료 모집 신청 완료")
     } else if (response.status == 401) {
         alert("로그인 후 이용할 수 있습니다.")
     } else {
-        alert(response.status)
+        alert(JSON.parse(responseText).message)
     }
 }
 
