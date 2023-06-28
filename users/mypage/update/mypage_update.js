@@ -177,7 +177,7 @@ async function handleUpdateProfile() {
             throw new Error('프로필 수정 요청이 실패하였습니다.');
         }
 
-        window.location.href = '/users/mypage/index.html';
+        window.location.href = `/users/mypage/index.html?id=${my_id}`;
 
     } catch (error) {
         console.error('Error:', error);
