@@ -130,9 +130,6 @@ async function handleUpdateProfile() {
         const sigungu = document.getElementById("mypage_update_sigungu").value;
         const image = document.getElementById("mypage_update_image").files[0];
         const bio = document.getElementById("mypage_update_bio").value;
-        const password1 = document.getElementById("mypage_update_password1").value;
-        const password2 = document.getElementById("mypage_update_password2").value;
-
 
 
         const formData = new FormData();
@@ -151,17 +148,6 @@ async function handleUpdateProfile() {
         formData.append("area", area);
         formData.append("sigungu", sigungu);
         formData.append("bio", bio);
-
-        if ((password1 && !password2) || (!password1 && password2)) {
-            return alert("비밀번호를 변경하시려면 비밀번호와 비밀번호 확인을 모두 입력 해주세요.")
-        }
-        if (password1 != password2) {
-            return alert("비밀번호를 확인 해주세요.")
-        }
-
-        if (password1) {
-            formData.append("password", password1);
-        };
 
         const my_id = JSON.parse(localStorage.getItem('payload')).user_id
 
