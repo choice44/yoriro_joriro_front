@@ -19,6 +19,21 @@ function handleCreateRoute(event) {
     const image = document.getElementById('route-image').files[0];
     const content = document.getElementById('route-content').value;
 
+    // duration과 cost는 숫자로만 받아야함
+    const durationValue = parseInt(duration);
+    const costValue = parseInt(cost);
+
+    // duration과 cost는 양의 정수만 받아야함
+    if (isNaN(durationValue) || !Number.isInteger(durationValue) || durationValue < 1) {
+        alert("여행일수는 1이상의 숫자만 기재할 수 있습니다");
+        return;
+    }
+
+    if (isNaN(costValue) || !Number.isInteger(costValue) || costValue < 0) {
+        alert("여행비용은 0이상의 숫자만 기재할 수 있습니다");
+        return;
+    }
+
     // const areas = 
     const areas = JSON.stringify({ area: area, sigungu: sigungu });
 
