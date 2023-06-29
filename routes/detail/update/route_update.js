@@ -54,8 +54,15 @@ async function loadRoute() {
     // 해당 게시글 데이터 불러오기
     const route = await getRouteDetail()
 
-    // 해당 게시글의 목적지를 목적지 리스트에 추가
-    savedSpots = route.spots
+
+    const spots = route.spots
+
+
+    // 해당 게시글의 목적지데이터 중 목적지 정보만 가져옴 
+    spots.forEach(spotObj => {
+        savedSpots.push(spotObj.spot);
+    });
+    console.log(savedSpots)
 
     title.value = route.title;
     duration.value = route.duration;
@@ -108,9 +115,14 @@ function handleUpdateRoute(event) {
     formData.append('content', content);
 
     // 목적지를 순차적으로 기입
-    spotsId.forEach((spot) =>
-        formData.append('spots', spot)
-    )
+    let spots = [];
+    let order = 1;
+
+    for (let i = 0; i < spotsId.length; i++) {
+        let spotInfo = { spot: spotsId[i], order: order++, day: 1 };
+        spots.push(spotInfo);
+    }
+    formData.append('spots', JSON.stringify(spots));
 
     // 이미지가 있는 경우에만 formdata에 기입
     if (image) {
