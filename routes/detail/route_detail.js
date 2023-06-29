@@ -331,7 +331,7 @@ async function getComments(route_id) {
             <div class="row g-3">
                 <div class="col-md-1">
                     <div class="card-body">
-                        <p class="card-text"><b>${comment.user.nickname}</b></p>
+                        <a href="/users/mypage/index.html?id=${comment.user.id}" id="commnet-name"><b>${comment.user.nickname}</b></a>
                     </div>
                 </div>
                 <div class="col-md-8">
