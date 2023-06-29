@@ -96,7 +96,7 @@ async function loadJoriro(formData) {
         }
 
     } catch (error) {
-        alert("에러: 잠시 후 다시 시도해 주세요.");
+        alert("Error: 잠시 후 다시 시도해 주세요.", error);
     }
 
 }
