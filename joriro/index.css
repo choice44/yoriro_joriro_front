@@ -56,3 +56,30 @@
         transform: rotate(360deg);
     }
 }
+
+img {
+    margin: 20px auto 20px auto;
+}
+
+.down_btn {
+    display: flex;
+    justify-content: center;
+}
+
+.down_btn button {
+    background: #F78536;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 20px;
+    line-height: 20px;
+    border-radius: 30px;
+    border: none;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+}
+
+.down_btn button:hover {
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+
+}
