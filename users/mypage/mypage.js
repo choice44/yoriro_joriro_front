@@ -67,6 +67,7 @@ window.onload = async function loadMypage() {
 			const user = await getMypage(user_id);
 			inputUserInfo(user);
 		};
+		my_info.is_mymypage ? showEditButtons() : showFollowButton();
 	} else {
 		const user = await getMypage(user_id);
 		inputUserInfo(user);
@@ -74,9 +75,6 @@ window.onload = async function loadMypage() {
 
 	loadFollowers();
 
-	if (typeof my_info !== 'undefined') {
-		my_info.is_mymypage ? showEditButtons() : showFollowButton();
-	};
 };
 
 async function getMypage(user_id) {
