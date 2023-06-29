@@ -91,11 +91,11 @@ async function loadRecruitmentDetail(recruitmentId) {
             </tr>
             <tr>
                 <td width="30px" style="text-align:center;">나이</td>
-                <th width="30px" style="text-align:center;">${response.user.age}</th>
+                <th width="30px" style="text-align:center;">${(response.user.age) ? response.user.age + "세" : "?"}</th>
             </tr>
             <tr>
                 <td style="text-align:center;">성별</td>
-                <th style="text-align:center;">${gender}</th>
+                <th style="text-align:center;">${(gender) ? gender : "?"}</th>
             </tr>
         </table>`
 
@@ -112,7 +112,7 @@ async function loadRecruitmentDetail(recruitmentId) {
         <tr><td height="5px"></td>
         </tr>
         <tr>
-            <th colspan="3" style="text-align:center;">참가자 : ${participant.length}명</th>
+            <th colspan="3" style="text-align:center;">모집된 동료 : ${participant.length}명</th>
         </tr>
     `
     participant.forEach(user => {
@@ -126,9 +126,9 @@ async function loadRecruitmentDetail(recruitmentId) {
 
         participantTable.innerHTML += `
         <tr>
-            <th height="30px" rowspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${user.id}">${user.nickname}</a></th>
-            <td style="text-align:center;">${user.age}세</td>
-            <td style="text-align:center;">${user.gender}</td>
+            <th height="30px" rowspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${user.id}">${(user.nickname) ? user.nickname : "?"}</a></th>
+            <td style="text-align:center;">${(user.age) ? user.age + "세" : "?"}</td>
+            <td style="text-align:center;">${(user.gender) ? user.gender : "?"}</td>
         </tr>
         `
     })
@@ -222,11 +222,11 @@ async function loadJoin(recruitmentId) {
         const tableHTML = `
         <table class="col-md-12">
             <tr>
-                <th><a href="/users/mypage/index.html?id=${user.id}">${nickname}</a></th>
-                <td width="4%" style="text-align:right">${age}</td>
-                <td width="8%" style="text-align:right">${genderPrint}</td>
-                <td width="10%" style="text-align:right">${acceptencePrint}</td>
-                <td width="70"></td>
+                <th><a href="/users/mypage/index.html?id=${user.id}">${(nickname) ? nickname : "?"}</a></th>
+                <td width="4%" style="text-align:right">${(age) ? age : "?"}</td>
+                <td width="8%" style="text-align:right">${(genderPrint) ? genderPrint : "?"}</td>
+                <td width="13%" style="text-align:right">${acceptencePrint}</td>
+                <td width="60"></td>
             </tr>
         </table>
         <div style="margin-bottom:5%">
@@ -284,14 +284,14 @@ async function postJoin(recruitmentId, newJoin) {
         })
     })
 
-    const responseText = await response.text()
+    const response_json = await response.text()
 
     if (response.status == 201) {
         alert("동료 모집 신청 완료")
     } else if (response.status == 401) {
         alert("로그인 후 이용할 수 있습니다.")
     } else {
-        alert(JSON.parse(responseText).message)
+        alert(response_json.message)
     }
 }
 
@@ -393,7 +393,7 @@ async function rejectApplicant(applicantId) {
 
     if (response.status == 200) {
         let response_json = await response.json()
-        alert("신청 수락 완료!")
+        alert("신청 거절 완료!")
         loadRecruitmentDetail(recruitmentId)
         loadJoin(recruitmentId)
         return response_json
