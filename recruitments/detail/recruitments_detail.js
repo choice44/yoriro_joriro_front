@@ -284,7 +284,7 @@ async function postJoin(recruitmentId, newJoin) {
         })
     })
 
-    const response_json = await response.text()
+    const response_json = await response.json()
 
     if (response.status == 201) {
         alert("동료 모집 신청 완료")
