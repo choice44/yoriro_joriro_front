@@ -87,15 +87,15 @@ async function loadRecruitmentDetail(recruitmentId) {
     recruitmentWriterInfo.innerHTML = `
         <table width="80%" style="margin-top:40%;margin-left:25%;">
             <tr>
-                <th colspan="2" style="text-align:center;">${response.user.nickname}</th>
+                <th colspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${response.user.id}">${response.user.nickname}</a></th>
             </tr>
             <tr>
                 <td width="30px" style="text-align:center;">나이</td>
-                <th width="30px" style="text-align:center;">${response.user.age}</th>
+                <th width="30px" style="text-align:center;">${(response.user.age) ? response.user.age + "세" : "?"}</th>
             </tr>
             <tr>
                 <td style="text-align:center;">성별</td>
-                <th style="text-align:center;">${gender}</th>
+                <th style="text-align:center;">${(gender) ? gender : "?"}</th>
             </tr>
         </table>`
 
@@ -112,7 +112,7 @@ async function loadRecruitmentDetail(recruitmentId) {
         <tr><td height="5px"></td>
         </tr>
         <tr>
-            <th colspan="3" style="text-align:center;">참가자 : ${participant.length}명</th>
+            <th colspan="3" style="text-align:center;">모집된 동료 : ${participant.length}명</th>
         </tr>
     `
     participant.forEach(user => {
@@ -126,9 +126,9 @@ async function loadRecruitmentDetail(recruitmentId) {
 
         participantTable.innerHTML += `
         <tr>
-            <th height="30px" rowspan="2" style="text-align:center;">${user.nickname}</th>
-            <td style="text-align:center;">${user.age}세</td>
-            <td style="text-align:center;">${user.gender}</td>
+            <th height="30px" rowspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${user.id}">${(user.nickname) ? user.nickname : "?"}</a></th>
+            <td style="text-align:center;">${(user.age) ? user.age + "세" : "?"}</td>
+            <td style="text-align:center;">${(user.gender) ? user.gender : "?"}</td>
         </tr>
         `
     })
@@ -161,7 +161,7 @@ async function getRecruitment(recruitmentId) {
 
 
 async function getApplicant(recruitmentId) {
-    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join`)
+    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`)
 
     if (response.status == 200) {
         const response_json = await response.json()
@@ -211,7 +211,7 @@ async function loadJoin(recruitmentId) {
         }
 
         if (acceptence == 0) {
-            acceptencePrint = "대기중"
+            acceptencePrint = "수락 대기중"
         } else if (acceptence == 1) {
             acceptencePrint = "거절됨"
         } else {
@@ -222,11 +222,11 @@ async function loadJoin(recruitmentId) {
         const tableHTML = `
         <table class="col-md-12">
             <tr>
-                <th>${nickname}</th>
-                <td width="4%" style="text-align:right">${age}</td>
-                <td width="8%" style="text-align:right">${genderPrint}</td>
-                <td width="10%" style="text-align:right">${acceptencePrint}</td>
-                <td width="70"></td>
+                <th><a href="/users/mypage/index.html?id=${user.id}">${(nickname) ? nickname : "?"}</a></th>
+                <td width="4%" style="text-align:right">${(age) ? age : "?"}</td>
+                <td width="8%" style="text-align:right">${(genderPrint) ? genderPrint : "?"}</td>
+                <td width="13%" style="text-align:right">${acceptencePrint}</td>
+                <td width="60"></td>
             </tr>
         </table>
         <div style="margin-bottom:5%">
@@ -393,7 +393,7 @@ async function rejectApplicant(applicantId) {
 
     if (response.status == 200) {
         let response_json = await response.json()
-        alert("신청 수락 완료!")
+        alert("신청 거절 완료!")
         loadRecruitmentDetail(recruitmentId)
         loadJoin(recruitmentId)
         return response_json
