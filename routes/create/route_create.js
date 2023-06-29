@@ -31,9 +31,14 @@ function handleCreateRoute(event) {
     formData.append('content', content);
 
     // 목적지를 순차적으로 기입
-    spotsId.forEach((spot) =>
-        formData.append('spots', spot)
-    )
+    let spots = [];
+    let order = 1;
+
+    for (let i = 0; i < spotsId.length; i++) {
+        let spotInfo = { spot: spotsId[i], order: order++, day: 1 };
+        spots.push(spotInfo);
+    }
+    formData.append('spots', JSON.stringify(spots));
 
     // 이미지가 있는 경우에만 formdata에 기입
     if (image) {
