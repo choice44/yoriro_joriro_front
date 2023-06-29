@@ -109,6 +109,9 @@ function appendResult(data) {
     showBox.innerHTML = `
 
     <img src=${imageSrc} alt="로드 실패" class="img-fluid"></img>
+    <div class="down_btn">
+      <a href=${imageSrc} download><button>이미지 원본 다운로드</button></a>
+    </div>
     `
 
 }
