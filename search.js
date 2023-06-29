@@ -194,3 +194,14 @@ async function viewMoreSpotList(next) {
 window.changeSigunguForSpotSearch = changeSigunguForSpotSearch
 window.viewSpotList = viewSpotList
 window.viewMoreSpotList = viewMoreSpotList
+
+
+const main_search_button = document.getElementById("main_search_button")
+
+function press(f) {
+    if (f.keyCode == 13) { //javascript에서는 13이 enter키를 의미함
+        main_search_button.click();
+    };
+};
+
+document.addEventListener('keypress', press);
