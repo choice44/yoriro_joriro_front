@@ -166,10 +166,10 @@ async function routeRating(route_id) {
 // 여행루트 상세 페이지 로드 함수
 async function viewRouteDetail() {
     const route = await getRouteDetail();   // 해당 여행 루트 게시글의 데이터
-
     const area_id = route.areas[0].area // route의 시/도 id 
     const sigungu_id = route.areas[0].sigungu   // route의 시군구 id
-    const spot_ids = route.spots
+    const spots = route.spots
+
     const rate_half_up = Math.round(route.rate * 10) / 10;  // 평점 반올림
 
     const area = await getRouteArea(area_id);   // 시/도의 이름
@@ -197,11 +197,11 @@ async function viewRouteDetail() {
     route_content.innerText = route.content
     route_user.innerText = route.user.nickname
 
-    // route_user.addEventListener('click', function () {
-    //     window.location.href = `/users/mypage/index.html?id=${route.user.id}`;
-    // });
-
     // 수정버튼 수정페이지 링크 부여
+    route_user.addEventListener('click', function () {
+        window.location.href = `/users/mypage/index.html?id=${route.user.id}`;
+    });
+
     const route_user_id = route.user.id;
     // 유저의 로컬스토리지에 페이로드가 있다면
     if (userInfo !== null) {
@@ -216,32 +216,30 @@ async function viewRouteDetail() {
     }
 
     // 목적지 목록에 목적지 순차 부여
-    let spotCount = 1
     let spot_image = ""
     let spot_addr = ""
 
-    for (let spot of spot_ids) {
-        if (spot.firstimage) {
-            spot_image = spot.firstimage
+    for (let spotData of spots) {
+        if (spotData.spot.firstimage) {
+            spot_image = spotData.spot.firstimage
         } else {
             spot_image = "/images/place-1.jpg"
         }
-        if (spot.addr1) {
-            spot_addr = spot.addr1
+        if (spotData.spot.addr1) {
+            spot_addr = spotData.spot.addr1
         } else {
             spot_addr = "기록된 주소가 없습니다."
         }
         route_spots.innerHTML += `
-        <a class="row-spot" style="margin: 0;" id="review_detail_spot_cardbox" href="/spots/index.html?id=${spot.id}">
+        <a class="row-spot" style="margin: 0;" id="review_detail_spot_cardbox" href="/spots/index.html?id=${spotData.spot.id}">
             <div class="col-md-4" style="height:100px; padding:0; overflow: hidden;">
                 <img class="img-responsive" src="${spot_image}" alt="방문지 이미지" id="review_detail_spot_image" style="height: 100%; width: 100%; object-fit: cover;">
             </div>
             <div class="col-md-8" style="background-color: rgb(0, 0, 0, 0.04); height:100px;">
-                <h3 style="margin-bottom:0; margin-top:20px;" id="review_detail_spot_title">${spotCount}. ${spot.title}</h3>
+                <h3 style="margin-bottom:0; margin-top:20px;" id="review_detail_spot_title">${spotData.order}. ${spotData.spot.title}</h3>
                 <span class="price" id="review_detail_spot_addr">${spot_addr}</span>
             </div>
         </a>`
-        spotCount += 1
     }
 
     // 평점이 하나도 없을 시
@@ -253,7 +251,12 @@ async function viewRouteDetail() {
     if (route.image === null) {
         route_image.style.display = "none"
     }
-    createMarker(spot_ids)
+
+    let spotList = [];
+    spots.forEach(spotObj => {
+        spotList.push(spotObj.spot);
+    });
+    createMarker(spotList)
 }
 
 // 여행루트 삭제 함수
@@ -328,7 +331,7 @@ async function getComments(route_id) {
             <div class="row g-3">
                 <div class="col-md-1">
                     <div class="card-body">
-                        <p class="card-text"><b>${comment.user.nickname}</b></p>
+                        <a href="/users/mypage/index.html?id=${comment.user.id}" id="commnet-name"><b>${comment.user.nickname}</b></a>
                     </div>
                 </div>
                 <div class="col-md-8">
