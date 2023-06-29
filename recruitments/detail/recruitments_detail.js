@@ -87,7 +87,7 @@ async function loadRecruitmentDetail(recruitmentId) {
     recruitmentWriterInfo.innerHTML = `
         <table width="80%" style="margin-top:40%;margin-left:25%;">
             <tr>
-                <th colspan="2" style="text-align:center;">${response.user.nickname}</th>
+                <th colspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${response.user.id}">${response.user.nickname}</a></th>
             </tr>
             <tr>
                 <td width="30px" style="text-align:center;">나이</td>
@@ -126,7 +126,7 @@ async function loadRecruitmentDetail(recruitmentId) {
 
         participantTable.innerHTML += `
         <tr>
-            <th height="30px" rowspan="2" style="text-align:center;">${user.nickname}</th>
+            <th height="30px" rowspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${user.id}">${user.nickname}</a></th>
             <td style="text-align:center;">${user.age}세</td>
             <td style="text-align:center;">${user.gender}</td>
         </tr>
@@ -161,7 +161,7 @@ async function getRecruitment(recruitmentId) {
 
 
 async function getApplicant(recruitmentId) {
-    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join`)
+    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`)
 
     if (response.status == 200) {
         const response_json = await response.json()
@@ -211,7 +211,7 @@ async function loadJoin(recruitmentId) {
         }
 
         if (acceptence == 0) {
-            acceptencePrint = "대기중"
+            acceptencePrint = "수락 대기중"
         } else if (acceptence == 1) {
             acceptencePrint = "거절됨"
         } else {
@@ -222,7 +222,7 @@ async function loadJoin(recruitmentId) {
         const tableHTML = `
         <table class="col-md-12">
             <tr>
-                <th>${nickname}</th>
+                <th><a href="/users/mypage/index.html?id=${user.id}">${nickname}</a></th>
                 <td width="4%" style="text-align:right">${age}</td>
                 <td width="8%" style="text-align:right">${genderPrint}</td>
                 <td width="10%" style="text-align:right">${acceptencePrint}</td>
