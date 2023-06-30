@@ -142,6 +142,10 @@ async function handleUpdateProfile() {
             formData.append("image", image);
         };
 
+        if (!nickname) {
+            return alert("사이트 이용을 위해 닉네임을 등록해주세요.");
+        }
+
         formData.append("nickname", nickname);
         formData.append("age", age);
         formData.append("gender", gender);
