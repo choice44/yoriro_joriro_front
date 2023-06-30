@@ -1,0 +1,33 @@
+.image.featured-ji {
+    display: block;
+    width: 100%;
+    margin: 0 0 2.5em 0;
+    position: relative;
+}
+
+.image.featured-ji::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.image.featured-ji>img {
+    border-radius: 70%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fi.fi-ss-heart {
+    color: #848484;
+    font-size: 20px;
+}
+
+.fi.fi-ss-heart:hover {
+    color: red;
+}
+
+.fi.fi-ss-heart.liked {
+    color: red;
+}
