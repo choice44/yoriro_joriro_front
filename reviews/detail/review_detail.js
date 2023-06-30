@@ -85,10 +85,10 @@ async function inputReviewDetail(review) {
     like_count.innerHTML = review.like_count;
 
     const title = document.getElementById("review_detail_title");
-    title.innerHTML = review.title;
+    title.innerText = review.title;
 
     const content = document.getElementById("review_detail_content");
-    content.innerHTML = review.content;
+    content.innerText = review.content;
 
     const visited_date = document.getElementById("review_detail_visited_date");
     visited_date.innerHTML = `방문일: ${review.visited_date}`;
