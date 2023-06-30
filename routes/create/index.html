@@ -123,7 +123,7 @@
 								<div class="col-xxs-12 col-xs-6 mt alternate">
 									<div class="input-field">
 										<label for="duration">여행 일수:</label>
-										<input type="text" class="form-control" id="route-duration"
+										<input type="number" min="1" class="form-control" id="route-duration"
 											placeholder="숫자로만 작성" />
 									</div>
 								</div>
@@ -131,7 +131,8 @@
 								<div class="col-xxs-12 col-xs-6 mt alternate">
 									<div class="input-field">
 										<label for="cost">여행 비용:</label>
-										<input type="text" class="form-control" id="route-cost" placeholder="숫자로만 작성" />
+										<input type="number" min="0" class="form-control" id="route-cost"
+											placeholder="숫자로만 작성" />
 									</div>
 								</div>
 

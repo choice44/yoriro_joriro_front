@@ -90,6 +90,9 @@ async function loadJoriro(formData) {
             const data = await response.json();
             alert("성공!")
             appendResult(data);
+        } else if (response.status == 401) {
+            alert("로그인 후 이용 가능합니다.");
+            window.location.replace("/users/login/index.html")
         } else {
             const data = await response.json();
             alert(data.detail)

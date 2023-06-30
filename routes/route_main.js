@@ -155,6 +155,16 @@ async function viewMoreRouteList(nextURL) {
     }
 }
 
-window.viewMoreRouteList = viewMoreRouteList
+function handleCreateButton() {
+    const accessToken = localStorage.getItem('access'); // 이 부분은 여러분의 로그인 상태를 확인하는 방식에 따라 달라집니다.
 
+    if (accessToken) { // 로그인이 된 경우
+        location.href = 'create/index.html'; // 작성 페이지로 이동
+    } else { // 로그인이 안 된 경우
+        alert("로그인이 필요한 서비스입니다."); // 경고 메시지 출력
+    }
+}
+
+window.viewMoreRouteList = viewMoreRouteList
+window.handleCreateButton = handleCreateButton
 viewRouteList()
