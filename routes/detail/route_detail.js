@@ -197,6 +197,7 @@ async function viewRouteDetail() {
     route_content.innerText = route.content
     route_user.innerText = route.user.nickname
 
+
     // 수정버튼 수정페이지 링크 부여
     route_user.addEventListener('click', function () {
         window.location.href = `/users/mypage/index.html?id=${route.user.id}`;
