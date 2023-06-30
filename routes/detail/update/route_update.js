@@ -54,8 +54,14 @@ async function loadRoute() {
     // 해당 게시글 데이터 불러오기
     const route = await getRouteDetail()
 
-    // 해당 게시글의 목적지를 목적지 리스트에 추가
-    savedSpots = route.spots
+
+    const spots = route.spots
+
+
+    // 해당 게시글의 목적지데이터 중 목적지 정보만 가져옴 
+    spots.forEach(spotObj => {
+        savedSpots.push(spotObj.spot);
+    });
 
     title.value = route.title;
     duration.value = route.duration;
@@ -96,6 +102,21 @@ function handleUpdateRoute(event) {
     image = document.getElementById('route-image').files[0];
     content = document.getElementById('route-content').value;
 
+    // duration과 cost는 숫자로만 받아야함
+    const durationValue = parseInt(duration);
+    const costValue = parseInt(cost);
+
+    // duration과 cost는 양의 정수만 받아야함
+    if (isNaN(durationValue) || !Number.isInteger(durationValue) || durationValue < 1) {
+        alert("여행일수는 1이상의 숫자만 기재할 수 있습니다");
+        return;
+    }
+
+    if (isNaN(costValue) || !Number.isInteger(costValue) || costValue < 0) {
+        alert("여행비용은 0이상의 숫자만 기재할 수 있습니다");
+        return;
+    }
+
     // areas는 딕셔너리 형태이기 때문에 formData로 전송시 형변환이 필요
     const areas = JSON.stringify({ area: area, sigungu: sigungu });
 
@@ -108,9 +129,14 @@ function handleUpdateRoute(event) {
     formData.append('content', content);
 
     // 목적지를 순차적으로 기입
-    spotsId.forEach((spot) =>
-        formData.append('spots', spot)
-    )
+    let spots = [];
+    let order = 1;
+
+    for (let i = 0; i < spotsId.length; i++) {
+        let spotInfo = { spot: spotsId[i], order: order++, day: 1 };
+        spots.push(spotInfo);
+    }
+    formData.append('spots', JSON.stringify(spots));
 
     // 이미지가 있는 경우에만 formdata에 기입
     if (image) {
