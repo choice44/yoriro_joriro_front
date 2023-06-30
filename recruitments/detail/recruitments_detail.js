@@ -81,9 +81,9 @@ async function loadRecruitmentDetail(recruitmentId) {
 
     let ageGroup
     if (response.user.age) {
-        ageGroup = '00' + response.user.age
-        if (ageGroup[2] != 0) {
-            ageGroup = ageGroup[2] + '0대'
+        ageGroup = parseInt(response.user.age / 10) * 10
+        if (ageGroup != 0) {
+            ageGroup = ageGroup + '대'
         } else {
             ageGroup = "10대 미만"
         }
@@ -257,9 +257,9 @@ async function loadJoin(recruitmentId) {
         // 나이를 연령대로 변경하는 코드
         let ageGroup
         if (age) {
-            ageGroup = '00' + age
-            if (ageGroup[2] != 0) {
-                ageGroup = ageGroup[2] + '0대'
+            ageGroup = parseInt(age / 10) * 10
+            if (ageGroup != 0) {
+                ageGroup = ageGroup + '대'
             } else {
                 ageGroup = "10대 미만"
             }
@@ -305,7 +305,7 @@ async function loadJoin(recruitmentId) {
     });
 
     // 수락 대기중인 사람들 수 출력
-    applicantCountPrint.setAttribute("value", `대기자 목록 : ${acceptenceZero}명`)
+    applicantCountPrint.setAttribute("value", `대기자: ${acceptenceZero}명 / 신청자: ${applicantResponse.length}명`)
 }
 
 

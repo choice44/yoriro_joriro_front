@@ -48,9 +48,9 @@ async function loadJoin(recruitmentId) {
 
         let ageGroup
         if (age) {
-            ageGroup = '00' + age
-            if (ageGroup[2] != 0) {
-                ageGroup = ageGroup[2] + '0대'
+            ageGroup = parseInt(age / 10) * 10
+            if (ageGroup != 0) {
+                ageGroup = ageGroup + '대'
             } else {
                 ageGroup = "10대 미만"
             }
