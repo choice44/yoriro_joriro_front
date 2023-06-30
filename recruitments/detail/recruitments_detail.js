@@ -208,6 +208,10 @@ async function popupApplicant() {
 // 지원자 호출 함수
 async function loadJoin(recruitmentId) {
     const applicantResponse = await getApplicant(recruitmentId);
+
+    const applicantCountPrint = document.getElementById("applicant-check-button")
+    let acceptenceZero = 0
+
     // 로그인 유저 id 가져오기
     const accessToken = localStorage.getItem('access')
     let userId = getPKFromAccessToken(accessToken)
@@ -223,7 +227,6 @@ async function loadJoin(recruitmentId) {
         applicantJoinCreate.style.display = "block";
     }
 
-    // const applicanCount = document.getElementById("applicant-count")
     const applicantList = document.getElementById("applicant-list")
     applicantList.innerHTML = ""
 
@@ -251,6 +254,7 @@ async function loadJoin(recruitmentId) {
             acceptencePrint = "수락됨"
         }
 
+        // 나이를 연령대로 변경하는 코드
         let ageGroup
         if (age) {
             ageGroup = '00' + age
@@ -293,7 +297,15 @@ async function loadJoin(recruitmentId) {
         } else {
             applicantCheck.setAttribute("style", "display:none;")
         }
+
+        // 아직 수락 대기중인 사람들 수 카운트
+        if (acceptence == 0) {
+            acceptenceZero++
+        }
     });
+
+    // 수락 대기중인 사람들 수 출력
+    applicantCountPrint.setAttribute("value", `대기자 목록 : ${acceptenceZero}명`)
 }
 
 
