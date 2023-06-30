@@ -1,12 +1,10 @@
 import { proxy } from "../../proxy.js"
 
-let recruitmentId
-let applicantId
+const urlParams = new URLSearchParams(window.location.search)
+let recruitmentId = urlParams.get('recruitment_id')
+
 
 window.onload = async function () {
-    const urlParams = new URLSearchParams(window.location.search)
-    recruitmentId = urlParams.get('recruitment_id')
-
     await loadRecruitmentDetail(recruitmentId)
     await loadJoin(recruitmentId)
 }
@@ -81,6 +79,18 @@ async function loadRecruitmentDetail(recruitmentId) {
         gender = ""
     }
 
+    let ageGroup
+    if (response.user.age) {
+        ageGroup = parseInt(response.user.age / 10) * 10
+        if (ageGroup != 0) {
+            ageGroup = ageGroup + '대'
+        } else {
+            ageGroup = "10대 미만"
+        }
+    } else {
+        ageGroup = "?"
+    }
+
     // 게시글 작성자 정보
     const recruitmentWriterInfo = document.getElementById("writer-info")
     recruitmentWriterInfo.innerHTML = ""
@@ -90,8 +100,8 @@ async function loadRecruitmentDetail(recruitmentId) {
                 <th colspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${response.user.id}">${response.user.nickname}</a></th>
             </tr>
             <tr>
-                <td width="30px" style="text-align:center;">나이</td>
-                <th width="30px" style="text-align:center;">${(response.user.age) ? response.user.age + "세" : "?"}</th>
+                <td width="30px" style="text-align:center;">연령대</td>
+                <th width="30px" style="text-align:center;">${ageGroup}</th>
             </tr>
             <tr>
                 <td style="text-align:center;">성별</td>
@@ -124,10 +134,22 @@ async function loadRecruitmentDetail(recruitmentId) {
             user.gender = ""
         }
 
+        let ageGroup
+        if (user.age) {
+            ageGroup = '00' + user.age
+            if (ageGroup[2] != 0) {
+                ageGroup = ageGroup[2] + '0대'
+            } else {
+                ageGroup = "10대 미만"
+            }
+        } else {
+            ageGroup = "?"
+        }
+
         participantTable.innerHTML += `
         <tr>
             <th height="30px" rowspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${user.id}">${(user.nickname) ? user.nickname : "?"}</a></th>
-            <td style="text-align:center;">${(user.age) ? user.age + "세" : "?"}</td>
+            <td style="text-align:center;">${ageGroup}</td>
             <td style="text-align:center;">${(user.gender) ? user.gender : "?"}</td>
         </tr>
         `
@@ -172,9 +194,24 @@ async function getApplicant(recruitmentId) {
 }
 
 
+// 신청자 명단 확인 창
+async function popupApplicant() {
+    const result = await checkAuthor(recruitmentId);
+    if (result) {
+        window.open(`/recruitments/detail/applicant/applicant_list.html?recruitment_id=${recruitmentId}`, "applicant list", 'width=500, height=600')
+    } else {
+        alert("글 작성자만 확인할 수 있습니다.")
+    }
+}
+
+
 // 지원자 호출 함수
 async function loadJoin(recruitmentId) {
     const applicantResponse = await getApplicant(recruitmentId);
+
+    const applicantCountPrint = document.getElementById("applicant-check-button")
+    let acceptenceZero = 0
+
     // 로그인 유저 id 가져오기
     const accessToken = localStorage.getItem('access')
     let userId = getPKFromAccessToken(accessToken)
@@ -190,7 +227,6 @@ async function loadJoin(recruitmentId) {
         applicantJoinCreate.style.display = "block";
     }
 
-    // const applicantCount = document.getElementById("applicant-count")
     const applicantList = document.getElementById("applicant-list")
     applicantList.innerHTML = ""
 
@@ -218,29 +254,58 @@ async function loadJoin(recruitmentId) {
             acceptencePrint = "수락됨"
         }
 
+        // 나이를 연령대로 변경하는 코드
+        let ageGroup
+        if (age) {
+            ageGroup = parseInt(age / 10) * 10
+            if (ageGroup != 0) {
+                ageGroup = ageGroup + '대'
+            } else {
+                ageGroup = "10대 미만"
+            }
+        } else {
+            ageGroup = "?"
+        }
+
         // 3항 연산자를 사용해서 게시글 작성자가 로그인 하면 수락, 거절버튼이 보이고, 신청 작성자가 로그인하면 신청 수정, 삭제 버튼이 보인다.
         const tableHTML = `
-        <table class="col-md-12">
-            <tr>
-                <th><a href="/users/mypage/index.html?id=${user.id}">${(nickname) ? nickname : "?"}</a></th>
-                <td width="4%" style="text-align:right">${(age) ? age : "?"}</td>
-                <td width="8%" style="text-align:right">${(genderPrint) ? genderPrint : "?"}</td>
-                <td width="13%" style="text-align:right">${acceptencePrint}</td>
-                <td width="60"></td>
-            </tr>
-        </table>
-        <div style="margin-bottom:5%">
-            <div width="100%" colspan="5" id="appeal-${id}">${appeal}</div>
-            <div style="display: flex; flex-direction: row;"">
-                <input type="button" value="수정" id="edit-appeal-button-${id}" onclick="editJoin(${id})" style="margin-bottom: 5px; display: ${user.id == userId ? 'block' : 'none'}">
-                <input type="button" value="수락" id="accept-appeal-button" onclick="acceptApplicant(${id})" style="margin-bottom: 5px; display: ${acceptence == 0 && result ? 'block' : 'none'}">
-                <input type="button" value="삭제" id="delete-appeal-button" onclick="deleteJoin(${id})" style="margin-bottom: 5px; display: ${user.id == userId ? 'block' : 'none'}">
-                <input type="button" value="거절" id="reject-appeal-button" onclick="rejectApplicant(${id})" style="margin-bottom: 5px; display: ${acceptence == 0 && result ? 'block' : 'none'}">
+        <div id="applicant-${id}">
+            <table class="col-md-12">
+                <tr>
+                    <th><a href="/users/mypage/index.html?id=${user.id}">${(nickname) ? nickname : "?"}</a></th>
+                    <td width="4%" style="text-align:right">${ageGroup}</td>
+                    <td width="8%" style="text-align:right">${(genderPrint) ? genderPrint : "?"}</td>
+                    <td width="13%" style="text-align:right">${acceptencePrint}</td>
+                    <td width="60"></td>
+                </tr>
+            </table>
+            <div style="margin-bottom:5%">
+                <div width="100%" colspan="5" id="appeal-${id}">${appeal}</div>
+                <div style="display: flex; flex-direction: row;"">
+                    <input type="button" value="수정" id="edit-appeal-button-${id}" onclick="editJoin(${id})" style="margin-bottom: 5px; display: ${user.id == userId ? 'block' : 'none'}">
+                    <input type="button" value="수락" id="accept-appeal-button" onclick="acceptApplicant(${id})" style="margin-bottom: 5px; display: ${acceptence == 0 && result ? 'block' : 'none'}">
+                    <input type="button" value="삭제" id="delete-appeal-button" onclick="deleteJoin(${id})" style="margin-bottom: 5px; display: ${user.id == userId ? 'block' : 'none'}">
+                    <input type="button" value="거절" id="reject-appeal-button" onclick="rejectApplicant(${id})" style="margin-bottom: 5px; display: ${acceptence == 0 && result ? 'block' : 'none'}">
+                </div>
             </div>
         </div>`
 
         applicantList.innerHTML += tableHTML
+        const applicantCheck = document.getElementById(`applicant-${id}`)
+        if (user.id == userId) {
+            applicantCheck.setAttribute("style", "display:block;")
+        } else {
+            applicantCheck.setAttribute("style", "display:none;")
+        }
+
+        // 아직 수락 대기중인 사람들 수 카운트
+        if (acceptence == 0) {
+            acceptenceZero++
+        }
     });
+
+    // 수락 대기중인 사람들 수 출력
+    applicantCountPrint.setAttribute("value", `대기자: ${acceptenceZero}명 / 신청자: ${applicantResponse.length}명`)
 }
 
 
@@ -287,7 +352,7 @@ async function postJoin(recruitmentId, newJoin) {
     const response_json = await response.json()
 
     if (response.status == 201) {
-        alert("동료 모집 신청 완료")
+        alert("신청 완료! 작성자 수락을 기다려주세요")
     } else if (response.status == 401) {
         alert("로그인 후 이용할 수 있습니다.")
     } else {
@@ -355,54 +420,6 @@ async function recruitmentDelete() {
 }
 
 
-// 신청 수락
-async function acceptApplicant(applicantId) {
-    let token = localStorage.getItem("access")
-
-    const response = await fetch(`${proxy}/recruitments/join/${applicantId}/accept/`, {
-        method: 'POST',
-        headers: {
-            "content-type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (response.status == 200) {
-        let response_json = await response.json()
-        alert("신청 수락 완료!")
-        loadRecruitmentDetail(recruitmentId)
-        loadJoin(recruitmentId)
-        return response_json
-    } else {
-        alert(response.status)
-    }
-}
-
-
-// 신청 거절
-async function rejectApplicant(applicantId) {
-    let token = localStorage.getItem("access")
-
-    const response = await fetch(`${proxy}/recruitments/join/${applicantId}/reject/`, {
-        method: 'POST',
-        headers: {
-            "content-type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (response.status == 200) {
-        let response_json = await response.json()
-        alert("신청 거절 완료!")
-        loadRecruitmentDetail(recruitmentId)
-        loadJoin(recruitmentId)
-        return response_json
-    } else {
-        alert(response.status)
-    }
-}
-
-
 // 신청 수정
 async function editJoin(applicantId) {
     let token = localStorage.getItem("access")
@@ -464,11 +481,10 @@ async function deleteJoin(applicantId) {
 }
 
 
-window.acceptApplicant = acceptApplicant
-window.rejectApplicant = rejectApplicant
 window.submitJoin = submitJoin
 window.getJoin = getJoin
 window.editJoin = editJoin
 window.deleteJoin = deleteJoin
 window.recruitmentEdit = recruitmentEdit
 window.recruitmentDelete = recruitmentDelete
+window.popupApplicant = popupApplicant

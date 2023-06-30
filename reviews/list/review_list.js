@@ -70,8 +70,7 @@ async function loadReviewList(type) {
             <span class="price" style="color:#F78536;">${review.title} <small style="color:#848484;">
             ${review.user.nickname}</small></span>
             <p
-                style="color:#F78536; margin-bottom:0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                ${review.content}
+                style="color:#F78536; margin-bottom:0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" id="review_list_content_${review.id}">
             </p>
         </div>
         <div class="one-1"
@@ -79,7 +78,8 @@ async function loadReviewList(type) {
         </div>`;
 
             review_list.appendChild(template);
-
+            const temp_content = document.getElementById(`review_list_content_${review.id}`);
+            temp_content.innerText = review.content
         });
     };
 
@@ -145,8 +145,7 @@ async function viewMoreReviewList(next) {
         <span class="price" style="color:#F78536;">${review.title} <small style="color:#848484;">
         ${review.user.nickname}</small></span>
         <p
-            style="color:#F78536; margin-bottom:0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-            ${review.content}
+            style="color:#F78536; margin-bottom:0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" id="review_list_content_${review.id}">
         </p>
     </div>
     <div class="one-1"
@@ -154,7 +153,8 @@ async function viewMoreReviewList(next) {
     </div>`;
 
         review_list.appendChild(template);
-
+        const temp_content = document.getElementById(`review_list_content_${review.id}`);
+        temp_content.innerText = review.content
     });
 
     // 더보기 버튼 생성
