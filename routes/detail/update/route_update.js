@@ -102,18 +102,46 @@ function handleUpdateRoute(event) {
     image = document.getElementById('route-image').files[0];
     content = document.getElementById('route-content').value;
 
-    // duration과 cost는 숫자로만 받아야함
-    const durationValue = parseInt(duration);
-    const costValue = parseInt(cost);
-
-    // duration과 cost는 양의 정수만 받아야함
-    if (isNaN(durationValue) || !Number.isInteger(durationValue) || durationValue < 1) {
-        alert("여행일수는 1이상의 숫자만 기재할 수 있습니다");
+    if (!title) {
+        alert("여행 제목을 입력해주세요");
         return;
     }
 
-    if (isNaN(costValue) || !Number.isInteger(costValue) || costValue < 0) {
-        alert("여행비용은 0이상의 숫자만 기재할 수 있습니다");
+    // duration과 cost는 숫자로만 받아야함
+    // 소수 예외를 두기 위해 parseFloat로 변환
+    const durationValue = parseFloat(duration);
+    const costValue = parseFloat(cost);
+
+    // duration과 cost는 양의 정수만 받아야함
+    if (!duration) {
+        alert("여행 일수를 입력해주세요");
+        return;
+    } else if (isNaN(durationValue) || Math.floor(durationValue) !== durationValue || durationValue < 1) {
+        alert("여행일수는 1이상의 정수만 기재할 수 있습니다");
+        return;
+    }
+
+    // duration과 cost는 양의 정수만 받아야함
+    if (!cost) {
+        alert("여행 비용을 입력해주세요");
+        return;
+    } else if (isNaN(costValue) || Math.floor(costValue) !== costValue || costValue < 1) {
+        alert("여행비용은 0이상의 정수만 기재할 수 있습니다");
+        return;
+    }
+
+    if (!area) {
+        alert("시/도를 입력해주세요");
+        return;
+    }
+
+    if (!sigungu) {
+        alert("시/군/구를 입력해주세요");
+        return;
+    }
+
+    if (!content) {
+        alert("본문 내용을 입력해주세요");
         return;
     }
 
