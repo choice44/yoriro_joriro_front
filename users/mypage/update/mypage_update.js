@@ -175,15 +175,20 @@ async function handleUpdateProfile() {
         });
 
         if (!response.ok) {
+            const response_json = await response.json();
+            if (response_json["nickname"]) {
+                console.error('Error:', response_json["nickname"][0]);
+                return alert("이미 존재하는 닉네임입니다. 다른 닉네임을 등록해주세요.");
+            };
             throw new Error('프로필 수정 요청이 실패하였습니다.');
-        }
+        };
 
         window.location.href = `/users/mypage/index.html?id=${my_id}`;
 
     } catch (error) {
         console.error('Error:', error);
-    }
-}
+    };
+};
 
 // 수정 버튼을 클릭 시 handleUpdateProfile 호출
 const updateBtn = document.getElementById("mypage_update_button");
