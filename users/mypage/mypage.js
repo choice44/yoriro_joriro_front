@@ -117,6 +117,8 @@ async function inputUserInfo(user) {
 		} else {
 			age_group = "9세 이하";
 		};
+	} else {
+		age_group = null
 	};
 
 	user_age.innerHTML = age_group
