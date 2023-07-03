@@ -81,9 +81,20 @@ function inputMyProfile(profile) {
 
     // 입력창에 기존 정보 채우기
     nicknameInput.value = profile.nickname;
-    ageInput.value = profile.age;
+    // ageInput.value = profile.age;
     emailInput.innerText = profile.email;
     bioInput.value = profile.bio;
+
+    let age_group
+    if (profile.age) {
+        age_group = parseInt(profile.age / 10)
+
+        if (age_group >= 8) {
+            ageInput.options[9].selected = true;
+        } else {
+            ageInput.options[age_group + 1].selected = true;
+        };
+    };
 
     if (profile.gender == "F") {
         genderInput.options[1].selected = true
