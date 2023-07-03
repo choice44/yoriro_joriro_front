@@ -49,10 +49,12 @@ async function loadJoin(recruitmentId) {
         let ageGroup
         if (age) {
             ageGroup = parseInt(age / 10) * 10
-            if (ageGroup != 0) {
+            if (ageGroup != 0 && ageGroup<80) {
                 ageGroup = ageGroup + '대'
+            } else if (ageGroup >= 80){
+                ageGroup = '80대 이상'
             } else {
-                ageGroup = "10대 미만"
+                ageGroup = "9세 이하"
             }
         } else {
             ageGroup = "?"
@@ -64,10 +66,10 @@ async function loadJoin(recruitmentId) {
             <table style="width:450px; height:50px">
                 <tr>
                     <th style="text-align:center">${(nickname) ? nickname : "?"}</th>
-                    <td width="8%" style="text-align:center">${ageGroup}</td>
+                    <td width="20%" style="text-align:center">${ageGroup}</td>
                     <td width="8%" style="text-align:right">${(genderPrint) ? genderPrint : "?"}</td>
-                    <td width="50%"></td>
-                    <td width="13%" style="text-align:right">${acceptencePrint}</td>
+                    <td width="30%"></td>
+                    <td width="20%" style="text-align:right">${acceptencePrint}</td>
                 </tr>
             </table>
             <div style="margin-bottom:5%;>
