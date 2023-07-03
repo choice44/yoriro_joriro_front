@@ -13,11 +13,10 @@ async function postRecruitment() {
     const content = document.getElementById("content").value
     const image = document.getElementById("image").files[0]
 
-    // 현재 시간 가져오기
+    // 현재 시간 가져오기 
     let timeNow = new Date()
     timeNow = `${timeNow.getFullYear()}${('00' + (timeNow.getMonth() + 1)).slice(-2)
-        }${timeNow.getDate()} `
-    console.log(timeNow)
+        }${('00' + (timeNow.getDate())).slice(-2)}`
 
     // 저장된 데이터베이스와 같은 형식으로 날짜 변경
     let year = dateStart.split('/')[2]

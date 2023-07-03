@@ -31,11 +31,15 @@ function handleCreateReview(event) {
 
     // 현재 시간 가져오기
     let timeNow = new Date()
-    timeNow = `${timeNow.getFullYear()}-${('00' + (timeNow.getMonth() + 1)).slice(-2)}-${timeNow.getDate()}`
+    let timeNow_3 = new Date()
+    timeNow = `${timeNow.getFullYear()}-${('00' + (timeNow.getMonth() + 1)).slice(-2)}-${('00' + (timeNow.getDate())).slice(-2)}`
+    timeNow_3 = `${Number(timeNow_3.getFullYear()) - 3}-${('00' + (timeNow_3.getMonth() + 1)).slice(-2)}-${('00' + (timeNow_3.getDate())).slice(-2)}`
 
     // 오늘 날짜까지는 입력 가능. 그 이후 미래 날짜는 입력 불가.
     if (visited_date > timeNow) {
         return alert("날짜를 확인해주세요.");
+    } else if (visited_date < timeNow_3) {
+        return alert("최근 3년 이내에 방문한 장소만 리뷰를 작성할 수 있습니다.");
     };
 
     const formData = new FormData();

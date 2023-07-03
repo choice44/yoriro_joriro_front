@@ -106,7 +106,22 @@ async function inputUserInfo(user) {
 	const user_gender = document.getElementById("mypage_gender");
 	user_gender.innerHTML = convertGender(user.gender)
 	const user_age = document.getElementById("mypage_age")
-	user_age.innerHTML = user.age
+
+	let age_group
+	if (user.age) {
+		age_group = parseInt(user.age / 10) * 10
+		if (age_group >= 80) {
+			age_group = "80대 이상";
+		} else if (age_group >= 10) {
+			age_group = age_group + "대";
+		} else {
+			age_group = "9세 이하";
+		};
+	} else {
+		age_group = null
+	};
+
+	user_age.innerHTML = age_group
 	const user_followers = document.getElementById("mypage_followers")
 	user_followers.innerHTML = "팔로워 " + user.followers_count;
 	const user_followings = document.getElementById("mypage_followings")

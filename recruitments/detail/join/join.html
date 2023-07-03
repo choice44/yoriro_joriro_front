@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="/images/favicon-96x96.png" />
+    <title>YoriroJoriro</title>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div id="applicant-join" class="col-md-9 container" style="text-align: center; margin-top: 5%;">
+        <textarea style="resize: none;" name="" class="form-control" cols="30" rows="4"
+            placeholder="Appeal" id="new-join"></textarea>
+        <input id="join-done-button" type="button" class="btn btn-outline btn-primary" onclick="submitJoin()" value="신청" style="margin-top: 5%;">
+        <input id="join-delete-button" type="button" class="btn btn-outline btn-primary" onclick="submitDeleteJoin()" value="삭제" style="margin-top: 5%;">
+        <div id="applicant-check">
+        </div>
+    </div>
+
+    <script src="/users/api.js"></script>
+    <script type="module" src="/recruitments/detail/join/join.js"></script>
+</body>
+
+</html>
