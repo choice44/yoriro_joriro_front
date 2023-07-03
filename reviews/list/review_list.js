@@ -56,11 +56,16 @@ async function loadReviewList(order, type) {
         <select class="form-control"
             style="height:40px; margin-bottom:30px;" id="review_list_order"
             onchange="loadReviewList(this.value, ${type})">
-            <option value="" selected>최신순</option>
+            <option value="">최신순</option>
             <option value="like_count">좋아요순</option>
         </select>
         `;
         review_list.appendChild(template);
+
+        if (order) {
+            const selected_order = document.getElementById("review_list_order");
+            selected_order.options[1].selected = true;
+        };
 
         reviews.results.forEach((review) => {
             const template = document.createElement("a");
