@@ -120,14 +120,18 @@
 									<!-- Nav tabs -->
 									<ul class="nav nav-tabs" role="tablist">
 										<li role="presentation" class="active">
+											<a role="tab" data-toggle="tab" style="cursor:pointer;" id="review_list_all"
+												onclick="loadReviewList('', '')">전체</a>
+										</li>
+										<li role="presentation">
 											<a aria-controls="flights" role="tab" data-toggle="tab"
 												style="cursor:pointer;" id="review_list_tourist_spot"
-												onclick="loadReviewList(12)">관광지</a>
+												onclick="loadReviewList('', '12')">관광지</a>
 										</li>
 										<li role="presentation">
 											<a aria-controls="hotels" role="tab" data-toggle="tab"
 												style="cursor:pointer;" id="review_list_restaurant"
-												onclick="loadReviewList(39)">맛집</a>
+												onclick="loadReviewList('', '39')">맛집</a>
 										</li>
 									</ul>
 
@@ -135,6 +139,14 @@
 									<div class="tab-content">
 										<div role="tabpanel" class="tab-pane active" id="tourist_spots">
 											<div class="row">
+												<!-- <div class="col-md-4" style="float:right;">
+													<select class="form-control"
+														style="height:40px; margin-bottom:30px;" id="review_list_order"
+														onchange="loadReviewList(this.value, '')">
+														<option value="" selected>최신순</option>
+														<option value="like_count">좋아요순</option>
+													</select>
+												</div> -->
 												<div id="fh5co-car" class="fh5co-section"
 													style="padding-top:0; padding-bottom:0;">
 													<div class="row row-bottom-padded-md" style="padding-bottom:0;"

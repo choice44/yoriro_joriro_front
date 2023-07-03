@@ -3,14 +3,24 @@ import { proxy } from '/proxy.js';
 
 // 로드 시 실행
 window.onload = () => {
-    loadReviewList(12);  // 기본으로 관광지 최신 리뷰 보여주기
+    loadReviewList('', '');  // 기본으로 전체 최신 리뷰 보여주기
 }
 
 
 // Review 리스트 GET 요청
-async function getReviewsByType(type) {
+async function getReviewsByType(order, type) {
 
-    const url = `${proxy}/reviews/filter/?spot__type=${type}`;
+    let url
+    if (order && type) {
+        url = `${proxy}/reviews/?order=${order}&type=${type}`;
+    } else if (order && !type) {
+        url = `${proxy}/reviews/?order=${order}`;
+    } else if (type && !order) {
+        url = `${proxy}/reviews/?type=${type}`;
+    } else {
+        url = `${proxy}/reviews/`;
+    };
+    console.log(url)
     const response = await fetch(url, {
         method: "GET",
     });
@@ -22,10 +32,10 @@ async function getReviewsByType(type) {
 };
 
 
-async function loadReviewList(type) {
+async function loadReviewList(order, type) {
 
     // Review 가져오기
-    const reviews = await getReviewsByType(type);
+    const reviews = await getReviewsByType(order, type);
 
     const review_list = document.getElementById("tourist_spot_review_list_cardbox");
 
@@ -39,6 +49,18 @@ async function loadReviewList(type) {
         review_list.appendChild(template);
 
     } else {
+        const template = document.createElement("div");
+        template.setAttribute("class", "col-md-4");
+        template.setAttribute("style", "float:right;");
+        template.innerHTML = `
+        <select class="form-control"
+            style="height:40px; margin-bottom:30px;" id="review_list_order"
+            onchange="loadReviewList(this.value, ${type})">
+            <option value="" selected>최신순</option>
+            <option value="like_count">좋아요순</option>
+        </select>
+        `;
+        review_list.appendChild(template);
 
         reviews.results.forEach((review) => {
             const template = document.createElement("a");
