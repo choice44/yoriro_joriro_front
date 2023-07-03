@@ -82,10 +82,12 @@ async function loadRecruitmentDetail(recruitmentId) {
     let ageGroup
     if (response.user.age) {
         ageGroup = parseInt(response.user.age / 10) * 10
-        if (ageGroup != 0) {
+        if (ageGroup != 0 && ageGroup<80) {
             ageGroup = ageGroup + '대'
+        } else if (ageGroup >= 80){
+            ageGroup = '80대 이상'
         } else {
-            ageGroup = "10대 미만"
+            ageGroup = "9세 이하"
         }
     } else {
         ageGroup = "?"
@@ -136,11 +138,13 @@ async function loadRecruitmentDetail(recruitmentId) {
 
         let ageGroup
         if (user.age) {
-            ageGroup = '00' + user.age
-            if (ageGroup[2] != 0) {
-                ageGroup = ageGroup[2] + '0대'
+            ageGroup = parseInt(user.age / 10) * 10
+            if (ageGroup != 0 && ageGroup<80) {
+                ageGroup = ageGroup + '대'
+            } else if (ageGroup >= 80){
+                ageGroup = '80대 이상'
             } else {
-                ageGroup = "10대 미만"
+                ageGroup = "9세 이하"
             }
         } else {
             ageGroup = "?"
@@ -205,6 +209,17 @@ async function popupApplicant() {
 }
 
 
+// 신청 작성 폼
+async function popupJoin() {
+    const result = await checkAuthor(recruitmentId);
+    if (!result) {
+        window.open(`/recruitments/detail/join/join.html?recruitment_id=${recruitmentId}`, "join form", 'width=500, height=250')
+    } else {
+        alert("글 작성자는 신청할 수 없습니다..")
+    }
+}
+
+
 // 지원자 호출 함수
 async function loadJoin(recruitmentId) {
     const applicantResponse = await getApplicant(recruitmentId);
@@ -258,10 +273,12 @@ async function loadJoin(recruitmentId) {
         let ageGroup
         if (age) {
             ageGroup = parseInt(age / 10) * 10
-            if (ageGroup != 0) {
+            if (ageGroup != 0 && ageGroup<80) {
                 ageGroup = ageGroup + '대'
+            } else if (ageGroup >= 80){
+                ageGroup = '80대 이상'
             } else {
-                ageGroup = "10대 미만"
+                ageGroup = "9세 이하"
             }
         } else {
             ageGroup = "?"
@@ -273,10 +290,10 @@ async function loadJoin(recruitmentId) {
             <table class="col-md-12">
                 <tr>
                     <th><a href="/users/mypage/index.html?id=${user.id}">${(nickname) ? nickname : "?"}</a></th>
-                    <td width="4%" style="text-align:right">${ageGroup}</td>
+                    <td width="15%" style="text-align:right">${ageGroup}</td>
                     <td width="8%" style="text-align:right">${(genderPrint) ? genderPrint : "?"}</td>
                     <td width="13%" style="text-align:right">${acceptencePrint}</td>
-                    <td width="60"></td>
+                    <td width="50"></td>
                 </tr>
             </table>
             <div style="margin-bottom:5%">
@@ -488,3 +505,4 @@ window.deleteJoin = deleteJoin
 window.recruitmentEdit = recruitmentEdit
 window.recruitmentDelete = recruitmentDelete
 window.popupApplicant = popupApplicant
+window.popupJoin = popupJoin
