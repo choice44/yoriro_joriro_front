@@ -42,7 +42,7 @@ function handleCreateRoute(event) {
     if (!cost) {
         alert("여행 비용을 입력해주세요");
         return;
-    } else if (isNaN(costValue) || Math.floor(costValue) !== costValue || costValue < 1) {
+    } else if (isNaN(costValue) || Math.floor(costValue) !== costValue || costValue < 0) {
         alert("여행비용은 0이상의 정수만 기재할 수 있습니다");
         return;
     }
