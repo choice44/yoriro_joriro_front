@@ -81,9 +81,20 @@ function inputMyProfile(profile) {
 
     // 입력창에 기존 정보 채우기
     nicknameInput.value = profile.nickname;
-    ageInput.value = profile.age;
+    // ageInput.value = profile.age;
     emailInput.innerText = profile.email;
     bioInput.value = profile.bio;
+
+    let age_group
+    if (profile.age) {
+        age_group = parseInt(profile.age / 10)
+
+        if (age_group >= 8) {
+            ageInput.options[9].selected = true;
+        } else {
+            ageInput.options[age_group + 1].selected = true;
+        };
+    };
 
     if (profile.gender == "F") {
         genderInput.options[1].selected = true
@@ -143,7 +154,7 @@ async function handleUpdateProfile() {
         };
 
         if (!nickname) {
-            return alert("사이트 이용을 위해 닉네임을 등록해주세요.");
+            return alert("사이트 이용을 위해 닉네임을 등록해 주세요.");
         }
 
         formData.append("nickname", nickname);
@@ -164,15 +175,20 @@ async function handleUpdateProfile() {
         });
 
         if (!response.ok) {
+            const response_json = await response.json();
+            if (response_json["nickname"]) {
+                console.error('Error:', response_json["nickname"][0]);
+                return alert("이미 존재하는 닉네임입니다. 다른 닉네임을 입력해 주세요.");
+            };
             throw new Error('프로필 수정 요청이 실패하였습니다.');
-        }
+        };
 
         window.location.href = `/users/mypage/index.html?id=${my_id}`;
 
     } catch (error) {
         console.error('Error:', error);
-    }
-}
+    };
+};
 
 // 수정 버튼을 클릭 시 handleUpdateProfile 호출
 const updateBtn = document.getElementById("mypage_update_button");

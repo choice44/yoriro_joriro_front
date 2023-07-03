@@ -15,7 +15,7 @@ window.onload = function () {
 
     naver_btn.setAttribute("href", `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${SOCIAL_AUTH_NAVER_CLIENT_ID}&redirect_uri=${NAVER_REDIRECT_URI}`)
     kakao_btn.setAttribute("href", `https://kauth.kakao.com/oauth/authorize?client_id=${SOCIAL_AUTH_KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`)
-    google_btn.setAttribute("href", `https://accounts.google.com/o/oauth2/v2/auth?client_id=${SOCIAL_AUTH_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${GOOGLE_REDIRECT_URI}&scope=https://www.googleapis.com/auth/userinfo.email`)
+    google_btn.setAttribute("href", `https://accounts.google.com/o/oauth2/v2/auth?client_id=${SOCIAL_AUTH_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${GOOGLE_REDIRECT_URI}&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`)
 
 };
 

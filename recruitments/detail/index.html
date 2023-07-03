@@ -129,6 +129,8 @@
 						onclick="recruitmentDelete()">삭제</button>
 				</div>
 				<div style="text-align: center;" class="col-md-10">
+					<input type="button" id="join-button" class="btn btn-outline" value="신청하기"
+						onclick="popupJoin()">
 					<input type="button" id="applicant-check-button" class="btn btn-outline" value="신청자 목록"
 						onclick="popupApplicant()"></input>
 				</div>
@@ -139,10 +141,12 @@
 			<div class="container">
 				<div class="row animate-box" id="applicant-join" style="margin-bottom: 2%;">
 					<div class="col-md-9">
-						<input type="text" id="new-join" class="form-control" placeholder="Appeal"
+						<div style="text-align: center;">
+						</div>
+						<!-- <input type="text" id="new-join" class="form-control" placeholder="Appeal"
 							style="width: 90%; display: inline;">
 						<input type="button" class="btn btn-primary" onclick="submitJoin()" value="신청">
-						<div id="applicant-count" style="color:black"></div>
+						<div id="applicant-count" style="color:black"></div> -->
 					</div>
 				</div>
 				<div id="applicant" class="col-md-9">
