@@ -20,7 +20,7 @@ async function getReviewsByType(order, type) {
     } else {
         url = `${proxy}/reviews/`;
     };
-    console.log(url)
+
     const response = await fetch(url, {
         method: "GET",
     });
