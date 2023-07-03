@@ -44,7 +44,53 @@ export function createMarker(positions) {
             image: new kakao.maps.MarkerImage(imageSrc, new kakao.maps.Size(24, 35)) // 마커 이미지 설정
         });
 
+        // 정보창에 들어갈 기본주소와 기본이미지 설정
+        let imagePath = "/images/place-1.jpg"
+        let positon_addr = "상세주소가 없습니다."
+
+        if (position.firstimage) {
+            imagePath = position.firstimage
+        }
+        if (position.addr1) {
+            positon_addr = position.addr1
+        }
+
+        // 정보창에 들어갈 정보
+        var content = '<div class="wrap">' +
+            '    <div class="info">' +
+            '        <div class="title">' +
+            position.title +
+            '            <div class="close" title="닫기"></div>' +
+            '        </div>' +
+            '        <div class="body">' +
+            '            <div class="img">' +
+            '                <img src="' + imagePath + '" width="73" height="70">' +
+            '           </div>' +
+            '            <div class="desc">' +
+            '                <div class="ellipsis">' + positon_addr + '</div>' +
+            '            </div>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>';
+
         marker.setMap(map); // 마커를 지도에 표시
+
+        // 정보창 생성
+        var infowindow = new kakao.maps.InfoWindow({
+            content: content
+        });
+
+        // marker와 infowindow의 이벤트 연결
+        (function (marker, infowindow) {
+            kakao.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker);
+            });
+
+            kakao.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close();
+            });
+        })(marker, infowindow);// 방금 정의된 함수를 호출, 이 호출로 각 마커들은 자신만의 함수 스코프를 가지게됨
+
         markers.push(marker); // 마커 배열에 추가
 
         // 선분 생성
