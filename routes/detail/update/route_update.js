@@ -145,6 +145,11 @@ function handleUpdateRoute(event) {
         return;
     }
 
+    if (spotsId.length === 0) {
+        alert("목적지를 입력해주세요");
+        return;
+    }
+
     // areas는 딕셔너리 형태이기 때문에 formData로 전송시 형변환이 필요
     const areas = JSON.stringify({ area: area, sigungu: sigungu });
 

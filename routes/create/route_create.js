@@ -62,6 +62,11 @@ function handleCreateRoute(event) {
         return;
     }
 
+    if (spotsId.length === 0) {
+        alert("목적지를 입력해주세요");
+        return;
+    }
+
     // const areas = 
     const areas = JSON.stringify({ area: area, sigungu: sigungu });
 
