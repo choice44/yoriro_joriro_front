@@ -6,7 +6,6 @@ let recruitmentId = urlParams.get('recruitment_id')
 
 window.onload = async function () {
     await loadRecruitmentDetail(recruitmentId)
-    await loadJoin(recruitmentId)
 }
 
 
@@ -186,18 +185,6 @@ async function getRecruitment(recruitmentId) {
 }
 
 
-async function getApplicant(recruitmentId) {
-    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`)
-
-    if (response.status == 200) {
-        const response_json = await response.json()
-        return response_json
-    } else {
-        alert(response.status)
-    }
-}
-
-
 // 신청자 명단 확인 창
 async function popupApplicant() {
     const result = await checkAuthor(recruitmentId);
@@ -217,171 +204,6 @@ async function popupJoin() {
     } else {
         alert("글 작성자는 신청할 수 없습니다..")
     }
-}
-
-
-// 지원자 호출 함수
-async function loadJoin(recruitmentId) {
-    const applicantResponse = await getApplicant(recruitmentId);
-
-    const applicantCountPrint = document.getElementById("applicant-check-button")
-    let acceptenceZero = 0
-
-    // 로그인 유저 id 가져오기
-    const accessToken = localStorage.getItem('access')
-    let userId = getPKFromAccessToken(accessToken)
-
-    const result = await checkAuthor(recruitmentId);
-    const joinReset = document.getElementById("applicant");
-
-    // 게시글 작성자가 로그인하면 신청칸과 버튼 보이지 않게 설정
-    const applicantJoinCreate = document.getElementById("applicant-join")
-    if (result) {
-        applicantJoinCreate.style.display = "none";
-    } else {
-        applicantJoinCreate.style.display = "block";
-    }
-
-    const applicantList = document.getElementById("applicant-list")
-    applicantList.innerHTML = ""
-
-    applicantResponse.forEach(applicant => {
-        // applicant에 있는 정보들이 user = applicant.user, appeal = applicant.appeal, acceptence = applicant.acceptence, id = applicant.id 에 각각 담아줌
-        const { user, appeal, acceptence, id } = applicant
-        const { nickname, age, gender } = user
-
-        let genderPrint = ""
-        let acceptencePrint = ""
-
-        if (gender == "M") {
-            genderPrint = "남성"
-        } else if (gender == "F") {
-            genderPrint = "여성"
-        } else {
-            genderPrint = ""
-        }
-
-        if (acceptence == 0) {
-            acceptencePrint = "수락 대기중"
-        } else if (acceptence == 1) {
-            acceptencePrint = "거절됨"
-        } else {
-            acceptencePrint = "수락됨"
-        }
-
-        // 나이를 연령대로 변경하는 코드
-        let ageGroup
-        if (age) {
-            ageGroup = parseInt(age / 10) * 10
-            if (ageGroup != 0 && ageGroup<80) {
-                ageGroup = ageGroup + '대'
-            } else if (ageGroup >= 80){
-                ageGroup = '80대 이상'
-            } else {
-                ageGroup = "9세 이하"
-            }
-        } else {
-            ageGroup = "?"
-        }
-
-        // 3항 연산자를 사용해서 게시글 작성자가 로그인 하면 수락, 거절버튼이 보이고, 신청 작성자가 로그인하면 신청 수정, 삭제 버튼이 보인다.
-        const tableHTML = `
-        <div id="applicant-${id}">
-            <table class="col-md-12">
-                <tr>
-                    <th><a href="/users/mypage/index.html?id=${user.id}">${(nickname) ? nickname : "?"}</a></th>
-                    <td width="15%" style="text-align:right">${ageGroup}</td>
-                    <td width="8%" style="text-align:right">${(genderPrint) ? genderPrint : "?"}</td>
-                    <td width="13%" style="text-align:right">${acceptencePrint}</td>
-                    <td width="50"></td>
-                </tr>
-            </table>
-            <div style="margin-bottom:5%">
-                <div width="100%" colspan="5" id="appeal-${id}">${appeal}</div>
-                <div style="display: flex; flex-direction: row;"">
-                    <input type="button" value="수정" id="edit-appeal-button-${id}" onclick="editJoin(${id})" style="margin-bottom: 5px; display: ${user.id == userId ? 'block' : 'none'}">
-                    <input type="button" value="수락" id="accept-appeal-button" onclick="acceptApplicant(${id})" style="margin-bottom: 5px; display: ${acceptence == 0 && result ? 'block' : 'none'}">
-                    <input type="button" value="삭제" id="delete-appeal-button" onclick="deleteJoin(${id})" style="margin-bottom: 5px; display: ${user.id == userId ? 'block' : 'none'}">
-                    <input type="button" value="거절" id="reject-appeal-button" onclick="rejectApplicant(${id})" style="margin-bottom: 5px; display: ${acceptence == 0 && result ? 'block' : 'none'}">
-                </div>
-            </div>
-        </div>`
-
-        applicantList.innerHTML += tableHTML
-        const applicantCheck = document.getElementById(`applicant-${id}`)
-        if (user.id == userId) {
-            applicantCheck.setAttribute("style", "display:block;")
-        } else {
-            applicantCheck.setAttribute("style", "display:none;")
-        }
-
-        // 아직 수락 대기중인 사람들 수 카운트
-        if (acceptence == 0) {
-            acceptenceZero++
-        }
-    });
-
-    // 수락 대기중인 사람들 수 출력
-    applicantCountPrint.setAttribute("value", `대기자: ${acceptenceZero}명 / 신청자: ${applicantResponse.length}명`)
-}
-
-
-async function getJoin(recruitmentId) {
-    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`)
-
-    if (response.status == 200) {
-        response_json = await response.json()
-        return response_json
-    } else {
-        alert(response.status)
-    }
-}
-
-
-async function submitJoin() {
-    const joinElement = document.getElementById("new-join")
-    const newJoin = joinElement.value
-    if (newJoin == "") {
-        alert("어필을 작성하여주세요.")
-        return
-    }
-
-    const response = await postJoin(recruitmentId, newJoin)
-    joinElement.value = ""
-    loadJoin(recruitmentId)
-}
-
-
-async function postJoin(recruitmentId, newJoin) {
-    let token = localStorage.getItem("access")
-
-    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`, {
-        method: 'POST',
-        headers: {
-            "content-type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            "appeal": newJoin,
-        })
-    })
-
-    const response_json = await response.json()
-
-    if (response.status == 201) {
-        alert("신청 완료! 작성자 수락을 기다려주세요")
-    } else if (response.status == 401) {
-        alert("로그인 후 이용할 수 있습니다.")
-    } else {
-        alert(response_json.message)
-    }
-}
-
-
-// 로그인 확인 함수
-async function isLoggedIn() {
-    const accessToken = localStorage.getItem('access')
-    return accessToken !== null
 }
 
 
@@ -437,71 +259,6 @@ async function recruitmentDelete() {
 }
 
 
-// 신청 수정
-async function editJoin(applicantId) {
-    let token = localStorage.getItem("access")
-    const hideEditButton = document.getElementById(`edit-appeal-button-${applicantId}`)
-
-    const joinCard = document.getElementById(`appeal-${applicantId}`)
-    const textBox = document.createElement("input")
-    textBox.setAttribute("type", "text")
-    textBox.value = joinCard.innerText.trim()
-    joinCard.innerHTML = ""
-    joinCard.appendChild(textBox)
-
-    const saveButton = document.createElement("input")
-    saveButton.setAttribute("type", "button")
-    saveButton.setAttribute("value", "저장")
-    saveButton.setAttribute("class", "btn btn-primary")
-    saveButton.addEventListener("click", async () => {
-        const updatedAppeal = textBox.value
-        joinCard.innerHTML = updatedAppeal
-
-        const data = {
-            appeal: updatedAppeal
-        }
-
-        const response = await fetch(`${proxy}/recruitments/join/${applicantId}/`, {
-            method: 'PUT',
-            headers: {
-                "content-type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
-        })
-        hideEditButton.style.display = "block"
-        alert("신청 수정 완료!")
-    })
-
-    joinCard.appendChild(saveButton)
-}
-
-
-// 신청 삭제
-async function deleteJoin(applicantId) {
-    if (confirm("삭제하시겠습니까?")) {
-        const response = await fetch(`${proxy}/recruitments/join/${applicantId}/`, {
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("access"),
-                'content-type': 'application/json',
-            },
-            method: 'DELETE',
-        })
-        if (response.status === 204) {
-            alert("삭제 완료!")
-            loadRecruitmentDetail(recruitmentId)
-            loadJoin(recruitmentId)
-        } else {
-            alert("권한이 없습니다.")
-        }
-    }
-}
-
-
-window.submitJoin = submitJoin
-window.getJoin = getJoin
-window.editJoin = editJoin
-window.deleteJoin = deleteJoin
 window.recruitmentEdit = recruitmentEdit
 window.recruitmentDelete = recruitmentDelete
 window.popupApplicant = popupApplicant

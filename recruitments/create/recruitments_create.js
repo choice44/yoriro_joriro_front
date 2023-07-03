@@ -13,7 +13,7 @@ async function postRecruitment() {
     const content = document.getElementById("content").value
     const image = document.getElementById("image").files[0]
 
-    // 현재 시간 가져오기
+    // 현재 시간 가져오기 
     let timeNow = new Date()
     timeNow = `${timeNow.getFullYear()}${('00' + (timeNow.getMonth() + 1)).slice(-2)
         }${('00' + (timeNow.getDate())).slice(-2)}`

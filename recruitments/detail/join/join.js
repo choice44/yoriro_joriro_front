@@ -6,8 +6,6 @@ let applicantId
 
 window.onload = async function() {    
     const applicantResponse = await getApplicant(recruitmentId)
-    console.log(applicantResponse)
-
     const accessToken = localStorage.getItem('access')
     let userId = getPKFromAccessToken(accessToken)
     
@@ -21,7 +19,7 @@ window.onload = async function() {
             changeButtonEdit.setAttribute("value", "수정 완료")
             changeButtonEdit.setAttribute("onclick", "submitEditJoin()")
         }
-    });
+    })
 }
 
 
@@ -93,18 +91,26 @@ async function editJoin(applicantId, editext) {
 }
 
 
+async function submitDeleteJoin() {
+    const response = await deleteJoin(applicantId)
+}
+
+
 // 신청 삭제
 async function deleteJoin(applicantId) {
+    let token = localStorage.getItem("access")
+
     if (confirm("삭제하시겠습니까?")) {
         const response = await fetch(`${proxy}/recruitments/join/${applicantId}/`, {
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("access"),
-                'content-type': 'application/json',
-            },
             method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                "Authorization": `Bearer ${token}`,
+            },
         })
-        if (response.status === 204) {
+        if (response.status == 204) {
             alert("삭제 완료!")
+            closeTab()
         } else {
             alert("권한이 없습니다.")
         }
@@ -145,6 +151,7 @@ async function closeTab() {
 window.submitJoin = submitJoin
 window.submitEditJoin = submitEditJoin
 window.postJoin = postJoin
+window.submitDeleteJoin = submitDeleteJoin
 window.deleteJoin = deleteJoin
 window.getApplicant = getApplicant
 window.editJoin = editJoin
