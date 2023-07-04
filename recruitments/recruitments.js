@@ -10,7 +10,6 @@ window.onload = async function () {
     let recruitments = await getRecruitments(currentPage)
 
     loadRecruitments(recruitments)
-    // pagination(recruitments, parseInt(currentPage))
 }
 
 
@@ -31,7 +30,6 @@ async function loadRecruitments(recruitments) {
         // 저장된 이미지가 있으면 가져오고, 없으면 지정된 파일 가져오기
         if (recruitment.image) {
             imagePath = proxy + recruitment.image;
-            // imagePath = imagePath.split("8000")[1];
         } else {
             imagePath = "/images/car-2.jpg"
         }
@@ -78,8 +76,9 @@ function recruitmentDetail(recruitment_id) {
 function CreateRecruitment() {
     if (localStorage.getItem("access")) {
         window.location.href = `/recruitments/create/index.html`
-    } else {
-        alert("로그인이 필요합니다.")
+    } else {        
+        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        location.href = `/users/login/index.html`
     }
 }
 
