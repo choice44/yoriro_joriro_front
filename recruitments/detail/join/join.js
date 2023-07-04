@@ -71,8 +71,6 @@ async function postJoin(recruitmentId, newJoin) {
         alert("신청 완료! 작성자 수락을 기다려주세요")
         window.opener.location.reload()
         window.close()
-    } else if (response.status == 401) {
-        alert("로그인이 필요한 서비스입니다.")
     } else {
         alert(response_json.message)
     }

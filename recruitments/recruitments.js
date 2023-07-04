@@ -10,7 +10,6 @@ window.onload = async function () {
     let recruitments = await getRecruitments(currentPage)
 
     loadRecruitments(recruitments)
-    // pagination(recruitments, parseInt(currentPage))
 }
 
 
@@ -31,7 +30,6 @@ async function loadRecruitments(recruitments) {
         // 저장된 이미지가 있으면 가져오고, 없으면 지정된 파일 가져오기
         if (recruitment.image) {
             imagePath = proxy + recruitment.image;
-            // imagePath = imagePath.split("8000")[1];
         } else {
             imagePath = "/images/car-2.jpg"
         }
