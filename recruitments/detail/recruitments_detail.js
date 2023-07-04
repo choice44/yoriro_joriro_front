@@ -229,8 +229,10 @@ async function popupApplicant() {
     }
 
     const result = await checkAuthor(recruitmentId);
-    if (result) {
-        window.open(`/recruitments/detail/applicant/applicant_list.html?recruitment_id=${recruitmentId}`, "applicant list", 'width=500, height=600')
+    if (result) {   
+        var popupX = (window.screen.width / 2) - 250;
+        var popupY= (window.screen.height / 2) - 300;
+        window.open(`/recruitments/detail/applicant/applicant_list.html?recruitment_id=${recruitmentId}`, 'applicant list', 'height=600, width=500, left='+ popupX + ', top='+ popupY);
     } else {
         alert("글 작성자만 확인할 수 있습니다.")
     }
@@ -247,7 +249,9 @@ async function popupJoin() {
 
     const result = await checkAuthor(recruitmentId);
     if (!result) {
-        window.open(`/recruitments/detail/join/join.html?recruitment_id=${recruitmentId}`, "join form", 'width=500, height=250')
+        var popupX = (window.screen.width / 2) - 250;
+        var popupY= (window.screen.height / 2) - 125;
+        window.open(`/recruitments/detail/join/join.html?recruitment_id=${recruitmentId}`, "join form", 'height=250, width=500, left='+ popupX + ', top='+ popupY)
     } else {
         alert("글 작성자는 신청할 수 없습니다.")
     }
