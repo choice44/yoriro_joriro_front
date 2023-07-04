@@ -62,7 +62,7 @@ async function loadRecruitmentDetail(recruitmentId) {
             </tr>
         </table>
 
-        <div>updated : ${updated_at}
+        <div>최근 수정 시각 : ${updated_at}
         </div>`
 
 
@@ -170,6 +170,26 @@ async function loadRecruitmentDetail(recruitmentId) {
         const recruitmentButton = document.getElementById("recruitment-button")
         recruitmentButton.style.display = "block"
     }
+    
+    const applicants = await getApplicant(recruitmentId)
+    const accessToken = localStorage.getItem('access')
+    let userId = getPKFromAccessToken(accessToken);
+
+    applicants.forEach(applicant => {
+        let acceptencePrint
+        if (applicant.acceptence == 0) {
+            acceptencePrint = "수락 대기중"
+        } else if (applicant.acceptence == 1) {
+            acceptencePrint = "거절됨"
+        } else {
+            acceptencePrint = "수락됨"
+        }
+
+        if (userId == applicant.user.id) {
+            const changeJoinButton = document.getElementById("join-button")
+            changeJoinButton.setAttribute("value", `${acceptencePrint}`)
+        }
+    })    
 }
 
 
@@ -185,8 +205,27 @@ async function getRecruitment(recruitmentId) {
 }
 
 
+async function getApplicant(recruitmentId) {
+    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`)
+
+    if (response.status == 200) {
+        const response_json = await response.json()
+        return response_json
+    } else {
+        alert(response.status)
+    }
+}
+
+
 // 신청자 명단 확인 창
-async function popupApplicant() {
+async function popupApplicant() {    
+    const accessToken = localStorage.getItem('access')
+    if (!accessToken) {
+        if (confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?")) {            
+            location.href = `/users/login/index.html`
+        }
+    }
+
     const result = await checkAuthor(recruitmentId);
     if (result) {
         window.open(`/recruitments/detail/applicant/applicant_list.html?recruitment_id=${recruitmentId}`, "applicant list", 'width=500, height=600')
@@ -198,6 +237,13 @@ async function popupApplicant() {
 
 // 신청 작성 폼
 async function popupJoin() {
+    const accessToken = localStorage.getItem('access')
+    if (!accessToken) {
+        if (confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?")) {            
+            location.href = `/users/login/index.html`
+        }
+    }
+
     const result = await checkAuthor(recruitmentId);
     if (!result) {
         window.open(`/recruitments/detail/join/join.html?recruitment_id=${recruitmentId}`, "join form", 'width=500, height=250')
