@@ -58,15 +58,18 @@ async function loadRecruitmentDetail(recruitmentId) {
         
         <table width="100%" style="text-align:center; margin-right:5%; margin-top:10%; margin-bottom:10%">
             <tr>
-                <td>${response.content}</td>
+                <td id="recruitment-content"></td>
             </tr>
         </table>
 
-        <div>updated : ${updated_at}
+        <div>최근 수정 시각 : ${updated_at}
         </div>`
 
 
     recruitmentLoad.appendChild(template)
+
+    const recruitmentContent = document.getElementById("recruitment-content")
+    recruitmentContent.innerText = `${response.content}`
 
     // F일때 여성, M일때 남성, 없을때 빈 문자열 출력
     let gender = response.user.gender
@@ -170,6 +173,26 @@ async function loadRecruitmentDetail(recruitmentId) {
         const recruitmentButton = document.getElementById("recruitment-button")
         recruitmentButton.style.display = "block"
     }
+    
+    const applicants = await getApplicant(recruitmentId)
+    const accessToken = localStorage.getItem('access')
+    let userId = getPKFromAccessToken(accessToken);
+
+    applicants.forEach(applicant => {
+        let acceptencePrint
+        if (applicant.acceptence == 0) {
+            acceptencePrint = "수락 대기중"
+        } else if (applicant.acceptence == 1) {
+            acceptencePrint = "거절됨"
+        } else {
+            acceptencePrint = "수락됨"
+        }
+
+        if (userId == applicant.user.id) {
+            const changeJoinButton = document.getElementById("join-button")
+            changeJoinButton.setAttribute("value", `${acceptencePrint}`)
+        }
+    })    
 }
 
 
@@ -185,11 +208,31 @@ async function getRecruitment(recruitmentId) {
 }
 
 
+async function getApplicant(recruitmentId) {
+    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`)
+
+    if (response.status == 200) {
+        const response_json = await response.json()
+        return response_json
+    } else {
+        alert(response.status)
+    }
+}
+
+
 // 신청자 명단 확인 창
-async function popupApplicant() {
+async function popupApplicant() {    
+    const accessToken = localStorage.getItem('access')
+    if (!accessToken) {
+        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        location.href = `/users/login/index.html`
+    }
+
     const result = await checkAuthor(recruitmentId);
-    if (result) {
-        window.open(`/recruitments/detail/applicant/applicant_list.html?recruitment_id=${recruitmentId}`, "applicant list", 'width=500, height=600')
+    if (result) {   
+        var popupX = (window.screen.width / 2) - 250;
+        var popupY= (window.screen.height / 2) - 300;
+        window.open(`/recruitments/detail/applicant/applicant_list.html?recruitment_id=${recruitmentId}`, 'applicant list', 'height=600, width=500, left='+ popupX + ', top='+ popupY);
     } else {
         alert("글 작성자만 확인할 수 있습니다.")
     }
@@ -198,11 +241,19 @@ async function popupApplicant() {
 
 // 신청 작성 폼
 async function popupJoin() {
+    const accessToken = localStorage.getItem('access')
+    if (!accessToken) {
+        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        location.href = `/users/login/index.html`
+    }
+
     const result = await checkAuthor(recruitmentId);
     if (!result) {
-        window.open(`/recruitments/detail/join/join.html?recruitment_id=${recruitmentId}`, "join form", 'width=500, height=250')
+        var popupX = (window.screen.width / 2) - 250;
+        var popupY= (window.screen.height / 2) - 125;
+        window.open(`/recruitments/detail/join/join.html?recruitment_id=${recruitmentId}`, "join form", 'height=250, width=500, left='+ popupX + ', top='+ popupY)
     } else {
-        alert("글 작성자는 신청할 수 없습니다..")
+        alert("글 작성자는 신청할 수 없습니다.")
     }
 }
 
@@ -224,12 +275,14 @@ async function checkAuthor(recruitmentId) {
 
 // 토큰 가져오는 부분
 function getPKFromAccessToken(accessToken) {
-    const tokenParts = accessToken.split('.')  // 토큰 값을 .으로 나눔
-    const payloadBase64 = tokenParts[1]    // 나눠진 토큰중 1번 인덱스에 해당하는 값을 저장
-
-    const payload = JSON.parse(atob(payloadBase64))
-    let userId = payload.user_id
-    return userId
+    if (accessToken) {
+        const tokenParts = accessToken.split('.')  // 토큰 값을 .으로 나눔
+        const payloadBase64 = tokenParts[1]    // 나눠진 토큰중 1번 인덱스에 해당하는 값을 저장
+    
+        const payload = JSON.parse(atob(payloadBase64))
+        let userId = payload.user_id
+        return userId
+    }
 }
 
 

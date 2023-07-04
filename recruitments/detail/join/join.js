@@ -9,9 +9,12 @@ window.onload = async function() {
     const accessToken = localStorage.getItem('access')
     let userId = getPKFromAccessToken(accessToken)
     
+
+    let findApplicant = 0
     applicantResponse.forEach((response) => {
         let user_id = response.user.id
         if (userId == user_id) {           
+            findApplicant = 1
             applicantId = response.id 
             document.getElementById("new-join").value = response.appeal
 
@@ -20,6 +23,10 @@ window.onload = async function() {
             changeButtonEdit.setAttribute("onclick", "submitEditJoin()")
         }
     })
+    if (findApplicant==0) {
+        const joinDeleteButton = document.getElementById("join-delete-button")
+        joinDeleteButton.setAttribute("style", "display:none")
+    }
 }
 
 
@@ -64,8 +71,6 @@ async function postJoin(recruitmentId, newJoin) {
         alert("신청 완료! 작성자 수락을 기다려주세요")
         window.opener.location.reload()
         window.close()
-    } else if (response.status == 401) {
-        alert("로그인 후 이용할 수 있습니다.")
     } else {
         alert(response_json.message)
     }

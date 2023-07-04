@@ -91,7 +91,7 @@ async function loadJoriro(formData) {
             alert("성공!")
             appendResult(data);
         } else if (response.status == 401) {
-            alert("로그인 후 이용 가능합니다.");
+            alert("로그인이 필요한 서비스입니다.");
             window.location.replace("/users/login/index.html")
         } else {
             const data = await response.json();
