@@ -208,6 +208,7 @@ review_like_button.addEventListener('click', async function () {
             alert("잠시 후 다시 시도해주세요")
         }
     } else {
-        alert("로그인이 필요합니다.")
+        alert("로그인이 필요한 서비스입니다.")
+        window.location.href = "/users/login/index.html"
     }
 });

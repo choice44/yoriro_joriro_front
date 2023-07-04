@@ -98,7 +98,8 @@ writeBtn.addEventListener("click", () => {
         window.location.href = `/reviews/create/index.html?id=${urlParams}`;
     }
     else {
-        alert("로그인한 사용자만 작성할 수 있습니다!")
+        alert("로그인이 필요한 서비스입니다.")
+        window.location.href = "/users/login/index.html"
     }
 });
 
@@ -308,7 +309,8 @@ async function handleSpotReviewLike(review_id) {
             alert("잠시 후 다시 시도해주세요")
         }
     } else {
-        alert("로그인이 필요합니다.")
+        alert("로그인이 필요한 서비스입니다.")
+        window.location.href = "/users/login/index.html"
     }
 };
 
