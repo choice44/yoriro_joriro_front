@@ -224,7 +224,7 @@ async function getApplicant(recruitmentId) {
 async function popupApplicant() {    
     const accessToken = localStorage.getItem('access')
     if (!accessToken) {
-        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        alert("로그인이 필요한 서비스입니다.")
         location.href = `/users/login/index.html`
     }
 
@@ -243,7 +243,7 @@ async function popupApplicant() {
 async function popupJoin() {
     const accessToken = localStorage.getItem('access')
     if (!accessToken) {
-        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        alert("로그인이 필요한 서비스입니다.")
         location.href = `/users/login/index.html`
     }
 
