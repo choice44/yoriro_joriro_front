@@ -36,6 +36,14 @@ function changeSigunguForSpotSearch(add) {
 };
 
 
+$("#form-place").keyup(function () {
+    var content = $(this).val();
+    if (content.length > 200) {
+        alert("최대 200자까지 입력 가능합니다.");
+    }
+});
+
+
 // Spot 리스트 GET 요청
 async function getSpot() {
 
