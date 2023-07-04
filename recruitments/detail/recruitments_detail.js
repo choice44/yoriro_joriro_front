@@ -58,7 +58,7 @@ async function loadRecruitmentDetail(recruitmentId) {
         
         <table width="100%" style="text-align:center; margin-right:5%; margin-top:10%; margin-bottom:10%">
             <tr>
-                <td>${response.content}</td>
+                <td id="recruitment-content"></td>
             </tr>
         </table>
 
@@ -67,6 +67,9 @@ async function loadRecruitmentDetail(recruitmentId) {
 
 
     recruitmentLoad.appendChild(template)
+
+    const recruitmentContent = document.getElementById("recruitment-content")
+    recruitmentContent.innerText = `${response.content}`
 
     // F일때 여성, M일때 남성, 없을때 빈 문자열 출력
     let gender = response.user.gender
@@ -221,9 +224,8 @@ async function getApplicant(recruitmentId) {
 async function popupApplicant() {    
     const accessToken = localStorage.getItem('access')
     if (!accessToken) {
-        if (confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?")) {            
-            location.href = `/users/login/index.html`
-        }
+        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        location.href = `/users/login/index.html`
     }
 
     const result = await checkAuthor(recruitmentId);
@@ -239,16 +241,15 @@ async function popupApplicant() {
 async function popupJoin() {
     const accessToken = localStorage.getItem('access')
     if (!accessToken) {
-        if (confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?")) {            
-            location.href = `/users/login/index.html`
-        }
+        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        location.href = `/users/login/index.html`
     }
 
     const result = await checkAuthor(recruitmentId);
     if (!result) {
         window.open(`/recruitments/detail/join/join.html?recruitment_id=${recruitmentId}`, "join form", 'width=500, height=250')
     } else {
-        alert("글 작성자는 신청할 수 없습니다..")
+        alert("글 작성자는 신청할 수 없습니다.")
     }
 }
 
@@ -270,12 +271,14 @@ async function checkAuthor(recruitmentId) {
 
 // 토큰 가져오는 부분
 function getPKFromAccessToken(accessToken) {
-    const tokenParts = accessToken.split('.')  // 토큰 값을 .으로 나눔
-    const payloadBase64 = tokenParts[1]    // 나눠진 토큰중 1번 인덱스에 해당하는 값을 저장
-
-    const payload = JSON.parse(atob(payloadBase64))
-    let userId = payload.user_id
-    return userId
+    if (accessToken) {
+        const tokenParts = accessToken.split('.')  // 토큰 값을 .으로 나눔
+        const payloadBase64 = tokenParts[1]    // 나눠진 토큰중 1번 인덱스에 해당하는 값을 저장
+    
+        const payload = JSON.parse(atob(payloadBase64))
+        let userId = payload.user_id
+        return userId
+    }
 }
 
 

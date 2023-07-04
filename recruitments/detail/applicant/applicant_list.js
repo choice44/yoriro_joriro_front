@@ -73,7 +73,7 @@ async function loadJoin(recruitmentId) {
                 </tr>
             </table>
             <div style="margin-bottom:5%;>
-                <div width="100%" colspan="5" id="appeal-${id}"><h4>${appeal}</h4></div>
+                <div width="100%" colspan="5" id="appeal-${id}"></div>
                 <div style="display: flex; flex-direction: row; justify-content: center;">
                     <input type="button" value="수락" id="accept-appeal-button" onclick="acceptApplicant(${id})" style="display: ${acceptence == 0 ? 'block' : 'none'}; text-align:center;">
                     <input type="button" value="거절" id="reject-appeal-button" onclick="rejectApplicant(${id})" style="display: ${acceptence == 0 ? 'block' : 'none'}; text-align:center;">
@@ -81,8 +81,10 @@ async function loadJoin(recruitmentId) {
                 </div>
             </div>
         </div>`
-
         applicantList.innerHTML += tableHTML
+        
+        const applicantAppeal = document.getElementById(`appeal-${id}`)
+        applicantAppeal.innerText = `${appeal}`
     });
 }
 
