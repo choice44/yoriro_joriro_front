@@ -100,9 +100,9 @@ function convertGender(gender) {
 // 유저 정보 집어넣기
 async function inputUserInfo(user) {
 	const user_nickname = document.getElementById("mypage_nickname")
-	user_nickname.innerHTML = user.nickname
+	user_nickname.innerHTML = `${user.nickname}<span class="subtext">${user.email}</span>`
 	const user_bio = document.getElementById("mypage_bio")
-	user_bio.innerHTML = user.bio
+	user_bio.innerText = user.bio
 	const user_gender = document.getElementById("mypage_gender");
 	user_gender.innerHTML = convertGender(user.gender)
 	const user_age = document.getElementById("mypage_age")
