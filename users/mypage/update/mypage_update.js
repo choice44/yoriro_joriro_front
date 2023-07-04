@@ -39,6 +39,19 @@ function changeSigunguForMypageUpdate(add) {
 window.changeSigunguForMypageUpdate = changeSigunguForMypageUpdate
 
 
+$(".form-group textarea").keyup(function () {
+    var content = $(this).val();
+    var rows = content.split('\n').length; // 줄바꿈 개수
+    var length = content.length + rows
+    $('.form-group .count span').html(length);
+    if (length > 100) {
+        alert("최대 100자까지 입력 가능합니다.");
+        $(this).val(content.substring(0, 100));
+        $('.form-group .count span').html(100);
+    }
+});
+
+
 // 사용자 데이터를 가져오는 함수
 async function getMyProfile() {
     try {
