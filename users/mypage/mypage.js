@@ -100,13 +100,28 @@ function convertGender(gender) {
 // 유저 정보 집어넣기
 async function inputUserInfo(user) {
 	const user_nickname = document.getElementById("mypage_nickname")
-	user_nickname.innerHTML = user.nickname
+	user_nickname.innerHTML = `${user.nickname}<span class="subtext">${user.email}</span>`
 	const user_bio = document.getElementById("mypage_bio")
-	user_bio.innerHTML = user.bio
+	user_bio.innerText = user.bio
 	const user_gender = document.getElementById("mypage_gender");
 	user_gender.innerHTML = convertGender(user.gender)
 	const user_age = document.getElementById("mypage_age")
-	user_age.innerHTML = user.age
+
+	let age_group
+	if (user.age) {
+		age_group = parseInt(user.age / 10) * 10
+		if (age_group >= 80) {
+			age_group = "80대 이상";
+		} else if (age_group >= 10) {
+			age_group = age_group + "대";
+		} else {
+			age_group = "9세 이하";
+		};
+	} else {
+		age_group = null
+	};
+
+	user_age.innerHTML = age_group
 	const user_followers = document.getElementById("mypage_followers")
 	user_followers.innerHTML = "팔로워 " + user.followers_count;
 	const user_followings = document.getElementById("mypage_followings")
@@ -136,38 +151,67 @@ async function loadFollowings() {
 	followingElement.innerHTML = "";
 
 	for (const following of userProfile.followings) {
+		// 디폴트 이미지
+		if (!following.image) {
+			following.image = "/images/logo_64.png";
+		} else {
+			following.image = proxy + "/media/" + following.image
+		};
 		following.is_following = following_id_list.includes(following.id);
 		// 자기 자신일 경우 팔로우/언팔로우 버튼 없음
 		if (following.id == my_id || !localStorage.getItem("payload")) {
 			followingElement.innerHTML += `
-      <div class="col-md-12" style="height:80px; line-height:80px;">
-          <h3 class="price"
-              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
-              ${following.email}</h3>
-      </div>
+			<div class="col-md-2" style="height:80px;">
+			<a class="image featured-ji" style="display:block; width:70px; height:70px; margin: 0;" href="/users/mypage/index.html?id=${following.id}">
+				<img src="${following.image}" alt="팔로워 이미지" />
+			</a>
+				</div>
+  <div class="col-md-7" style="height:80px;">
+	  <h3 class="price"
+		  style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
+		  ${following.nickname}</h3>
+		  <span>${following.email}</span>
+		  </div>
+		  <div class="col-md-3" style="height:80px;"></div>
       `} else { // 팔로우하고 있는 사람의 경우 언팔로우 버튼
 			if (following.is_following) {
 				followingElement.innerHTML += `
-      <div class="col-md-12" style="height:80px; line-height:80px;">
-          <h3 class="price"
-              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
-              ${following.email}</h3>
-          <input type="button" value="언팔로우"
-              class="btn btn-primary btn-lg"
-              style="float:right; margin:16px 0; background-color:#848484; width:116px;"
-              onclick="handleFollow(${following.id}); changeMypageFollowButton(this);">
-      </div>
+				<div class="col-md-2" style="height:80px;">
+					<a class="image featured-ji" style="display:block; width:70px; height:70px; margin: 0;" href="/users/mypage/index.html?id=${following.id}">
+						<img src="${following.image}" alt="팔로워 이미지" />
+					</a>
+				</div>
+      			<div class="col-md-7" style="height:80px;">
+          			<h3 class="price"
+              		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
+              		${following.nickname}</h3>
+			  		<span>${following.email}</span>
+			  	</div>
+			  	<div class="col-md-3" style="height:80px;">
+              		<input type="button" value="언팔로우"
+              		class="btn btn-primary btn-lg"
+              		style="float:right; margin:16px 0; background-color:#848484; width:116px;"
+              		onclick="handleFollow(${following.id}); changeMypageFollowButton(this);">
+      			</div>
       `} else { // 아니면 팔로우 버튼
 				followingElement.innerHTML += `
-      <div class="col-md-12" style="height:80px; line-height:80px;">
-          <h3 class="price"
-              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
-              ${following.email}</h3>
-          <input type="button" value="팔로우"
-              class="btn btn-primary btn-lg"
-              style="float:right; margin:16px 0; width:116px;"
-              onclick="handleFollow(${following.id}); changeMypageFollowButton(this);">
-      </div>
+				<div class="col-md-2" style="height:80px;">
+					<a class="image featured-ji" style="display:block; width:70px; height:70px; margin: 0;" href="/users/mypage/index.html?id=${following.id}">
+						<img src="${following.image}" alt="팔로워 이미지" />
+					</a>
+				</div>
+      			<div class="col-md-7" style="height:80px;">
+          			<h3 class="price"
+              		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
+              		${following.nickname}</h3>
+			  		<span>${following.email}</span>
+			  	</div>
+			  	<div class="col-md-3" style="height:80px;">
+          			<input type="button" value="팔로우"
+              		class="btn btn-primary btn-lg"
+              		style="float:right; margin:16px 0; width:116px;"
+              		onclick="handleFollow(${following.id}); changeMypageFollowButton(this);">
+      			</div>
       `}
 		};
 	};
@@ -184,41 +228,69 @@ async function loadFollowers() {
 
 	// 팔로워 표시
 	for (const follower of userProfile.followers) {
+		// 디폴트 이미지
+		if (!follower.image) {
+			follower.image = "/images/logo_64.png";
+		} else {
+			follower.image = proxy + "/media/" + follower.image
+		};
 		follower.is_following = following_id_list.includes(follower.id);
 		// 자기 자신일 경우 팔로우/언팔로우 버튼 없음
 		if (follower.id == my_id || !localStorage.getItem("payload")) {
 			followerElement.innerHTML += `
-      <div class="col-md-12" style="height:80px; line-height:80px;">
-          <h3 class="price"
-              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
-              ${follower.email}</h3>
-      </div>
+			<div class="col-md-2" style="height:80px;">
+				<a class="image featured-ji" style="display:block; width:70px; height:70px; margin: 0;" href="/users/mypage/index.html?id=${follower.id}">
+					<img src="${follower.image}" alt="팔로워 이미지" />
+				</a>
+			</div>
+  			<div class="col-md-7" style="height:80px;">
+	  			<h3 class="price"
+		  		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
+		  		${follower.nickname}</h3>
+		  		<span>${follower.email}</span>
+		  	</div>
+		  	<div class="col-md-3" style="height:80px;"></div>
       `} else {
 			// 팔로우하고 있는 사람의 경우 언팔로우 버튼
 			if (follower.is_following) {
 				followerElement.innerHTML += `
-      <div class="col-md-12" style="height:80px; line-height:80px;">
-          <h3 class="price"
-              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
-              ${follower.email}</h3>
-              <input type="button" value="언팔로우"
-              class="btn btn-primary btn-lg"
-              style="float:right; margin:16px 0; background-color:#848484; width:116px;"
-              onclick="handleFollow(${follower.id}); changeMypageFollowButton(this);">
-      </div>
-      </div>
+				<div class="col-md-2" style="height:80px;">
+					<a class="image featured-ji" style="display:block; width:70px; height:70px; margin: 0;" href="/users/mypage/index.html?id=${follower.id}">
+						<img src="${follower.image}" alt="팔로워 이미지" />
+					</a>
+				</div>
+      			<div class="col-md-7" style="height:80px;">
+          			<h3 class="price"
+              		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
+              		${follower.nickname}</h3>
+			  		<span>${follower.email}</span>
+			  	</div>
+			  	<div class="col-md-3" style="height:80px;">
+              		<input type="button" value="언팔로우"
+              		class="btn btn-primary btn-lg"
+              		style="float:right; margin:16px 0; background-color:#848484; width:116px;"
+              		onclick="handleFollow(${follower.id}); changeMypageFollowButton(this);">
+      			</div>
       `} else { // 아니면 팔로우 버튼
 				followerElement.innerHTML += `
-      <div class="col-md-12" style="height:80px; line-height:80px;">
-          <h3 class="price"
-              style="color:#F78536; display:inline; line-height:80px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
-              ${follower.email}</h3>
-          <input type="button" value="팔로우"
-              class="btn btn-primary btn-lg"
-              style="float:right; margin:16px 0; width:116px;"
-              onclick="handleFollow(${follower.id}); changeMypageFollowButton(this);">
-      </div>
-      `};
+				<div class="col-md-2" style="height:80px;">
+					<a class="image featured-ji" style="display:block; width:70px; height:70px; margin: 0;" href="/users/mypage/index.html?id=${follower.id}">
+						<img src="${follower.image}" alt="팔로워 이미지" />
+					</a>
+				</div>
+      			<div class="col-md-7" style="height:80px;">
+          			<h3 class="price"
+              		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
+              		${follower.nickname}</h3>
+			  		<span>${follower.email}</span>
+			  	</div>
+			  	<div class="col-md-3" style="height:80px;">
+          			<input type="button" value="팔로우"
+              		class="btn btn-primary btn-lg"
+              		style="float:right; margin:16px 0; width:116px;"
+              		onclick="handleFollow(${follower.id}); changeMypageFollowButton(this);">
+      			</div>
+				`};
 		};
 	};
 };
@@ -343,7 +415,7 @@ function showFollowButton() {
 		temp_unfollow_button.setAttribute("type", "button");
 		temp_unfollow_button.setAttribute("class", "btn btn-primary btn-lg");
 		temp_unfollow_button.setAttribute("value", "언팔로우");
-		temp_unfollow_button.setAttribute("style", "margin-top: 25px; background-color:#848484; width:116px; float:right;");
+		temp_unfollow_button.setAttribute("style", "margin: 25px 0; background-color:#848484; width:116px; float:right;");
 		temp_unfollow_button.setAttribute("onclick", `handleFollow(${user_id}); changeMypageFollowButton(this);`);
 		my_buttons.appendChild(temp_unfollow_button);
 	} else {
@@ -351,7 +423,7 @@ function showFollowButton() {
 		temp_follow_button.setAttribute("type", "button");
 		temp_follow_button.setAttribute("class", "btn btn-primary btn-lg");
 		temp_follow_button.setAttribute("value", "팔로우");
-		temp_follow_button.setAttribute("style", "margin-top: 25px; width:116px; float:right;");
+		temp_follow_button.setAttribute("style", "margin: 25px 0; width:116px; float:right;");
 		temp_follow_button.setAttribute("onclick", `handleFollow(${user_id}); changeMypageFollowButton(this);`);
 		my_buttons.appendChild(temp_follow_button);
 	};

@@ -68,6 +68,9 @@
 
 	<!-- Modernizr JS -->
 	<script src="/js/modernizr-2.6.2.min.js"></script>
+	<!-- 검색창 글자수 제한 jquery -->
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -129,23 +132,20 @@
 										</div>
 									</div>
 									<div class="col-md-6">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="나이"
-												id="mypage_update_age">
-										</div>
+										<select class="form-control" style="height:50px; margin-bottom:30px;"
+											id="mypage_update_age">
+											<option value="" selected>연령대</option>
+											<option value="9">9세 이하</option>
+											<option value="10">10대</option>
+											<option value="20">20대</option>
+											<option value="30">30대</option>
+											<option value="40">40대</option>
+											<option value="50">50대</option>
+											<option value="60">60대</option>
+											<option value="70">70대</option>
+											<option value="80">80대 이상</option>
+										</select>
 									</div>
-									<!-- <div class="col-md-6">
-										<div class="form-group">
-											<input type="password" class="form-control" placeholder="비밀번호"
-												style="height:50px;" id="mypage_update_password1">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group" style="height:50px;">
-											<input type="password" class="form-control" placeholder="비밀번호 확인"
-												style="height:50px;" id="mypage_update_password2">
-										</div>
-									</div> -->
 									<div class="col-md-4">
 										<label>성별:</label>
 										<select class="form-control" style="height:50px; margin-bottom:30px;"
@@ -198,6 +198,7 @@
 										<div class="form-group">
 											<textarea name="" class="form-control" cols="30" rows="7"
 												placeholder="자기소개를 입력해주세요." id="mypage_update_bio"></textarea>
+											<div class="count" style="float:right;"><span>0</span>/100</div>
 										</div>
 									</div>
 									<div class="col-md-12">

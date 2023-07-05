@@ -23,7 +23,6 @@ async function loadJoin(recruitmentId) {
     applicantList.innerHTML = ""
 
     applicantResponse.forEach(applicant => {
-        // applicant에 있는 정보들이 user = applicant.user, appeal = applicant.appeal, acceptence = applicant.acceptence, id = applicant.id 에 각각 담아줌
         const { user, appeal, acceptence, id } = applicant
         const { nickname, age, gender } = user
 
@@ -49,10 +48,12 @@ async function loadJoin(recruitmentId) {
         let ageGroup
         if (age) {
             ageGroup = parseInt(age / 10) * 10
-            if (ageGroup != 0) {
+            if (ageGroup != 0 && ageGroup<80) {
                 ageGroup = ageGroup + '대'
+            } else if (ageGroup >= 80){
+                ageGroup = '80대 이상'
             } else {
-                ageGroup = "10대 미만"
+                ageGroup = "9세 이하"
             }
         } else {
             ageGroup = "?"
@@ -64,14 +65,14 @@ async function loadJoin(recruitmentId) {
             <table style="width:450px; height:50px">
                 <tr>
                     <th style="text-align:center">${(nickname) ? nickname : "?"}</th>
-                    <td width="8%" style="text-align:center">${ageGroup}</td>
+                    <td width="20%" style="text-align:center">${ageGroup}</td>
                     <td width="8%" style="text-align:right">${(genderPrint) ? genderPrint : "?"}</td>
-                    <td width="50%"></td>
-                    <td width="13%" style="text-align:right">${acceptencePrint}</td>
+                    <td width="30%"></td>
+                    <td width="20%" style="text-align:right">${acceptencePrint}</td>
                 </tr>
             </table>
             <div style="margin-bottom:5%;>
-                <div width="100%" colspan="5" id="appeal-${id}"><h4>${appeal}</h4></div>
+                <div width="100%" colspan="5" id="appeal-${id}"></div>
                 <div style="display: flex; flex-direction: row; justify-content: center;">
                     <input type="button" value="수락" id="accept-appeal-button" onclick="acceptApplicant(${id})" style="display: ${acceptence == 0 ? 'block' : 'none'}; text-align:center;">
                     <input type="button" value="거절" id="reject-appeal-button" onclick="rejectApplicant(${id})" style="display: ${acceptence == 0 ? 'block' : 'none'}; text-align:center;">
@@ -79,8 +80,10 @@ async function loadJoin(recruitmentId) {
                 </div>
             </div>
         </div>`
-
         applicantList.innerHTML += tableHTML
+
+        const applicantAppeal = document.getElementById(`appeal-${id}`)
+        applicantAppeal.innerText = `${appeal}`
     });
 }
 
@@ -117,46 +120,6 @@ async function getJoin(recruitmentId) {
         return response_json
     } else {
         alert(response.status)
-    }
-}
-
-
-async function submitJoin() {
-    const joinElement = document.getElementById("new-join")
-    const newJoin = joinElement.value
-    if (newJoin == "") {
-        alert("어필을 작성하여주세요.")
-        return
-    }
-
-    const response = await postJoin(recruitmentId, newJoin)
-    joinElement.value = ""
-    loadJoin(recruitmentId)
-}
-
-
-async function postJoin(recruitmentId, newJoin) {
-    let token = localStorage.getItem("access")
-
-    const response = await fetch(`${proxy}/recruitments/${recruitmentId}/join/`, {
-        method: 'POST',
-        headers: {
-            "content-type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            "appeal": newJoin,
-        })
-    })
-
-    const response_json = await response.json()
-
-    if (response.status == 201) {
-        alert("신청 완료! 작성자 수락을 기다려주세요")
-    } else if (response.status == 401) {
-        alert("로그인 후 이용할 수 있습니다.")
-    } else {
-        alert(response_json.message)
     }
 }
 
@@ -244,8 +207,6 @@ async function closeTab() {
 
 window.loadJoin = loadJoin
 window.getJoin = getJoin
-window.submitJoin = submitJoin
-window.postJoin = postJoin
 window.getPKFromAccessToken = getPKFromAccessToken
 window.checkAuthor = checkAuthor
 window.getApplicant = getApplicant

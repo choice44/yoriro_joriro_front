@@ -65,6 +65,8 @@
 
 	<link rel="stylesheet" href="/css/style.css">
 
+	<!-- CS Mypage -->
+	<link rel="stylesheet" href="mypage.css">
 
 	<!-- Modernizr JS -->
 	<script src="/js/modernizr-2.6.2.min.js"></script>
@@ -108,9 +110,9 @@
 				<div class="container">
 					<div class="row row-bottom-padded-md">
 
-						<div class="col-md-5 animate-box">
+						<div class="col-md-5 animate-box" style="overflow:hidden;">
 							<img class="img-responsive" src="/images/cover_bg_3.jpg" alt="travel" id="mypage_image">
-							<a href="#" class="flight-book">
+							<div class="flight-book">
 								<div class="plane-name">
 									<span class="p-flight">성별</span>
 								</div>
@@ -119,18 +121,18 @@
 										<span class="price" id="mypage_gender"></span>
 									</div>
 								</div>
-							</a>
-							<a href="#" class="flight-book">
+							</div>
+							<div class="flight-book">
 								<div class="plane-name">
-									<span class="p-flight">나이</span>
+									<span class="p-flight">연령대</span>
 								</div>
 								<div class="desc">
 									<div class="right">
 										<span class="price" id="mypage_age"></span>
 									</div>
 								</div>
-							</a>
-							<a href="#" class="flight-book">
+							</div>
+							<div class="flight-book">
 								<div class="plane-name">
 									<span class="p-flight">지역</span>
 								</div>
@@ -139,8 +141,8 @@
 										<span class="price" id="mypage_area"></span>
 									</div>
 								</div>
-							</a>
-							<a href="#" class="flight-book">
+							</div>
+							<div class="flight-book">
 								<div class="plane-name">
 									<span class="p-flight">시군구</span>
 								</div>
@@ -149,7 +151,7 @@
 										<span class="price" id="mypage_sigungu"></span>
 									</div>
 								</div>
-							</a>
+							</div>
 							<div class="form-group" id="mypage_my_buttons">
 								<!-- 본인의 마이페이지인지 다른 사람의 마이페이지인지에 따라 다른 버튼들 -->
 							</div>
@@ -157,9 +159,9 @@
 						<div class="col-md-7 animate-box">
 							<div class="row">
 								<div class="col-md-12" id="fh5co-testimonial"
-									style="padding:50px 20px 0; margin-bottom:30px;">
+									style="padding:50px 20px 0; margin-bottom:30px; overflow:hidden;">
 
-									<div class="box-testimony animate-box" style="margin-bottom: 0;">
+									<div class="box-testimony animate-box" style="margin-bottom: 0; width:100%;">
 										<blockquote>
 											<span class="quote"><span><i class="icon-quotes-right"></i></span></span>
 											<p id="mypage_bio">&ldquo; &rdquo;</p>
@@ -185,7 +187,7 @@
 									</ul>
 
 									<!-- Tab panes -->
-									<div class="tab-content">
+									<div class="tab-content" style="max-height: 460px; overflow-y:auto;">
 										<div role="tabpanel" class="tab-pane active">
 											<div class="row">
 												<div id="fh5co-car" class="fh5co-section"
