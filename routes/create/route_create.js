@@ -9,6 +9,13 @@ let spotsId = [];
 
 // 게시글 작성 데이터 가져오기
 function handleCreateRoute(event) {
+    // 함수 진입 시 게시글 생성 버튼 기능상실
+    createButton.disabled = true;
+    // 5초 후 기능복구
+    setTimeout(() => {
+        createButton.disabled = false;
+    }, 5000);
+
     event.preventDefault(); // 제출 버튼을 눌렀을 때 새로고침 방지
 
     const title = document.getElementById('route-title').value;
