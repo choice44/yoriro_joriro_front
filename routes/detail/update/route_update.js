@@ -1,5 +1,5 @@
 import { proxy } from "../../../proxy.js";
-import { createMarker, new_spotx, new_spoty } from "./update_map.js";
+import { createMarker, new_spotx, new_spoty, new_addr } from "./update_map.js";
 
 
 // 관광지 목록
@@ -94,10 +94,10 @@ async function loadRoute() {
 function handleUpdateRoute(event) {
     // 함수 진입 시 게시글 생성 버튼 기능상실
     createButton.disabled = true;
-    // 5초 후 기능복구
+    // 2초 후 기능복구
     setTimeout(() => {
         createButton.disabled = false;
-    }, 5000);
+    }, 2000);
 
     event.preventDefault(); // 제출 버튼을 눌렀을 때 새로고침 방지
 
@@ -421,6 +421,7 @@ async function createSpot() {
     formData.append('type', 99);    // 사용자가 생성한 관광지는 타입이 99로 고정
     formData.append('mapx', new_spotx); // map.js에서 가져옴
     formData.append('mapy', new_spoty); // map.js에서 가져옴
+    formData.append('addr1', new_addr);
 
     try {
         // 제목이 비어있을 때
