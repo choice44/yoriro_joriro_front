@@ -149,6 +149,8 @@ async function routeRating(route_id) {
 
         if (response.status == 401) {
             alert("로그인이 필요한 서비스입니다.")
+            window.location.href = "/users/login/index.html"
+
         } if (!response.ok) {
             throw new Error('평점 등록에 실패했습니다.');
         }
@@ -298,9 +300,12 @@ async function routeComment() {
 
     if (response.status == 401) {
         alert("로그인이 필요한 서비스입니다.")
+        window.location.href = "/users/login/index.html"
+
     } if (response.status == 201) {
         alert("댓글 작성 완료")
         location.reload();
+
     } else if (comment == '') {
         alert("댓글을 입력해 주세요.")
     }
@@ -332,12 +337,12 @@ async function getComments(route_id) {
             <div class="row g-3">
                 <div class="col-md-1">
                     <div class="card-body">
-                        <a href="/users/mypage/index.html?id=${comment.user.id}" id="commnet-name"><b>${comment.user.nickname}</b></a>
+                        <a href="/users/mypage/index.html?id=${comment.user.id}" id="commnet-name"><b></b></a>
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <p class="card-text" id="comment-content-${comment.id}">${comment.content}</p>
+                        <p class="card-text" id="comment-content-${comment.id}"></p>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -359,6 +364,8 @@ async function getComments(route_id) {
             ` : ''} <!-- 본인이 작성한 댓글이 아닐 경우 버튼을 빈 문자열로 대체 -->
         </div>
         `);
+        document.getElementById(`comment-content-${comment.id}`).innerText = comment.content;
+        document.querySelector(`#commnet-name`).innerText = comment.user.nickname;
     });
 }
 

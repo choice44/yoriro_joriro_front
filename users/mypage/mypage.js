@@ -374,7 +374,7 @@ async function loadFollowings() {
 			  	</div>
 			  	<div class="col-md-3" style="height:80px;">
               		<input type="button" value="언팔로우"
-              		class="btn btn-primary btn-lg"
+              		class="btn-ji btn-primary btn-lg"
               		style="float:right; margin:16px 0; background-color:#848484; width:116px;"
               		onclick="handleFollow(${following.id}); changeMypageFollowButton(this);">
       			</div>
@@ -393,7 +393,7 @@ async function loadFollowings() {
 			  	</div>
 			  	<div class="col-md-3" style="height:80px;">
           			<input type="button" value="팔로우"
-              		class="btn btn-primary btn-lg"
+              		class="btn-ji btn-primary btn-lg"
               		style="float:right; margin:16px 0; width:116px;"
               		onclick="handleFollow(${following.id}); changeMypageFollowButton(this);">
       			</div>
@@ -452,7 +452,7 @@ async function loadFollowers() {
 			  	</div>
 			  	<div class="col-md-3" style="height:80px;">
               		<input type="button" value="언팔로우"
-              		class="btn btn-primary btn-lg"
+              		class="btn-ji btn-primary btn-lg"
               		style="float:right; margin:16px 0; background-color:#848484; width:116px;"
               		onclick="handleFollow(${follower.id}); changeMypageFollowButton(this);">
       			</div>
@@ -471,7 +471,7 @@ async function loadFollowers() {
 			  	</div>
 			  	<div class="col-md-3" style="height:80px;">
           			<input type="button" value="팔로우"
-              		class="btn btn-primary btn-lg"
+              		class="btn-ji btn-primary btn-lg"
               		style="float:right; margin:16px 0; width:116px;"
               		onclick="handleFollow(${follower.id}); changeMypageFollowButton(this);">
       			</div>
@@ -598,17 +598,17 @@ function showFollowButton() {
 	if (following_id_list.includes(Number(user_id)) == true) {
 		const temp_unfollow_button = document.createElement("input");
 		temp_unfollow_button.setAttribute("type", "button");
-		temp_unfollow_button.setAttribute("class", "btn btn-primary btn-lg");
+		temp_unfollow_button.setAttribute("class", "btn-ji btn-primary btn-lg");
 		temp_unfollow_button.setAttribute("value", "언팔로우");
-		temp_unfollow_button.setAttribute("style", "margin: 25px 0; background-color:#848484; width:116px; float:right;");
+		temp_unfollow_button.setAttribute("style", "margin: 16px 0; background-color:#848484; width:116px; float:right;");
 		temp_unfollow_button.setAttribute("onclick", `handleFollow(${user_id}); changeMypageFollowButton(this);`);
 		my_buttons.appendChild(temp_unfollow_button);
 	} else {
 		const temp_follow_button = document.createElement("input");
 		temp_follow_button.setAttribute("type", "button");
-		temp_follow_button.setAttribute("class", "btn btn-primary btn-lg");
+		temp_follow_button.setAttribute("class", "btn-ji btn-primary btn-lg");
 		temp_follow_button.setAttribute("value", "팔로우");
-		temp_follow_button.setAttribute("style", "margin: 25px 0; width:116px; float:right;");
+		temp_follow_button.setAttribute("style", "margin: 16px 0; width:116px; float:right;");
 		temp_follow_button.setAttribute("onclick", `handleFollow(${user_id}); changeMypageFollowButton(this);`);
 		my_buttons.appendChild(temp_follow_button);
 	};

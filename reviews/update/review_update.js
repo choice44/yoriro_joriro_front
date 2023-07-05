@@ -6,10 +6,13 @@ const token = localStorage.getItem('access')
 
 window.onload = () => {
 
+    if (!token) {
+        alert("로그인이 필요한 서비스입니다.")
+        window.location.href = "/users/login/index.html"
+    }
+
     const urlParams = new URLSearchParams(window.location.search).get('id');
-
     loadReviewForUpdate(urlParams)
-
 }
 
 
@@ -30,6 +33,11 @@ function findSelectedRate(rate) {
 async function loadReviewForUpdate(review_id) {
 
     const review = await getReview(review_id)
+
+    if (JSON.parse(localStorage.getItem("payload")).user_id !== review.user.id) {
+        alert("글을 수정할 권한이 없습니다.")
+        window.location.href = "/"
+    }
 
     loadSpotForReview(review.spot.id);
     findSelectedRate(review.rate);
