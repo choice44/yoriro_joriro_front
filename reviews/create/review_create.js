@@ -4,6 +4,10 @@ import { proxy } from '/proxy.js';
 const token = localStorage.getItem('access')
 
 window.onload = () => {
+    if (!token) {
+        alert("로그인이 필요한 서비스입니다.")
+        window.location.href = "/users/login/index.html"
+    }
     const urlParams = new URLSearchParams(window.location.search).get('id');
     loadSpotForReview(urlParams);
 }

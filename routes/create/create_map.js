@@ -15,6 +15,7 @@ var lines = [];     // 선분을 담을 배열
 
 export var new_spotx = ''
 export var new_spoty = ''
+export var new_addr = ''
 
 // 마커, 선분 생성 / route_create.js에서 사용
 export function createMarker(positions) {
@@ -117,6 +118,8 @@ export function createMarker(positions) {
 
 // 클릭 이벤트
 kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+    // 주소-좌표 변환 객체 생성
+    var geocoder = new kakao.maps.services.Geocoder();
 
     // 클릭한 장소의 위도, 경도 가져옴
     var latlng = mouseEvent.latLng;
@@ -139,6 +142,16 @@ kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
 
         marker.setMap(map); // 마커를 지도에 표시
     }
+    // 좌표를 주소로 변환
+    geocoder.coord2Address(new_spotx, new_spoty, function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            var detailAddr = !!result[0].road_address ? result[0].road_address.address_name : '';
+            detailAddr += ' ' + result[0].address.address_name;
+
+            new_addr = detailAddr
+        }
+    });
+
 
     var resultDiv = document.getElementById('create-name-box');
     resultDiv.style.display = 'block';

@@ -58,10 +58,11 @@ async function viewRouteList() {
                 <span style="display:inline;">${areas[route.areas[0].area]}</span>
                 <h2 style="color:#F78536; display:inline; float:right; margin-bottom:0; font-size:24px;">${route.rate}</h2>
             </div>
-                <h3 style="font-size:26px">${route.title}</h3>
+                <h3 style="font-size:26px"></h3>
             </div>
         </div>`;
 
+        template.querySelector('h3').innerText = route.title
         route_list.appendChild(template);
 
     });

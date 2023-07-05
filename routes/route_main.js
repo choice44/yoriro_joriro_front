@@ -57,18 +57,20 @@ async function viewRouteList() {
 
             template.innerHTML = `
             <div href="#"><img src="${imagePath}" alt="여행루트 게시글 이미지" class="img-responsive">
-				<div class="desc">
-					<span></span>
-					<h3>${route.title}</h3>
-					<span>${route.duration}일</span>
+                <div class="desc">
+                    <span></span>
+                    <h3 id="route-title"></h3>
+                    <span>${route.duration}일</span>
                     <span>댓글 수: ${route.comment_count}</span>
-                    <span>${route.user.nickname}</span>
+                    <span id="user-nickname"></span>
                     <span style="font-size: 23px;">${rate}</span>
-					<a class="btn btn-primary btn-outline" href="detail/index.html?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
-				</div>
+                    <a class="btn btn-primary btn-outline" href="detail/index.html?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
+                </div>
             </div>
             `;
-            route_list.appendChild(template)
+            template.querySelector('#route-title').innerText = route.title;
+            template.querySelector('#user-nickname').innerText = route.user.nickname;
+            route_list.appendChild(template);
 
         })
         // 더보기 버튼 생성
@@ -117,18 +119,21 @@ async function viewMoreRouteList(nextURL) {
 
             template.innerHTML = `
             <div href="#"><img src="${imagePath}" alt="여행루트 게시글 이미지" class="img-responsive">
-				<div class="desc">
-					<span></span>
-					<h3>${route.title}</h3>
-					<span>${route.duration}일</span>
+                <div class="desc">
+                    <span></span>
+                    <h3 id="route-title"></h3>
+                    <span>${route.duration}일</span>
                     <span>댓글 수: ${route.comment_count}</span>
-                    <span>${route.user.nickname}</span>
+                    <span id="user-nickname"></span>
                     <span style="font-size: 23px;">${rate}</span>
-					<a class="btn btn-primary btn-outline" href="detail/index.html?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
-				</div>
+                    <a class="btn btn-primary btn-outline" href="detail/index.html?id=${route.id}">상세보기 <i class="icon-arrow-right22"></i></a>
+                </div>
             </div>
             `;
+            template.querySelector('#route-title').innerText = route.title;
+            template.querySelector('#user-nickname').innerText = route.user.nickname;
             route_list.appendChild(template);
+
         })
 
         // 기존의 '더보기' 버튼을 제거
@@ -162,6 +167,7 @@ function handleCreateButton() {
         location.href = 'create/index.html'; // 작성 페이지로 이동
     } else { // 로그인이 안 된 경우
         alert("로그인이 필요한 서비스입니다."); // 경고 메시지 출력
+        window.location.href = "/users/login/index.html"
     }
 }
 

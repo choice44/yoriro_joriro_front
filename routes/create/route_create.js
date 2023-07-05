@@ -1,5 +1,5 @@
 import { proxy } from "../../proxy.js";
-import { createMarker, new_spotx, new_spoty } from "./create_map.js"
+import { createMarker, new_spotx, new_spoty, new_addr } from "./create_map.js"
 
 // 관광지 목록
 let savedSpots = [];
@@ -9,6 +9,13 @@ let spotsId = [];
 
 // 게시글 작성 데이터 가져오기
 function handleCreateRoute(event) {
+    // 함수 진입 시 게시글 생성 버튼 기능상실
+    createButton.disabled = true;
+    // 2초 후 기능복구
+    setTimeout(() => {
+        createButton.disabled = false;
+    }, 2000);
+
     event.preventDefault(); // 제출 버튼을 눌렀을 때 새로고침 방지
 
     const title = document.getElementById('route-title').value;
@@ -294,15 +301,16 @@ function removeSpot(spot) {
 // 관광지 생성
 async function createSpot() {
     // 생성할 관광지명 가져옴
-    const newSpot = document.getElementById('create-name').value;
+    const newSpot = document.getElementById('create-name');
     const newSpotbox = document.getElementById('create-name-box');
 
     // formData를 생성하고 항목들을 차례대로 추가
     let formData = new FormData();
-    formData.append('title', newSpot);
+    formData.append('title', newSpot.value);
     formData.append('type', 99);    // 사용자가 생성한 관광지는 타입이 99로 고정
     formData.append('mapx', new_spotx); // map.js에서 가져옴
     formData.append('mapy', new_spoty); // map.js에서 가져옴
+    formData.append('addr1', new_addr);
 
     try {
         // 제목이 비어있을 때
@@ -347,6 +355,7 @@ async function createSpot() {
         // 마커 생성
         createMarker(savedSpots)
         // 입력이 끝났으면 입력창 숨기기
+        newSpot.value = '';
         newSpotbox.style.display = 'none'
 
     } catch (error) {
