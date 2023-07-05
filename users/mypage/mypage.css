@@ -18,3 +18,25 @@
     height: 100%;
     object-fit: cover;
 }
+
+.btn-ji {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    font-weight: normal;
+}
+
+.btn-ji:active {
+    background: #393e46 !important;
+    color: #fff;
+    outline: none !important;
+}
+
+.btn-ji.btn-primary {
+    background: #F78536;
+    color: #fff;
+    border: none !important;
+    border: 2px solid transparent !important;
+}
