@@ -95,17 +95,31 @@ async function loadRecruitmentDetail(recruitmentId) {
         ageGroup = "?"
     }
 
+    let profileImage = await getProfileImage(response.user.id)
+    if (!profileImage) {
+        profileImage = "/images/logo_64.png"
+    } else {
+        profileImage = proxy+profileImage
+    }
+
     // 게시글 작성자 정보
     const recruitmentWriterInfo = document.getElementById("writer-info")
     recruitmentWriterInfo.innerHTML = ""
     recruitmentWriterInfo.innerHTML = `
         <table width="80%" style="margin-top:40%;margin-left:25%;">
             <tr>
-                <th colspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${response.user.id}">${response.user.nickname}</a></th>
+                <th style="text-align:center;">
+                    <div style="align-items: center; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; margin-left:30%">
+                        <a href="/users/mypage/index.html?id=${response.user.id}">
+                            <img src=${profileImage} style="width: 100%; height: 100%; object-fit: cover;">
+                        </a>
+                    </div>
+                </th>
+                <th style="text-align:left; width=50%;"><a href="/users/mypage/index.html?id=${response.user.id}">${response.user.nickname}</a></th>
             </tr>
             <tr>
-                <td width="30px" style="text-align:center;">연령대</td>
-                <th width="30px" style="text-align:center;">${ageGroup}</th>
+                <td style="text-align:center;">연령대</td>
+                <th style="text-align:center;">${ageGroup}</th>
             </tr>
             <tr>
                 <td style="text-align:center;">성별</td>
@@ -129,7 +143,7 @@ async function loadRecruitmentDetail(recruitmentId) {
             <th colspan="3" style="text-align:center;">모집된 동료 : ${participant.length}명</th>
         </tr>
     `
-    participant.forEach(user => {
+    for (const user of participant) {
         if (user.gender == "F") {
             user.gender = "여성"
         } else if (user.gender == "M") {
@@ -152,14 +166,27 @@ async function loadRecruitmentDetail(recruitmentId) {
             ageGroup = "?"
         }
 
+        profileImage = await getProfileImage(user.id)
+        if (!profileImage) {
+            profileImage = "/images/logo_64.png"
+        } else {
+            profileImage = proxy+profileImage
+        }
+
         participantTable.innerHTML += `
         <tr>
+            <th>
+                <div style="align-items: center; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; margin-left:10%">
+                    <a href="/users/mypage/index.html?id=${user.id}">
+                        <img src=${profileImage} style="width: 100%; height: 100%; object-fit: cover;">
+                    </a>
+                </div>
+            </th>
             <th height="30px" rowspan="2" style="text-align:center;"><a href="/users/mypage/index.html?id=${user.id}">${(user.nickname) ? user.nickname : "?"}</a></th>
             <td style="text-align:center;">${ageGroup}</td>
             <td style="text-align:center;">${(user.gender) ? user.gender : "?"}</td>
-        </tr>
-        `
-    })
+        </tr>`
+    }
 
     participantTable.innerHTML += `
     <tr><td height="10px"></td>
@@ -224,7 +251,7 @@ async function getApplicant(recruitmentId) {
 async function popupApplicant() {    
     const accessToken = localStorage.getItem('access')
     if (!accessToken) {
-        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        alert("로그인이 필요한 서비스입니다.")
         location.href = `/users/login/index.html`
     }
 
@@ -243,7 +270,7 @@ async function popupApplicant() {
 async function popupJoin() {
     const accessToken = localStorage.getItem('access')
     if (!accessToken) {
-        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        alert("로그인이 필요한 서비스입니다.")
         location.href = `/users/login/index.html`
     }
 
@@ -312,7 +339,16 @@ async function recruitmentDelete() {
 }
 
 
+async function getProfileImage(userId) {
+    const response = await fetch(`${proxy}/users/mypage/${userId}`)    
+	const response_json = await response.json();
+
+    return response_json.image
+}
+
+
 window.recruitmentEdit = recruitmentEdit
 window.recruitmentDelete = recruitmentDelete
 window.popupApplicant = popupApplicant
 window.popupJoin = popupJoin
+window.getProfileImage = getProfileImage

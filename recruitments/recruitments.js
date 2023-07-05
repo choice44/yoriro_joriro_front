@@ -77,7 +77,7 @@ function CreateRecruitment() {
     if (localStorage.getItem("access")) {
         window.location.href = `/recruitments/create/index.html`
     } else {        
-        alert("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동합니다.")
+        alert("로그인이 필요한 서비스입니다.")
         location.href = `/users/login/index.html`
     }
 }

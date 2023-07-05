@@ -22,7 +22,8 @@ async function loadJoin(recruitmentId) {
     const applicantList = document.getElementById("applicant-list")
     applicantList.innerHTML = ""
 
-    applicantResponse.forEach(applicant => {
+    for (const applicant of applicantResponse) {
+    // applicantResponse.forEach(applicant => {
         const { user, appeal, acceptence, id } = applicant
         const { nickname, age, gender } = user
 
@@ -59,11 +60,23 @@ async function loadJoin(recruitmentId) {
             ageGroup = "?"
         }
 
+        let profileImage = await getProfileImage(user.id)
+        if (!profileImage) {
+            profileImage = "/images/logo_64.png"
+        } else {
+            profileImage = proxy+profileImage
+        }
+
         // 3항 연산자를 사용해서 게시글 작성자가 로그인 하면 수락, 거절버튼이 보이고, 신청 작성자가 로그인하면 신청 수정, 삭제 버튼이 보인다.
         const tableHTML = `
         <div style="border-collapse:separate; border-radius:30px; border: 1px solid #444444; margin-bottom:5%">
             <table style="width:450px; height:50px">
                 <tr>
+                    <td>
+                        <div style="align-items: center; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; margin-left:10%">
+                            <img src=${profileImage} style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </td>
                     <th style="text-align:center">${(nickname) ? nickname : "?"}</th>
                     <td width="20%" style="text-align:center">${ageGroup}</td>
                     <td width="8%" style="text-align:right">${(genderPrint) ? genderPrint : "?"}</td>
@@ -84,7 +97,7 @@ async function loadJoin(recruitmentId) {
 
         const applicantAppeal = document.getElementById(`appeal-${id}`)
         applicantAppeal.innerText = `${appeal}`
-    });
+    }
 }
 
 
@@ -195,6 +208,14 @@ async function rejectApplicant(applicantId) {
     } else {
         alert(response.status)
     }
+}
+
+
+async function getProfileImage(userId) {
+    const response = await fetch(`${proxy}/users/mypage/${userId}`)    
+	const response_json = await response.json();
+
+    return response_json.image
 }
 
 
