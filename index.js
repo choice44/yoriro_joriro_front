@@ -178,10 +178,10 @@ async function viewReviewList() {
             <div class="desc">
                 <span>${"⭐".repeat(review.rate)}</span>
                 <h3>${review.spot.title}</h3>
-                <span>${review.title}</span>
+                <span></span>
             </div>
         </div>`;
-
+        template.querySelector('.desc :nth-child(3)').innerText = review.title
         review_list.appendChild(template);
 
     });
