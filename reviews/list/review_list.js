@@ -94,8 +94,8 @@ async function loadReviewList(order, type) {
 
             <h3 style="color:#F78536; margin-bottom:20px;">
             ${review.spot.title} <small style="color:#848484;">${review.spot.addr}</small></h3>
-            <span class="price" style="color:#F78536;">${review.title} <small style="color:#848484;">
-            ${review.user.nickname}</small></span>
+            <span class="price" style="color:#F78536;" id="review_list_title_${review.id}"><small style="color:#848484;" id="review_list_nickname_${review.id}">
+            </small></span>
             <p
                 style="color:#F78536; margin-bottom:0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" id="review_list_content_${review.id}">
             </p>
@@ -107,6 +107,11 @@ async function loadReviewList(order, type) {
             review_list.appendChild(template);
             const temp_content = document.getElementById(`review_list_content_${review.id}`);
             temp_content.innerText = review.content
+            const temp_title = document.getElementById(`review_list_title_${review.id}`);
+            temp_title.innerText = review.title + " "
+            temp_title.insertAdjacentHTML('beforeend', `<small style="color:#848484;" id="review_list_nickname_${review.id}"></small>`);
+            const temp_nickname = document.getElementById(`review_list_nickname_${review.id}`);
+            temp_nickname.innerText = review.user.nickname
         });
     };
 
@@ -169,8 +174,8 @@ async function viewMoreReviewList(next) {
 
         <h3 style="color:#F78536; margin-bottom:20px;">
         ${review.spot.title} <small style="color:#848484;">${review.spot.addr}</small></h3>
-        <span class="price" style="color:#F78536;">${review.title} <small style="color:#848484;">
-        ${review.user.nickname}</small></span>
+        <span class="price" style="color:#F78536;" id="review_list_title_${review.id}"><small style="color:#848484;" id="review_list_nickname_${review.id}">
+        </small></span>
         <p
             style="color:#F78536; margin-bottom:0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" id="review_list_content_${review.id}">
         </p>
@@ -182,6 +187,11 @@ async function viewMoreReviewList(next) {
         review_list.appendChild(template);
         const temp_content = document.getElementById(`review_list_content_${review.id}`);
         temp_content.innerText = review.content
+        const temp_title = document.getElementById(`review_list_title_${review.id}`);
+        temp_title.innerText = review.title + " "
+        temp_title.insertAdjacentHTML('beforeend', `<small style="color:#848484;" id="review_list_nickname_${review.id}"></small>`);
+        const temp_nickname = document.getElementById(`review_list_nickname_${review.id}`);
+        temp_nickname.innerText = review.user.nickname
     });
 
     // 더보기 버튼 생성
