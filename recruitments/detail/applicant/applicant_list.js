@@ -29,7 +29,6 @@ async function loadJoin(recruitmentId) {
     applicantList.innerHTML = ""
 
     for (const applicant of applicantResponse) {
-    // applicantResponse.forEach(applicant => {
         const { user, appeal, acceptence, id } = applicant
         const { nickname, age, gender } = user
 
@@ -189,7 +188,6 @@ async function acceptApplicant(applicantId) {
         return response_json
     } else {
         const response_json = await response.json()
-        console.log(response_json)
         alert(response_json.message)
     }
 }
