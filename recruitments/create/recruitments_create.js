@@ -41,6 +41,35 @@ async function postRecruitment() {
         return
     }
 
+    if (!title) {
+        alert("제목을 입력해주세요.")
+        return
+    }
+    if (!place) {
+        alert("장소를 입역해주세요.")
+        return
+    }
+    
+    if (!dateStart) {
+        alert("출발일을 입력해주세요.")
+        return
+    }
+    
+    if (!dateEnd) {
+        alert("도착일을 입력해주세요.")
+        return
+    }
+    
+    if (!cost) {
+        alert("비용을 입력해주세요. (단위 : 원) ")
+        return
+    }
+
+    if (!content) {
+        alert("내용을 입력해주세요.")
+        return
+    }
+
     const formdata = new FormData()
 
     formdata.append("title", title)

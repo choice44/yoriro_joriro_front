@@ -77,15 +77,60 @@ async function updateRecruitment() {
     const content = document.getElementById("content").value
     const image = document.getElementById("image").files[0]
 
+    let timeNow = new Date()
+    timeNow = `${timeNow.getFullYear()}${('00' + (timeNow.getMonth() + 1)).slice(-2)
+        }${('00' + (timeNow.getDate())).slice(-2)}`
+        
     let year = dateStart.split('/')[2]
     let month = dateStart.split('/')[0]
     let day = dateStart.split('/')[1]
     const departure = year + "-" + month + "-" + day
+    let departureCompare = year + month + day
 
     year = dateEnd.split('/')[2]
     month = dateEnd.split('/')[0]
     day = dateEnd.split('/')[1]
     const arrival = year + "-" + month + "-" + day
+    let arrivalCompare = year + month + day
+
+    if (departureCompare <= timeNow) {
+        alert("오늘 이후 날짜만 설정할 수 있습니다.")
+        return
+    }
+
+    if (departureCompare > arrivalCompare) {
+        alert("출발일이 도착일보다 늦을 수 없습니다.")
+        return
+    }
+
+    if (!title) {
+        alert("제목을 입력해주세요.")
+        return
+    }
+    if (!place) {
+        alert("장소를 입역해주세요.")
+        return
+    }
+    
+    if (!dateStart) {
+        alert("출발일을 입력해주세요.")
+        return
+    }
+    
+    if (!dateEnd) {
+        alert("도착일을 입력해주세요.")
+        return
+    }
+    
+    if (!cost) {
+        alert("비용을 입력해주세요. (단위 : 원) ")
+        return
+    }
+
+    if (!content) {
+        alert("내용을 입력해주세요.")
+        return
+    }
 
     // 현재 참가자보다 적은 인원으로 모집 정원 변경 불가
     if (participant < response_json.participant_now) {
