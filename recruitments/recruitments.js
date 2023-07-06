@@ -41,8 +41,8 @@ async function loadRecruitments(recruitments) {
         <div><img src="${imagePath}" alt="동료 모집 게시글 이미지" class="img-responsive recruitment-image-thumbnail">
             <div class="desc">
                 <span></span>
-                <h3>${recruitment.title}</h3>
-                <span>${recruitment.place}</span>
+                <h3 id="recruitment-title-${recruitment.id}"></h3>
+                <span id="recruitment-place-${recruitment.id}"></span>
                 <span>${departure + ' ~ ' + arrival}</span>
                 <h3 style="color:${recruitment.is_complete == 0 ? 'red' : 'gray'};">${status[recruitment.is_complete]}</h3>
                 <span style="color:${recruitment.participant.length == recruitment.participant_max || recruitment.is_complete != 0 ? 'gray;">모집 완료 ' : 'white;">모집 현황 '}
@@ -51,6 +51,12 @@ async function loadRecruitments(recruitments) {
             </div>
         </div>`
         recruitment_list.appendChild(template)
+
+        const recruitmentTitle = document.getElementById(`recruitment-title-${recruitment.id}`)
+        recruitmentTitle.innerText = `${recruitment.title}`
+        
+        const recruitmentPlace = document.getElementById(`recruitment-place-${recruitment.id}`)
+        recruitmentPlace.innerText = `${recruitment.place}`
     })
 
     if (recruitments.next) {
@@ -123,8 +129,8 @@ async function viewMoreRecruitments(nextURL) {
             <div><img src="${imagePath}" alt="동료 모집 게시글 이미지" class="img-responsive recruitment-image-thumbnail">
                 <div class="desc">
                     <span></span>
-                    <h3>${recruitment.title}</h3>
-                    <span>${recruitment.place}</span>
+                    <h3 id="recruitment-title-${recruitment.id}"></h3>
+                    <span id="recruitment-place-${recruitment.id}"></span>
                     <span>${departure + ' ~ ' + arrival}</span>
                     <h3 style="color:${recruitment.is_complete == 0 ? 'red' : 'gray'};">${status[recruitment.is_complete]}</h3>
                     <span style="color:${recruitment.participant.length == recruitment.participant_max || recruitment.is_complete != 0 ? 'gray;">모집 완료 ' : 'white;">모집 현황 '}
@@ -134,6 +140,12 @@ async function viewMoreRecruitments(nextURL) {
             </div>`
 
             recruitmentsList.appendChild(template);
+
+            const recruitmentTitle = document.getElementById(`recruitment-title-${recruitment.id}`)
+            recruitmentTitle.innerText = `${recruitment.title}`
+            
+            const recruitmentPlace = document.getElementById(`recruitment-place-${recruitment.id}`)
+            recruitmentPlace.innerText = `${recruitment.place}`
         })
 
         // 기존의 '더보기' 버튼을 제거

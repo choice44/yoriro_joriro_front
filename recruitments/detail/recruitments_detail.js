@@ -42,7 +42,7 @@ async function loadRecruitmentDetail(recruitmentId) {
         <table width="100%" style="text-align:center; margin-right:5%; margin-top:5%; border: 1px solid #444444; border-collapse:separate; border-radius:8px;">
             <tr height=60px>
                 <td style="text-align:right">장소</td>
-                <th style="text-align:center">${response.place}</th>
+                <th id="recruitment-place" style="text-align:center"></th>
                 <td style="text-align:right">경비</td>
                 <th style="text-align:center">${response.cost.toLocaleString()}원</th>
                 <td style="text-align:right">모집 정원</td>
@@ -70,6 +70,9 @@ async function loadRecruitmentDetail(recruitmentId) {
 
     const recruitmentContent = document.getElementById("recruitment-content")
     recruitmentContent.innerText = `${response.content}`
+
+    const recruimentPlace = document.getElementById("recruitment-place")
+    recruimentPlace.innerText= `${response.place}`
 
     // F일때 여성, M일때 남성, 없을때 빈 문자열 출력
     let gender = response.user.gender
@@ -115,7 +118,7 @@ async function loadRecruitmentDetail(recruitmentId) {
                         </a>
                     </div>
                 </th>
-                <th style="text-align:center; width=50%;"><a href="/users/mypage/index.html?id=${response.user.id}">${response.user.nickname}</a></th>
+                <th style="text-align:center; width=50%;"><a id="recruitment-writer-nickname" href="/users/mypage/index.html?id=${response.user.id}"></a></th>
             </tr>
             <tr>
                 <td style="text-align:center;">연령대</td>
@@ -126,6 +129,15 @@ async function loadRecruitmentDetail(recruitmentId) {
                 <th style="text-align:center;">${(gender) ? gender : "?"}</th>
             </tr>
         </table>`
+
+    let nickname
+    if (!response.user.nickname) {
+        nickname = "?"
+    } else {
+        nickname = response.user.nickname
+    }
+    const recruitmentWriterNickname = document.getElementById("recruitment-writer-nickname")
+    recruitmentWriterNickname.innerText = `${nickname}`
 
     let participant = response.participant
 
