@@ -168,7 +168,7 @@ async function viewMoreRecruitments(nextURL) {
         }
 
     } catch (error) {
-        console.log("에러가 발생했습니다", error);
+        alert("에러가 발생했습니다", error)
     }
 }
 

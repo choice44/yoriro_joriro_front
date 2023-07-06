@@ -71,7 +71,6 @@ async function loadJoin(recruitmentId) {
         } else {
             profileImage = proxy+profileImage
         }
-        console.log(profileImage)
 
         // 3항 연산자를 사용해서 게시글 작성자가 로그인 하면 수락, 거절버튼이 보이고, 신청 작성자가 로그인하면 신청 수정, 삭제 버튼이 보인다.
         const tableHTML = `
