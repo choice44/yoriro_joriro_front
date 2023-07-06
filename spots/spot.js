@@ -104,6 +104,20 @@ writeBtn.addEventListener("click", () => {
 });
 
 
+// 버튼 클릭 시 이전페이지로 이동
+const backBtn = document.getElementById("spot_button_back");
+backBtn.addEventListener("click", () => {
+    const urlParams = new URLSearchParams(window.location.search).get('from');
+
+    if (urlParams == "main") {
+        window.location.href = '/?back=y';
+    }
+    else {
+        history.back()
+    }
+});
+
+
 // Spot_Reviews GET 요청
 async function getSpotReviews(spot_id) {
 
@@ -177,6 +191,7 @@ async function loadSpotReviews(spot_id) {
                 <p style="float: right;"><a href="/reviews/detail/index.html?id=${review.id}">상세보기</a></p>
             </div>
             `
+            template.querySelector('.col-md-2 :nth-child(2)').innerText = review.user.nickname
             spot_review_list.appendChild(template);
 
             const temp_content = document.getElementById(`spot_review_content_${review.id}`);
@@ -237,7 +252,7 @@ async function viewMoreSpotReviews(next) {
         };
         template.innerHTML = `
             <div class="col-md-2" style="width:100px; height:100px; margin-right:3%; padding-top: 1.5em; margin-bottom:1.5em;">
-				<a class="image featured-ji" style="display:block; width:100px; height:100px;" href="/users/mypage/index.html?id=${review.user.id}">
+				<a class="image featured-ji" style="display:block; width:100px; height:100px; margin: 0;" href="/users/mypage/index.html?id=${review.user.id}">
 					<img src="${review.user.image}" alt="작성자 프로필 이미지" />
 				</a>
 				<div style="text-align: center; font-size:14px; width:100px;">${review.user.nickname}</div>
@@ -255,6 +270,7 @@ async function viewMoreSpotReviews(next) {
                 <p style="float: right;"><a href="/reviews/detail/index.html?id=${review.id}">상세보기</a></p>
             </div>
             `
+        template.querySelector('.col-md-2 :nth-child(2)').innerText = review.user.nickname
         spot_review_list.appendChild(template);
         const temp_content = document.getElementById(`spot_review_content_${review.id}`);
         temp_content.innerText = review.content

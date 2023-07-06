@@ -57,6 +57,11 @@ async function getSpot() {
         method: "GET",
     });
 
+    sessionStorage.setItem("keyword", keyword);
+    sessionStorage.setItem("type", type);
+    sessionStorage.setItem("area", area);
+    sessionStorage.setItem("sigungu", sigungu);
+
     const response_json = await response.json();
 
     return response_json;
@@ -107,7 +112,7 @@ async function viewSpotList() {
 
             // Spot 카드 생성
             template.innerHTML = `
-        <div onclick="location.href='/spots/index.html?id=${spot.id}'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+        <div onclick="location.href='/spots/index.html?id=${spot.id}&from=main'" style="overflow:hidden;"><img src="${spot.firstimage}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
             <div class="desc" style="padding:10px;">
                 <h3>${spot.title} <span style="display:inline; color:#F78536">${spot.rate}</span></h3>
                 <span>${spot.addr1}</span>

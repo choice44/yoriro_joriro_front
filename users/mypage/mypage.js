@@ -520,7 +520,8 @@ function convertGender(gender) {
 // 유저 정보 집어넣기
 async function inputUserInfo(user) {
 	const user_nickname = document.getElementById("mypage_nickname")
-	user_nickname.innerHTML = `${user.nickname}<span class="subtext">${user.email}</span>`
+	user_nickname.innerText = `${user.nickname}`
+	user_nickname.insertAdjacentHTML('beforeend', `<span class="subtext">${user.email}</span>`);
 	const user_bio = document.getElementById("mypage_bio")
 	user_bio.innerText = user.bio
 	const user_gender = document.getElementById("mypage_gender");
@@ -587,9 +588,9 @@ async function loadFollowings() {
 			</a>
 				</div>
   <div class="col-md-7" style="height:80px;">
-	  <h3 class="price"
+	  <h3 class="price" id="mypage_following_nickname_${following.id}"
 		  style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
-		  ${following.nickname}</h3>
+		  </h3>
 		  <span>${following.email}</span>
 		  </div>
 		  <div class="col-md-3" style="height:80px;"></div>
@@ -602,9 +603,9 @@ async function loadFollowings() {
 					</a>
 				</div>
       			<div class="col-md-7" style="height:80px;">
-          			<h3 class="price"
+          			<h3 class="price" id="mypage_following_nickname_${following.id}" 
               		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
-              		${following.nickname}</h3>
+              		</h3>
 			  		<span>${following.email}</span>
 			  	</div>
 			  	<div class="col-md-3" style="height:80px;">
@@ -621,9 +622,9 @@ async function loadFollowings() {
 					</a>
 				</div>
       			<div class="col-md-7" style="height:80px;">
-          			<h3 class="price"
+          			<h3 class="price" id="mypage_following_nickname_${following.id}" 
               		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${following.id}'">
-              		${following.nickname}</h3>
+              		</h3>
 			  		<span>${following.email}</span>
 			  	</div>
 			  	<div class="col-md-3" style="height:80px;">
@@ -634,6 +635,8 @@ async function loadFollowings() {
       			</div>
       `}
 		};
+		const temp_nickname = document.getElementById(`mypage_following_nickname_${following.id}`);
+		temp_nickname.innerText = following.nickname
 	};
 };
 
@@ -664,9 +667,9 @@ async function loadFollowers() {
 				</a>
 			</div>
   			<div class="col-md-7" style="height:80px;">
-	  			<h3 class="price"
+	  			<h3 class="price" id="mypage_follower_nickname_${follower.id}"
 		  		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
-		  		${follower.nickname}</h3>
+		  		</h3>
 		  		<span>${follower.email}</span>
 		  	</div>
 		  	<div class="col-md-3" style="height:80px;"></div>
@@ -680,9 +683,9 @@ async function loadFollowers() {
 					</a>
 				</div>
       			<div class="col-md-7" style="height:80px;">
-          			<h3 class="price"
+          			<h3 class="price" id="mypage_follower_nickname_${follower.id}" 
               		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
-              		${follower.nickname}</h3>
+              		</h3>
 			  		<span>${follower.email}</span>
 			  	</div>
 			  	<div class="col-md-3" style="height:80px;">
@@ -699,9 +702,9 @@ async function loadFollowers() {
 					</a>
 				</div>
       			<div class="col-md-7" style="height:80px;">
-          			<h3 class="price"
+          			<h3 class="price" id="mypage_follower_nickname_${follower.id}" 
               		style="color:#F78536; margin-bottom:3px; margin-top:12px; cursor:pointer;" onclick="location.href='/users/mypage/index.html?id=${follower.id}'">
-              		${follower.nickname}</h3>
+              		</h3>
 			  		<span>${follower.email}</span>
 			  	</div>
 			  	<div class="col-md-3" style="height:80px;">
@@ -712,6 +715,8 @@ async function loadFollowers() {
       			</div>
 				`};
 		};
+		const temp_nickname = document.getElementById(`mypage_follower_nickname_${follower.id}`);
+		temp_nickname.innerText = follower.nickname
 	};
 };
 
@@ -848,5 +853,10 @@ function showFollowButton() {
 		temp_follow_button.setAttribute("style", "margin: 16px 0; width:116px; float:right;");
 		temp_follow_button.setAttribute("onclick", `handleFollow(${user_id}); changeMypageFollowButton(this);`);
 		my_buttons.appendChild(temp_follow_button);
+
+		const elements = document.getElementsByClassName("flight-book");
+		while (elements.length > 0) {
+			elements[0].parentNode.removeChild(elements[0]);
+		};
 	};
 };

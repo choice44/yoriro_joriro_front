@@ -42,7 +42,7 @@ async function inputReviewDetail(review) {
     author_mypage.setAttribute("href", `/users/mypage/index.html?id=${review.user.id}`);
 
     const author_nickname = document.getElementById("review_detail_author_nickname");
-    author_nickname.innerHTML = review.user.nickname;
+    author_nickname.innerText = review.user.nickname;
 
     const created_at = document.getElementById("review_detail_created_at");
     created_at.innerHTML = `작성 시각: ${review.created_at}`;
@@ -102,7 +102,7 @@ async function inputReviewDetail(review) {
         spot_image.setAttribute("src", review.spot.image)
     };
     const spot_title = document.getElementById("review_detail_spot_title");
-    spot_title.innerHTML = review.spot.title;
+    spot_title.innerText = review.spot.title;
 
     const spot_addr = document.getElementById("review_detail_spot_addr");
     spot_addr.innerHTML = review.spot.addr;
