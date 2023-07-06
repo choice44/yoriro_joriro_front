@@ -362,7 +362,7 @@ async function getComments(route_id) {
                         <a href="/users/mypage/index.html?id=${comment.user.id}">
                             <img src="${userImage}" alt="user profile image" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; cursor: pointer;" />
                         </a>
-                        <a href="/users/mypage/index.html?id=${comment.user.id}" id="commnet-name-${comment.id}"></a>
+                        <a href="/users/mypage/index.html?id=${comment.user.id}" id="commnet-name-${comment.id}" style="white-space: nowrap"></a>
                     </div>
                 </div>
                 <div class="col-md-8">
