@@ -2,6 +2,11 @@ import { proxy } from "../../proxy.js"
 
 // 섬네일 확인 함수 항상 호출
 setThumbnail()
+const token = localStorage.getItem('access')
+if (!token) {
+    alert("잘못된 접속입니다.")
+    location.href = `/recruitments/index.html`
+}
 
 async function postRecruitment() {
     const title = document.getElementById("title").value
@@ -38,6 +43,35 @@ async function postRecruitment() {
 
     if (departureCompare > arrivalCompare) {
         alert("출발일이 도착일보다 늦을 수 없습니다.")
+        return
+    }
+
+    if (!title) {
+        alert("제목을 입력해주세요.")
+        return
+    }
+    if (!place) {
+        alert("장소를 입역해주세요.")
+        return
+    }
+    
+    if (!dateStart) {
+        alert("출발일을 입력해주세요.")
+        return
+    }
+    
+    if (!dateEnd) {
+        alert("도착일을 입력해주세요.")
+        return
+    }
+    
+    if (!cost) {
+        alert("비용을 입력해주세요. (단위 : 원) ")
+        return
+    }
+
+    if (!content) {
+        alert("내용을 입력해주세요.")
         return
     }
 
