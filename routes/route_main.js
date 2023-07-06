@@ -149,7 +149,7 @@ async function viewMoreRouteList(nextURL) {
             template.setAttribute("id", "route_more_button");
             template.setAttribute("class", "col-md-12 text-center");
 
-            template.innerHTML = `<input class="btn btn-primary btn-lg" onclick="viewMoreRouteList('${proxy}/${routes_all.next}')"
+            template.innerHTML = `<input type=button class="btn btn-primary btn-lg" onclick="viewMoreRouteList('${proxy}/${routes_all.next}')"
                 value="▼ 더보기 ▼" />`;
 
             route_list.appendChild(template);
