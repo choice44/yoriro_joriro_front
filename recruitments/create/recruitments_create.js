@@ -2,6 +2,11 @@ import { proxy } from "../../proxy.js"
 
 // 섬네일 확인 함수 항상 호출
 setThumbnail()
+const token = localStorage.getItem('access')
+if (!token) {
+    alert("잘못된 접속입니다.")
+    location.href = `/recruitments/index.html`
+}
 
 async function postRecruitment() {
     const title = document.getElementById("title").value

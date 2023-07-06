@@ -10,6 +10,10 @@ setThumbnail()
 window.onload = async function getUpdeteRecruitment() {
     recruitment_id = new URLSearchParams(window.location.search).get("id")
     const token = localStorage.getItem('access')
+    if (!token) {
+        alert("잘못된 접속입니다.")
+        location.href = `/recruitments/index.html`
+    }    
 
     const url = `${proxy}/recruitments/${recruitment_id}/`
     const response = await fetch(url, {
@@ -80,7 +84,7 @@ async function updateRecruitment() {
     let timeNow = new Date()
     timeNow = `${timeNow.getFullYear()}${('00' + (timeNow.getMonth() + 1)).slice(-2)
         }${('00' + (timeNow.getDate())).slice(-2)}`
-        
+
     let year = dateStart.split('/')[2]
     let month = dateStart.split('/')[0]
     let day = dateStart.split('/')[1]
