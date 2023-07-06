@@ -6,6 +6,12 @@ window.onload = async function () {
     const urlParams = new URLSearchParams(window.location.search)
     recruitmentId = urlParams.get('recruitment_id')
 
+    const result = await checkAuthor(recruitmentId);
+    if (!result) {
+        alert("잘못된 접근입니다.")
+        location.href = `/recruitments/index.html`        
+    }
+    
     loadJoin(recruitmentId)
 }
 
@@ -23,7 +29,6 @@ async function loadJoin(recruitmentId) {
     applicantList.innerHTML = ""
 
     for (const applicant of applicantResponse) {
-    // applicantResponse.forEach(applicant => {
         const { user, appeal, acceptence, id } = applicant
         const { nickname, age, gender } = user
 
@@ -60,7 +65,7 @@ async function loadJoin(recruitmentId) {
             ageGroup = "?"
         }
 
-        let profileImage = await getProfileImage(user.id)
+        let profileImage = await user.image
         if (!profileImage) {
             profileImage = "/images/logo_64.png"
         } else {
@@ -182,7 +187,6 @@ async function acceptApplicant(applicantId) {
         return response_json
     } else {
         const response_json = await response.json()
-        console.log(response_json)
         alert(response_json.message)
     }
 }
@@ -208,14 +212,6 @@ async function rejectApplicant(applicantId) {
     } else {
         alert(response.status)
     }
-}
-
-
-async function getProfileImage(userId) {
-    const response = await fetch(`${proxy}/users/mypage/${userId}`)    
-	const response_json = await response.json();
-
-    return response_json.image
 }
 
 

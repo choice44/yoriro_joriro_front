@@ -7,9 +7,14 @@ let applicantId
 window.onload = async function() {    
     const applicantResponse = await getApplicant(recruitmentId)
     const accessToken = localStorage.getItem('access')
+
+    if (!accessToken) {
+        alert("잘못된 접근입니다.")
+        location.href = `/recruitments/index.html`        
+    }
+
     let userId = getPKFromAccessToken(accessToken)
     
-
     let findApplicant = 0
     applicantResponse.forEach((response) => {
         let user_id = response.user.id
