@@ -74,8 +74,12 @@ window.onload = async function loadMypage() {
 	};
 
 	loadFollowers();
+	viewRouteList();
+	viewReviewList();
+	viewRecruitmentList()
 
 };
+
 
 async function getMypage(user_id) {
 	const response = await fetch(`${proxy}/users/mypage/${user_id}/`)
@@ -87,6 +91,421 @@ async function getMypage(user_id) {
 	}
 }
 
+
+// Route 리스트 GET 요청
+async function getRoutes() {
+
+    const url = `${proxy}/users/mypage/${user_id}/routes/`;
+    const response = await fetch(url, {
+        method: "GET",
+    });
+
+    const response_json = await response.json();
+    return response_json;
+
+};
+
+
+async function viewRouteList() {
+
+    // Route 정보 가져오기
+    const routes_all = await getRoutes();
+	const routes = routes_all.results
+    const route_list = document.getElementById("main_routes_cardbox");
+
+    routes.forEach((route) => {
+        const template = document.createElement("div");
+        template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours fadeInUp animated");
+        template.setAttribute("data-animate-effect", "fadeIn");
+        template.setAttribute("style", "cursor:pointer;");
+
+        // 디폴트 이미지
+        if (!route.image) {
+            route.image = "/images/place-6.jpg";
+        } else {
+            route.image = proxy + route.image
+        };
+
+        // rate 없으면 ""
+        // 반올림해서 정수로
+        if (!route.rate || route.rate == 0) {
+            route.rate = "";
+        } else {
+            route.rate = Math.round(route.rate * 10) / 10 + "점";
+        };
+
+        const areas = { 1: "서울", 2: "인천", 3: "대전", 4: "대구", 5: "광주", 6: "부산", 7: "울산", 8: "세종특별자치시", 31: "경기도", 32: "강원도", 33: "충청북도", 34: "충청남도", 35: "경상북도", 36: "경상남도", 37: "전라북도", 38: "전라남도", 39: "제주도" };
+
+        // Route 카드 생성
+        template.innerHTML = `
+        <div onclick="location.href='/routes/detail/index.html?id=${route.id}'" style="overflow:hidden;"><img src="${route.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+            <div class="desc">
+            <div style="margin-bottom:10px;">
+                <span style="display:inline;">${areas[route.areas[0].area]}</span>
+                <h2 style="color:#F78536; display:inline; float:right; margin-bottom:0; font-size:24px;">${route.rate}</h2>
+            </div>
+                <h3 style="font-size:26px">${route.title}</h3>
+            </div>
+        </div>`;
+        route_list.appendChild(template);
+	});
+	
+	if (routes_all.next) {
+		const template = document.createElement("div");
+
+		template.setAttribute("id", "route_more_button");
+		template.setAttribute("class", "col-md-12 text-center");
+
+		template.innerHTML = `<input type=button class="btn btn-primary btn-lg" onclick="viewMoreRouteList('${proxy}/${routes_all.next}')"
+			value="▼ 더보기 ▼" />`;
+		route_list.appendChild(template);
+	}
+};
+
+
+async function viewMoreRouteList(nextURL) {
+    try {
+        // 데이터 요청함수를 이용하여 다음 페이지의 데이터를 불러옵니다.
+        const response = await fetch(nextURL);
+        const routes_all = await response.json();
+        const routes = routes_all.results;
+        const route_list = document.getElementById("main_routes_cardbox");
+		const areas = { 1: "서울", 2: "인천", 3: "대전", 4: "대구", 5: "광주", 6: "부산", 7: "울산", 8: "세종특별자치시", 31: "경기도", 32: "강원도", 33: "충청북도", 34: "충청남도", 35: "경상북도", 36: "경상남도", 37: "전라북도", 38: "전라남도", 39: "제주도" };
+
+		// for문 돌면서 게시글들을 생성
+        routes.forEach((route) => {
+            const template = document.createElement("div");
+            template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated");
+            template.setAttribute("data-animate-effect", "fadeIn");
+
+			if (!route.image) {
+				route.image = "/images/place-6.jpg";
+			} else {
+				route.image = proxy + route.image
+			};
+
+            let imagePath = "/images/place-1.jpg"
+            let rate = ""
+
+            // 백엔드 주소 같이 출력되는 것을 제거
+            if (route.image) {
+                imagePath = proxy + '/' + route.image;
+            }
+
+            if (route.rate) {
+                rate = route.rate + "점"
+			}
+		
+            template.innerHTML = `
+			<div onclick="location.href='/routes/detail/index.html?id=${route.id}'" style="overflow:hidden;"><img src="${route.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+				<div class="desc">
+				<div style="margin-bottom:10px;">
+					<span style="display:inline;">${areas[route.areas[0].area]}</span>
+					<h2 style="color:#F78536; display:inline; float:right; margin-bottom:0; font-size:24px;">${rate}</h2>
+				</div>
+					<h3 style="font-size:26px">${route.title}</h3>
+				</div>
+			</div>`;
+            route_list.appendChild(template);
+        })
+
+        // 기존의 '더보기' 버튼을 제거
+        const oldButton = document.getElementById("route_more_button");
+        if (oldButton) {
+            oldButton.remove();
+        }
+
+        // 만약 다음 페이지가 있으면, 새로운 '더보기' 버튼을 생성합니다.
+        if (routes_all.next) {
+            const template = document.createElement("div");
+
+            template.setAttribute("id", "route_more_button");
+            template.setAttribute("class", "col-md-12 text-center");
+
+            template.innerHTML = `<input type=button class="btn btn-primary btn-lg" onclick="viewMoreRouteList('${proxy}/${routes_all.next}')"
+                value="▼ 더보기 ▼" />`;
+            route_list.appendChild(template);
+        }
+    } catch (error) {
+        console.log("에러가 발생했습니다", error);
+    }
+}
+
+
+// Review 리스트 GET 요청
+async function getReviews() {
+    const url = `${proxy}/users/mypage/${user_id}/reviews/`;
+    const response = await fetch(url, {
+        method: "GET",
+    });
+    const response_json = await response.json();
+    return response_json;
+};
+
+
+async function viewReviewList() {
+
+    // Review 정보 가져오기
+	const reviews_all = await getReviews();
+	const reviews = reviews_all.results
+    const review_list = document.getElementById("main_reviews_cardbox");
+
+    reviews.forEach((review) => {
+        const template = document.createElement("div");
+        template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours fadeInUp animated");
+        template.setAttribute("data-animate-effect", "fadeIn");
+        template.setAttribute("style", "cursor:pointer;");
+
+        // 디폴트 이미지
+        if (!review.image) {
+            review.image = "/images/place-6.jpg";
+        } else {
+            review.image = proxy + review.image
+        };
+
+        // Review 카드 생성
+        template.innerHTML = `
+        <div onclick="location.href='/reviews/detail/index.html?id=${review.id}'" style="overflow:hidden;"><img src="${review.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+            <div class="desc">
+                <span>${"⭐".repeat(review.rate)}</span>
+                <h3>${review.spot.title}</h3>
+                <span>${review.title}</span>
+            </div>
+        </div>`;
+        review_list.appendChild(template);
+	});
+	if (reviews_all.next) {
+		const template = document.createElement("div");
+
+		template.setAttribute("id", "review_more_button");
+		template.setAttribute("class", "col-md-12 text-center");
+
+		template.innerHTML = `<input type=button class="btn btn-primary btn-lg" onclick="viewMoreReviewList('${proxy}/${reviews_all.next}')"
+			value="▼ 더보기 ▼" />`;
+		review_list.appendChild(template);
+	}
+};
+
+
+async function viewMoreReviewList(nextURL) {
+    try {
+        // 데이터 요청함수를 이용하여 다음 페이지의 데이터를 불러옵니다.
+        const response = await fetch(nextURL);
+        const reviews_all = await response.json();
+        const reviews = reviews_all.results;
+        const review_list = document.getElementById("main_reviews_cardbox");
+
+		// for문 돌면서 게시글들을 생성
+        reviews.forEach((review) => {
+            const template = document.createElement("div");
+            template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated");
+            template.setAttribute("data-animate-effect", "fadeIn");
+
+			if (!review.image) {
+				review.image = "/images/place-6.jpg";
+			} else {
+				review.image = proxy + review.image
+			};
+
+            let imagePath = "/images/place-1.jpg"
+            let rate = ""
+
+            // 백엔드 주소 같이 출력되는 것을 제거
+            if (review.image) {
+                imagePath = proxy + '/' + review.image;
+            }
+
+            if (review.rate) {
+                rate = review.rate + "점"
+			}
+		
+            template.innerHTML = `
+			<div onclick="location.href='/reviews/detail/index.html?id=${review.id}'" style="overflow:hidden;"><img src="${review.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+				<div class="desc">
+					<span>${"⭐".repeat(review.rate)}</span>
+					<h3>${review.spot.title}</h3>
+					<span>${review.title}</span>
+				</div>
+			</div>`;
+            review_list.appendChild(template);
+        })
+
+        // 기존의 '더보기' 버튼을 제거
+        const oldButton = document.getElementById("review_more_button");
+        if (oldButton) {
+            oldButton.remove();
+        }
+
+        // 만약 다음 페이지가 있으면, 새로운 '더보기' 버튼을 생성합니다.
+        if (reviews_all.next) {
+            const template = document.createElement("div");
+
+            template.setAttribute("id", "review_more_button");
+            template.setAttribute("class", "col-md-12 text-center");
+
+            template.innerHTML = `<input type=button class="btn btn-primary btn-lg" onclick="viewMoreReviewList('${proxy}/${reviews_all.next}')"
+                value="▼ 더보기 ▼" />`;
+            review_list.appendChild(template);
+        }
+    } catch (error) {
+        console.log("에러가 발생했습니다", error);
+    }
+}
+
+
+
+
+
+// Recruitment 리스트 GET 요청
+async function getRecruitments() {
+
+    const url = `${proxy}/users/mypage/${user_id}/recruitments/`;
+    const response = await fetch(url, {
+        method: "GET",
+    });
+	const response_json = await response.json();
+    return response_json;
+	// return await response_json.results.filter(async(node)=> await node.user.id===user_id)
+};
+
+
+async function viewRecruitmentList() {
+
+    // Recruitment 정보 가져오기
+    const recruitments_all = await getRecruitments();
+	const recruitments = recruitments_all.results
+    const recruitment_list = document.getElementById("main_recruitments_cardbox");
+
+    recruitments.forEach((recruitment) => {
+        const template = document.createElement("div");
+        template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours fadeInUp animated");
+        template.setAttribute("data-animate-effect", "fadeIn");
+        template.setAttribute("style", "cursor:pointer;");
+
+        // 디폴트 이미지
+        if (!recruitment.image) {
+            recruitment.image = "/images/place-6.jpg";
+        } else {
+            recruitment.image = proxy + recruitment.image
+        };
+
+        const status = { 0: "모집중", 1: "모집완료", 2: "여행중", 3: "여행완료" };
+
+        // Recruitment 카드 생성
+        if (recruitment.is_complete == 0) {
+            template.innerHTML = `
+        <div onclick="location.href='/recruitments/detail/index.html?recruitment_id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+            <div class="desc">
+            <span style="color:red; font-weight:500; font-size:20px;">모집중</span>
+                <h3>${recruitment.place} <span style="display:inline; color:#F78536">${recruitment.participant.length}</span><small
+                        style="display:inline; font-weight:300; font-size:85%; color:white;">/${recruitment.participant_max}</small>
+                </h3>
+                <span>${recruitment.title}</span>
+            </div>    
+        </div>`;
+        } else {
+            template.innerHTML = `
+            <div onclick="location.href='/recruitments/detail/index.html?recruitment_id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+                <div class="desc">
+                    <h3>${recruitment.place} <small><span style="display:inline; font-weight:300;">${recruitment.participant_max}명 </span>${status[recruitment.is_complete]}</small>
+                    </h3>
+                    <span>${recruitment.title}</span>
+                </div>    
+            </div>`;
+        };
+        recruitment_list.appendChild(template);
+	});
+	if (recruitments_all.next) {
+		const template = document.createElement("div");
+
+		template.setAttribute("id", "recruitment_more_button");
+		template.setAttribute("class", "col-md-12 text-center");
+
+		template.innerHTML = `<input type=button class="btn btn-primary btn-lg" onclick="viewMoreRecruitmentList('${proxy}/${recruitments_all.next}')"
+			value="▼ 더보기 ▼" />`;
+		recruitment_list.appendChild(template);
+	}
+};
+
+
+async function viewMoreRecruitmentList(nextURL) {
+    try {
+        // 데이터 요청함수를 이용하여 다음 페이지의 데이터를 불러옵니다.
+        const response = await fetch(nextURL);
+        const recruitments_all = await response.json();
+        const recruitments = recruitments_all.results;
+        const recruitment_list = document.getElementById("main_recruitments_cardbox");
+
+		// for문 돌면서 게시글들을 생성
+        recruitments.forEach((recruitment) => {
+            const template = document.createElement("div");
+            template.setAttribute("class", "col-md-4 col-sm-6 fh5co-tours animate-box fadeInUp animated");
+            template.setAttribute("data-animate-effect", "fadeIn");
+
+			if (!recruitment.image) {
+				recruitment.image = "/images/place-6.jpg";
+			} else {
+				recruitment.image = proxy + recruitment.image
+			};
+
+            let imagePath = "/images/place-1.jpg"
+            let rate = ""
+
+            // 백엔드 주소 같이 출력되는 것을 제거
+            if (recruitment.image) {
+                imagePath = proxy + '/' + recruitment.image;
+            }
+
+            if (recruitment.rate) {
+                rate = recruitment.rate + "점"
+			}
+		if (recruitment.is_complete == 0) {
+            template.innerHTML = `
+			<div onclick="location.href='/recruitments/detail/index.html?recruitment_id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+				<div class="desc">
+				<span style="color:red; font-weight:500; font-size:20px;">모집중</span>
+					<h3>${recruitment.place} <span style="display:inline; color:#F78536">${recruitment.participant.length}</span><small
+                        style="display:inline; font-weight:300; font-size:85%; color:white;">/${recruitment.participant_max}</small>
+					</h3>
+					<span>${recruitment.title}</span>
+				</div>    
+			</div>`;
+			} else {
+				template.innerHTML = `
+				<div onclick="location.href='/recruitments/detail/index.html?recruitment_id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
+					<div class="desc">
+						<h3>${recruitment.place} <small><span style="display:inline; font-weight:300;">${recruitment.participant_max}명 </span>${status[recruitment.is_complete]}</small>
+						</h3>
+						<span>${recruitment.title}</span>
+					</div>    
+				</div>`;
+			};
+            recruitment_list.appendChild(template);
+        })
+
+        // 기존의 '더보기' 버튼을 제거
+        const oldButton = document.getElementById("recruitment_more_button");
+        if (oldButton) {
+            oldButton.remove();
+        }
+
+        // 만약 다음 페이지가 있으면, 새로운 '더보기' 버튼을 생성합니다.
+        if (recruitments_all.next) {
+            const template = document.createElement("div");
+
+            template.setAttribute("id", "recruitment_more_button");
+            template.setAttribute("class", "col-md-12 text-center");
+
+            template.innerHTML = `<input type=button class="btn btn-primary btn-lg" onclick="viewMoreRecruitmentList('${proxy}/${recruitments_all.next}')"
+                value="▼ 더보기 ▼" />`;
+			recruitment_list.appendChild(template);
+        }
+    } catch (error) {
+        console.log("에러가 발생했습니다", error);
+    }
+}
+
+
 function convertGender(gender) {
 	if (gender === "F") {
 		return "여성";
@@ -96,6 +515,7 @@ function convertGender(gender) {
 		return "";
 	}
 }
+
 
 // 유저 정보 집어넣기
 async function inputUserInfo(user) {
@@ -378,7 +798,9 @@ window.loadFollowings = loadFollowings
 window.loadFollowers = loadFollowers
 window.handleFollow = handleFollow
 window.changeMypageFollowButton = changeMypageFollowButton
-
+window.viewMoreRouteList = viewMoreRouteList
+window.viewMoreReviewList = viewMoreReviewList
+window.viewMoreRecruitmentList = viewMoreRecruitmentList
 
 // 본인인 경우 수정 버튼과 삭제 버튼을 보이도록 처리하는 함수
 function showEditButtons() {
