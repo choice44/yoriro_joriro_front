@@ -431,5 +431,10 @@ function showFollowButton() {
 		temp_follow_button.setAttribute("style", "margin: 16px 0; width:116px; float:right;");
 		temp_follow_button.setAttribute("onclick", `handleFollow(${user_id}); changeMypageFollowButton(this);`);
 		my_buttons.appendChild(temp_follow_button);
+
+		const elements = document.getElementsByClassName("flight-book");
+		while (elements.length > 0) {
+			elements[0].parentNode.removeChild(elements[0]);
+		};
 	};
 };
