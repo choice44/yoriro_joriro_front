@@ -104,6 +104,20 @@ writeBtn.addEventListener("click", () => {
 });
 
 
+// 버튼 클릭 시 이전페이지로 이동
+const backBtn = document.getElementById("spot_button_back");
+backBtn.addEventListener("click", () => {
+    const urlParams = new URLSearchParams(window.location.search).get('from');
+
+    if (urlParams == "main") {
+        window.location.href = '/?back=y';
+    }
+    else {
+        history.back()
+    }
+});
+
+
 // Spot_Reviews GET 요청
 async function getSpotReviews(spot_id) {
 

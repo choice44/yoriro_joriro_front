@@ -4,6 +4,12 @@ window.onload = () => {
     viewRouteList()
     viewRecruitmentList()
     viewReviewList()
+
+    const is_back = new URLSearchParams(window.location.search).get("back");
+
+    if (is_back == "y") {
+        backToSearchResults()
+    }
 }
 
 // Route 리스트 GET 요청
@@ -112,22 +118,28 @@ async function viewRecruitmentList() {
             template.innerHTML = `
         <div onclick="location.href='/recruitments/detail/index.html?recruitment_id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
             <div class="desc">
-            <span style="color:red; font-weight:500; font-size:20px;">모집중</span>
-                <h3>${recruitment.place} <span style="display:inline; color:#F78536">${recruitment.participant.length}</span><small
-                        style="display:inline; font-weight:300; font-size:85%; color:white;">/${recruitment.participant_max}</small>
-                </h3>
-                <span>${recruitment.title}</span>
+                <span style="color:red; font-weight:500; font-size:20px;">모집중</span>
+                <h3></h3>
+                <span></span>
             </div>    
         </div>`;
+            let main_recruitment_place = template.querySelector('h3')
+            main_recruitment_place.innerText = `${recruitment.place} `
+            main_recruitment_place.insertAdjacentHTML('beforeend', `<span style="display:inline; color:#F78536">${recruitment.participant.length}</span><small
+            style="display:inline; font-weight:300; font-size:85%; color:white;">/${recruitment.participant_max}</small>`);
+            template.querySelector('.desc :nth-child(3)').innerText = recruitment.title;
         } else {
             template.innerHTML = `
             <div onclick="location.href='/recruitments/detail/index.html?recruitment_id=${recruitment.id}'" style="overflow:hidden;"><img src="${recruitment.image}" alt="대표 이미지" class="img-responsive" style="height: 300px; width:100%; object-fit:cover;">
                 <div class="desc">
-                    <h3>${recruitment.place} <small><span style="display:inline; font-weight:300;">${recruitment.participant_max}명 </span>${status[recruitment.is_complete]}</small>
-                    </h3>
-                    <span>${recruitment.title}</span>
+                    <h3></h3>
+                    <span></span>
                 </div>    
             </div>`;
+            let main_recruitment_place = template.querySelector('h3')
+            main_recruitment_place.innerText = `${recruitment.place} `
+            main_recruitment_place.insertAdjacentHTML('beforeend', `<small><span style="display:inline; font-weight:300;">${recruitment.participant_max}명 </span>${status[recruitment.is_complete]}</small>`)
+            template.querySelector('.desc :nth-child(2)').innerText = recruitment.title;
         };
 
         recruitment_list.appendChild(template);
@@ -186,4 +198,36 @@ async function viewReviewList() {
 
     });
 
+};
+
+function backToSearchResults() {
+
+    sessionStorage.getItem("keyword");
+    const searchbar = document.getElementById("form-place");
+    searchbar.value = sessionStorage.getItem("keyword");
+
+    const type = document.getElementById("search_select_type");
+    for (var i = 0; i < 3; i++) {
+        if (type.options[i].value == sessionStorage.getItem("type")) {
+            type[i].selected = true;
+        };
+    };
+
+    const area = document.getElementById("search_select_area");
+    for (var i = 0; i < 18; i++) {
+        if (area.options[i].value == sessionStorage.getItem("area")) {
+            area[i].selected = true;
+            changeSigunguForSpotSearch(i);
+        };
+    };
+
+    const sigungu = document.getElementById("search_select_sigungu");
+    for (var i = 0; i < sigungu.length; i++) {
+        if (sigungu.options[i].value == sessionStorage.getItem("sigungu")) {
+            sigungu[i].selected = true;
+        };
+    };
+
+    const searchbutton = document.getElementById("main_search_button");
+    searchbutton.click();
 };
