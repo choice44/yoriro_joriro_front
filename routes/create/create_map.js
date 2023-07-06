@@ -142,13 +142,18 @@ kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
 
         marker.setMap(map); // 마커를 지도에 표시
     }
-    // 좌표를 주소로 변환
     geocoder.coord2Address(new_spotx, new_spoty, function (result, status) {
-        if (status === kakao.maps.services.Status.OK) {
-            var detailAddr = !!result[0].road_address ? result[0].road_address.address_name : '';
-            detailAddr += ' ' + result[0].address.address_name;
+        var detailAddr = '';
 
-            new_addr = detailAddr
+        if (status === kakao.maps.services.Status.OK) {
+
+            if (result[0].road_address) { // 도로명 주소가 있으면
+                detailAddr = result[0].road_address.address_name; // 도로명 주소를 사용
+            } else if (result[0].address) { // 도로명 주소가 없고, 지번 주소가 있으면
+                detailAddr = result[0].address.address_name; // 지번 주소를 사용
+            }
+
+            new_addr = detailAddr;
         }
     });
 

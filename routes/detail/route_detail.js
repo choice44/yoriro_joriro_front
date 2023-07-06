@@ -189,7 +189,11 @@ async function viewRouteDetail() {
     const route_user = document.getElementById("route-detail-user");
 
     route_title.innerText = route.title
-    route_image.setAttribute("src", proxy + route.image)
+
+    if (route.image) {
+        route_image.setAttribute("src", proxy + route.image)
+    }
+
     route_area.innerText = area
     route_sigungu.innerText = sigungu
     route_duration.innerText = route.duration + `일`
@@ -301,6 +305,7 @@ async function routeComment() {
     if (response.status == 401) {
         alert("로그인이 필요한 서비스입니다.")
         window.location.href = "/users/login/index.html"
+        return
 
     } if (response.status == 201) {
         alert("댓글 작성 완료")
@@ -330,7 +335,7 @@ async function getComments(route_id) {
         const commentList = document.getElementById('comment-list');
         const date = new Date(comment.created_at);
         const formattedDate = formatter.format(date);   // 날짜 포멧
-        const isCommentOwner = (userInfo.user_id === comment.user.id); // 본인이 작성한 댓글인지 확인
+        const isCommentOwner = (userInfo && userInfo.user_id === comment.user.id);; // 본인이 작성한 댓글인지 확인
 
         commentList.insertAdjacentHTML('beforeend', `
         <div id="comment-${comment.id}" class="card mb-3 text-start" style="${index !== 0 ? 'border-top: 1px solid #000;' : ''}"> <!-- 첫 번째 댓글을 제외하고 모든 댓글에 상단 경계선 추가 -->
