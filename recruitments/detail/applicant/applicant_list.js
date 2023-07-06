@@ -60,12 +60,13 @@ async function loadJoin(recruitmentId) {
             ageGroup = "?"
         }
 
-        let profileImage = await getProfileImage(user.id)
+        let profileImage = await user.image
         if (!profileImage) {
             profileImage = "/images/logo_64.png"
         } else {
             profileImage = proxy+profileImage
         }
+        console.log(profileImage)
 
         // 3항 연산자를 사용해서 게시글 작성자가 로그인 하면 수락, 거절버튼이 보이고, 신청 작성자가 로그인하면 신청 수정, 삭제 버튼이 보인다.
         const tableHTML = `
@@ -208,14 +209,6 @@ async function rejectApplicant(applicantId) {
     } else {
         alert(response.status)
     }
-}
-
-
-async function getProfileImage(userId) {
-    const response = await fetch(`${proxy}/users/mypage/${userId}`)    
-	const response_json = await response.json();
-
-    return response_json.image
 }
 
 

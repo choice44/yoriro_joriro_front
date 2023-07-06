@@ -95,7 +95,7 @@ async function loadRecruitmentDetail(recruitmentId) {
         ageGroup = "?"
     }
 
-    let profileImage = await getProfileImage(response.user.id)
+    let profileImage = response.user.image
     if (!profileImage) {
         profileImage = "/images/logo_64.png"
     } else {
@@ -166,11 +166,11 @@ async function loadRecruitmentDetail(recruitmentId) {
             ageGroup = "?"
         }
 
-        profileImage = await getProfileImage(user.id)
-        if (!profileImage) {
-            profileImage = "/images/logo_64.png"
+        let applicantProfileImage = user.image
+        if (!applicantProfileImage) {
+            applicantProfileImage = "/images/logo_64.png"
         } else {
-            profileImage = proxy+profileImage
+            applicantProfileImage = proxy+"/media/"+applicantProfileImage
         }
 
         participantTable.innerHTML += `
@@ -178,7 +178,7 @@ async function loadRecruitmentDetail(recruitmentId) {
             <th>
                 <div style="align-items: center; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; margin-left:10%">
                     <a href="/users/mypage/index.html?id=${user.id}">
-                        <img src=${profileImage} style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src=${applicantProfileImage} style="width: 100%; height: 100%; object-fit: cover;">
                     </a>
                 </div>
             </th>
@@ -339,16 +339,8 @@ async function recruitmentDelete() {
 }
 
 
-async function getProfileImage(userId) {
-    const response = await fetch(`${proxy}/users/mypage/${userId}`)    
-	const response_json = await response.json();
-
-    return response_json.image
-}
-
 
 window.recruitmentEdit = recruitmentEdit
 window.recruitmentDelete = recruitmentDelete
 window.popupApplicant = popupApplicant
 window.popupJoin = popupJoin
-window.getProfileImage = getProfileImage
