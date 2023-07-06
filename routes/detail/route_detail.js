@@ -187,9 +187,14 @@ async function viewRouteDetail() {
     const route_rate = document.getElementById("route-detail-rate");
     const route_content = document.getElementById("route-detail-content");
     const route_user = document.getElementById("route-detail-user");
+    const route_user_image = document.getElementById("route-user-image")
 
     route_title.innerText = route.title
-    route_image.setAttribute("src", proxy + route.image)
+
+    if (route.image) {
+        route_image.setAttribute("src", proxy + route.image)
+    }
+
     route_area.innerText = area
     route_sigungu.innerText = sigungu
     route_duration.innerText = route.duration + `일`
@@ -198,13 +203,23 @@ async function viewRouteDetail() {
     route_rate.innerText = rate_half_up + `점`
     route_content.innerText = route.content
     route_user.innerText = route.user.nickname
+    if (route.user.image) {
+        route_user_image.src = proxy + route.user.image
+    } else {
+        route_user_image.src = "/images/logo_64.png"
+    }
 
 
-    // 수정버튼 수정페이지 링크 부여
+
+    // 마이페이지 이동
     route_user.addEventListener('click', function () {
         window.location.href = `/users/mypage/index.html?id=${route.user.id}`;
     });
+    route_user_image.addEventListener('click', function () {
+        window.location.href = `/users/mypage/index.html?id=${route.user.id}`;
+    });
 
+    // 수정버튼 수정페이지 링크 부여
     const route_user_id = route.user.id;
     // 유저의 로컬스토리지에 페이로드가 있다면
     if (userInfo !== null) {
@@ -301,6 +316,7 @@ async function routeComment() {
     if (response.status == 401) {
         alert("로그인이 필요한 서비스입니다.")
         window.location.href = "/users/login/index.html"
+        return
 
     } if (response.status == 201) {
         alert("댓글 작성 완료")
@@ -330,19 +346,28 @@ async function getComments(route_id) {
         const commentList = document.getElementById('comment-list');
         const date = new Date(comment.created_at);
         const formattedDate = formatter.format(date);   // 날짜 포멧
-        const isCommentOwner = (userInfo.user_id === comment.user.id); // 본인이 작성한 댓글인지 확인
+        const isCommentOwner = (userInfo && userInfo.user_id === comment.user.id);; // 본인이 작성한 댓글인지 확인
+        let userImage = ""
+        if (comment.user.image) {
+            userImage = proxy + comment.user.image
+        } else {
+            userImage = "/images/logo_64.png"
+        }
 
         commentList.insertAdjacentHTML('beforeend', `
         <div id="comment-${comment.id}" class="card mb-3 text-start" style="${index !== 0 ? 'border-top: 1px solid #000;' : ''}"> <!-- 첫 번째 댓글을 제외하고 모든 댓글에 상단 경계선 추가 -->
             <div class="row g-3">
                 <div class="col-md-1">
-                    <div class="card-body">
-                        <a href="/users/mypage/index.html?id=${comment.user.id}" id="commnet-name"><b></b></a>
+                    <div style="display: flex;  align-items: center; margin-top:30px;">
+                        <a href="/users/mypage/index.html?id=${comment.user.id}">
+                            <img src="${userImage}" alt="user profile image" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; cursor: pointer;" />
+                        </a>
+                        <a href="/users/mypage/index.html?id=${comment.user.id}" id="commnet-name-${comment.id}"></a>
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <p class="card-text" id="comment-content-${comment.id}"></p>
+                        <p class="card-text"  style="margin-top:40px" id="comment-content-${comment.id}"></p>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -365,7 +390,7 @@ async function getComments(route_id) {
         </div>
         `);
         document.getElementById(`comment-content-${comment.id}`).innerText = comment.content;
-        document.querySelector(`#commnet-name`).innerText = comment.user.nickname;
+        document.querySelector(`#commnet-name-${comment.id}`).innerText = comment.user.nickname;
     });
 }
 
