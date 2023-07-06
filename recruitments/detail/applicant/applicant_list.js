@@ -6,6 +6,12 @@ window.onload = async function () {
     const urlParams = new URLSearchParams(window.location.search)
     recruitmentId = urlParams.get('recruitment_id')
 
+    const result = await checkAuthor(recruitmentId);
+    if (!result) {
+        alert("잘못된 접근입니다.")
+        location.href = `/recruitments/index.html`        
+    }
+    
     loadJoin(recruitmentId)
 }
 

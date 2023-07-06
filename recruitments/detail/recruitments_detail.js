@@ -115,7 +115,7 @@ async function loadRecruitmentDetail(recruitmentId) {
                         </a>
                     </div>
                 </th>
-                <th style="text-align:left; width=50%;"><a href="/users/mypage/index.html?id=${response.user.id}">${response.user.nickname}</a></th>
+                <th style="text-align:center; width=50%;"><a href="/users/mypage/index.html?id=${response.user.id}">${response.user.nickname}</a></th>
             </tr>
             <tr>
                 <td style="text-align:center;">연령대</td>
