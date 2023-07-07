@@ -71,6 +71,10 @@ window.onload = async function loadMypage() {
 	} else {
 		const user = await getMypage(user_id);
 		inputUserInfo(user);
+		const elements = document.getElementsByClassName("flight-book");
+		while (elements.length > 0) {
+			elements[0].parentNode.removeChild(elements[0]);
+		};
 	};
 
 	loadFollowers();
