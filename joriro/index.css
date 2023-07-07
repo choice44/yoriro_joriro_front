@@ -17,6 +17,7 @@
 #result-show img {
     width: 100%;
     height: auto;
+    margin: 20px auto 20px auto;
 }
 
 .loader {
@@ -55,10 +56,6 @@
     100% {
         transform: rotate(360deg);
     }
-}
-
-img {
-    margin: 20px auto 20px auto;
 }
 
 .down_btn {

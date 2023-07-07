@@ -187,3 +187,8 @@
     height: 12px;
     background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
 }
+
+/* 상세페이지 이미지 비율에 맞게 */
+#route-detail-image {
+    object-fit: cover;
+}
